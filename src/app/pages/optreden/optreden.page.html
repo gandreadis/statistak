@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/optredens"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Optreden</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="delete()">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <div *ngIf="optreden">
+    <ion-item>
+      <ion-label position="stacked">Locatie</ion-label>
+      <ion-input [(ngModel)]="optreden.locatie" placeholder="Locatie"></ion-input>
+    </ion-item>
+    <ion-button expand="block" (click)="update()">Opslaan</ion-button>
+  </div>
+</ion-content>

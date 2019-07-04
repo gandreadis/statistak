@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Optredens</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card *ngFor="let optreden of optredens" [routerLink]="['/tabs/optredens', optreden.id]">
+    <ion-card-header>
+      <ion-card-subtitle>
+        <span class="flag-icon flag-icon-{{optreden.landCode}}"></span>
+        {{ optreden.plaats }}
+      </ion-card-subtitle>
+      <ion-card-title>{{ optreden.locatie }}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p><strong>Bezoekers:</strong> {{optreden.aantalBezoekers}}</p>
+      <ion-chip outline="{{!optreden.isBuiten}}">
+        <ion-label>Buiten</ion-label>
+      </ion-chip>
+      <ion-chip outline="{{!optreden.isSociaal}}">
+        <ion-label>S</ion-label>
+      </ion-chip>
+      <ion-chip outline="{{!optreden.isOpenbaar}}">
+        <ion-label>O</ion-label>
+      </ion-chip>
+      <ion-chip outline="{{!optreden.isBesloten}}">
+        <ion-label>B</ion-label>
+      </ion-chip>
+      <ion-chip outline="{{!optreden.isWildOp}}">
+        <ion-label>W</ion-label>
+      </ion-chip>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button [routerLink]="'/tabs/optredens/-1'">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

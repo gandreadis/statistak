@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { TabsPage } from './tabs.page';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {TabsPage} from './tabs.page';
 
 const routes: Routes = [
   {
@@ -8,42 +8,51 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
-        children: [
-          {
-            path: '',
-            loadChildren: '../tab1/tab1.module#Tab1PageModule'
-          }
+          path: 'optredens',
+          children: [
+              {
+                  path: '',
+                  loadChildren: '../pages/optredens/optredens.module#OptredensPageModule'
+              },
+              {
+                  path: ':id',
+                  children: [
+                      {
+                          path: '',
+                          loadChildren: '../pages/optreden/optreden.module#OptredenPageModule'
+                      }
+                  ]
+              },
         ]
       },
       {
-        path: 'tab2',
+          path: 'repertoire',
         children: [
           {
             path: '',
-            loadChildren: '../tab2/tab2.module#Tab2PageModule'
-          }
-        ]
-      },
-      {
-        path: 'tab3',
-        children: [
-          {
-            path: '',
-            loadChildren: '../tab3/tab3.module#Tab3PageModule'
-          }
+              loadChildren: '../pages/repertoire/repertoire.module#RepertoirePageModule'
+          },
+            {
+                path: ':id',
+                children: [
+                    {
+                        path: '',
+                        loadChildren: '../pages/stuk/stuk.module#StukPageModule'
+                    }
+                ]
+            },
         ]
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+          redirectTo: '/tabs/optredens',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+      redirectTo: '/tabs/optredens',
     pathMatch: 'full'
   }
 ];
@@ -54,4 +63,5 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class TabsPageRoutingModule {}
+export class TabsPageRoutingModule {
+}
