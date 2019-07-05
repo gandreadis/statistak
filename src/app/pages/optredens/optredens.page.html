@@ -5,9 +5,9 @@
 </ion-header>
 
 <ion-content padding>
-  <div *ngFor="let datum of optredensPerDag">
-    <h1>{{datum}}</h1>
-    <ion-card *ngFor="let optreden of optredensPerDag[datum]" [routerLink]="['/tabs/optredens', optreden.id]">
+  <div *ngFor="let optredenDag of optredensPerDag">
+    <h1 text-center>{{optredenDag.datum}}</h1>
+    <ion-card *ngFor="let optreden of optredenDag.optredens" [routerLink]="['/tabs/optredens', optreden.id]">
       <ion-card-header>
         <ion-card-subtitle>
           <span class="flag-icon flag-icon-{{optreden.landCode}}"></span>

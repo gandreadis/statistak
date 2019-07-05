@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {DatabaseService, Optreden} from '../../services/database.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ToastController} from '@ionic/angular';
+import {SharedModule} from '../../shared/shared.module';
 
 @Component({
   selector: 'app-optreden',
@@ -26,8 +27,8 @@ export class OptredenPage implements OnInit {
           landCode: 'nl',
           longitude: 0,
           latitude: 0,
-          datum: '2019-07-05',
-          tijd: '17:00',
+          datum: SharedModule.getCurrentDatum(),
+          tijd: SharedModule.getCurrentTijd(),
           isBuiten: false,
           isSociaal: false,
           isOpenbaar: false,

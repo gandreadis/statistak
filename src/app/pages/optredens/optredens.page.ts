@@ -1,5 +1,6 @@
 import {DatabaseService, Optreden} from '../../services/database.service';
 import {Component, OnInit} from '@angular/core';
+import {SharedModule} from '../../shared/shared.module';
 
 @Component({
   selector: 'app-optredens',
@@ -8,7 +9,10 @@ import {Component, OnInit} from '@angular/core';
 })
 export class OptredensPage implements OnInit {
 
-  optredensPerDag: Record<string, Optreden[]> = {};
+  optredensPerDag: {
+    datum: string,
+    optredens: Optreden[],
+  }[] = [];
 
   constructor(private db: DatabaseService) {
   }
@@ -17,19 +21,27 @@ export class OptredensPage implements OnInit {
     this.db.getDatabaseState().subscribe(rdy => {
       if (rdy) {
         this.db.getOptredens().subscribe(optredens => {
-          this.optredensPerDag = {};
+          const datumNaarOptredens = {};
           optredens.forEach(optreden => {
-            if (this.optredensPerDag.hasOwnProperty(optreden.datum)) {
-              this.optredensPerDag[optreden.datum].push(optreden);
+            if (datumNaarOptredens.hasOwnProperty(optreden.datum)) {
+              datumNaarOptredens[optreden.datum].push(optreden);
             } else {
-              this.optredensPerDag[optreden.datum] = [optreden];
+              datumNaarOptredens[optreden.datum] = [optreden];
             }
           });
-          for (const datum in this.optredensPerDag) {
-            if (this.optredensPerDag.hasOwnProperty(datum)) {
-              this.optredensPerDag[datum].sort(dynamicSort('tijd'));
+
+          this.optredensPerDag = [];
+
+          for (const datum in datumNaarOptredens) {
+            if (datumNaarOptredens.hasOwnProperty(datum)) {
+              datumNaarOptredens[datum].sort(SharedModule.dynamicSort('tijd'));
+              this.optredensPerDag.push({
+                datum, optredens: datumNaarOptredens[datum]
+              });
             }
           }
+
+          this.optredensPerDag.sort(SharedModule.dynamicSort('datum'));
         });
       }
     });
