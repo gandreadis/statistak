@@ -26,6 +26,8 @@ export class OptredenPage implements OnInit {
           landCode: 'nl',
           longitude: 0,
           latitude: 0,
+          datum: '2019-07-05',
+          tijd: '17:00',
           isBuiten: false,
           isSociaal: false,
           isOpenbaar: false,

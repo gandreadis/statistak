@@ -12,6 +12,8 @@ export interface Optreden {
   landCode: string;
   longitude: number;
   latitude: number;
+  datum: string;
+  tijd: string;
   isBuiten: boolean;
   isSociaal: boolean;
   isOpenbaar: boolean;
@@ -86,6 +88,8 @@ export class DatabaseService {
             landCode: data.rows.item(i).landCode,
             longitude: data.rows.item(i).longitude,
             latitude: data.rows.item(i).latitude,
+            datum: data.rows.item(i).datum,
+            tijd: data.rows.item(i).tijd,
             isBuiten: data.rows.item(i).isBuiten === 1,
             isSociaal: data.rows.item(i).isSociaal === 1,
             isOpenbaar: data.rows.item(i).isOpenbaar === 1,
@@ -107,6 +111,8 @@ export class DatabaseService {
       optreden.landCode,
       optreden.longitude,
       optreden.latitude,
+      optreden.datum,
+      optreden.tijd,
       optreden.isBuiten ? 1 : 0,
       optreden.isSociaal ? 1 : 0,
       optreden.isOpenbaar ? 1 : 0,
@@ -114,8 +120,9 @@ export class DatabaseService {
       optreden.isWildOp ? 1 : 0,
       optreden.aantalBezoekers,
     ];
-    return this.database.executeSql('INSERT INTO optreden (locatie, plaats, landCode, longitude, latitude, ' +
-      'isBuiten, isSociaal, isOpenbaar, isBesloten, isWildOp, aantalBezoekers) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', data).then(() => {
+    return this.database.executeSql('INSERT INTO optreden (locatie, plaats, landCode, longitude, latitude, datum, tijd, ' +
+      'isBuiten, isSociaal, isOpenbaar, isBesloten, isWildOp, aantalBezoekers) ' +
+      'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', data).then(() => {
       this.loadOptredens();
     });
   }
@@ -129,6 +136,8 @@ export class DatabaseService {
         landCode: data.rows.item(0).landCode,
         longitude: data.rows.item(0).longitude,
         latitude: data.rows.item(0).latitude,
+        datum: data.rows.item(0).datum,
+        tijd: data.rows.item(0).tijd,
         isBuiten: data.rows.item(0).isBuiten === 1,
         isSociaal: data.rows.item(0).isSociaal === 1,
         isOpenbaar: data.rows.item(0).isOpenbaar === 1,
@@ -152,6 +161,8 @@ export class DatabaseService {
       optreden.landCode,
       optreden.longitude,
       optreden.latitude,
+      optreden.datum,
+      optreden.tijd,
       optreden.isBuiten ? 1 : 0,
       optreden.isSociaal ? 1 : 0,
       optreden.isOpenbaar ? 1 : 0,
@@ -160,7 +171,7 @@ export class DatabaseService {
       optreden.aantalBezoekers,
     ];
     return this.database.executeSql(`
-    UPDATE optreden SET locatie = ?, plaats = ?, landCode = ?, longitude = ?, latitude = ?,
+    UPDATE optreden SET locatie = ?, plaats = ?, landCode = ?, longitude = ?, latitude = ?, datum = ?, tijd = ?,
       isBuiten = ?, isSociaal = ?, isOpenbaar = ?, isBesloten = ?, isWildOp = ?, aantalBezoekers = ?
       WHERE id = ${optreden.id}`, data).then(() => {
       this.loadOptredens();
@@ -186,7 +197,7 @@ export class DatabaseService {
 
   addStuk(titel) {
     const data = [titel];
-    return this.database.executeSql('INSERT INTO stuk (locatie) VALUES (?)', data).then(() => {
+    return this.database.executeSql('INSERT INTO stuk (titel) VALUES (?)', data).then(() => {
       this.loadStukken();
     });
   }

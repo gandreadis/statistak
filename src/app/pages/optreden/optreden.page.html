@@ -18,6 +18,52 @@
       <ion-label position="stacked">Locatie</ion-label>
       <ion-input [(ngModel)]="optreden.locatie" placeholder="Locatie"></ion-input>
     </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Plaats</ion-label>
+      <ion-input [(ngModel)]="optreden.plaats" placeholder="Plaats"></ion-input>
+    </ion-item>
+    <ion-segment [(ngModel)]="optreden.landCode">
+      <ion-segment-button value="nl">
+        <ion-label><span class="flag-icon flag-icon-nl"></span></ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="ge">
+        <ion-label><span class="flag-icon flag-icon-ge"></span></ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <ion-item>
+      <ion-label>Datum</ion-label>
+      <ion-datetime displayFormat="DD MM YY" placeholder="Selecteer datum" [(ngModel)]="optreden.datum"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label>Tijd</ion-label>
+      <ion-datetime displayFormat="HH:mm" placeholder="Selecteer tijd" [(ngModel)]="optreden.tijd"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label>Buiten</ion-label>
+      <ion-checkbox slot="end" [(ngModel)]="optreden.isBuiten"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Sociaal</ion-label>
+      <ion-checkbox slot="end" [(ngModel)]="optreden.isSociaal"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Openbaar</ion-label>
+      <ion-checkbox slot="end" [(ngModel)]="optreden.isOpenbaar"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Besloten</ion-label>
+      <ion-checkbox slot="end" [(ngModel)]="optreden.isBesloten"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Wild Op!</ion-label>
+      <ion-checkbox slot="end" [(ngModel)]="optreden.isWildOp"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Aantal bezoekers</ion-label>
+      <ion-input type="number" [(ngModel)]="optreden.aantalBezoekers"></ion-input>
+    </ion-item>
+
     <ion-button expand="block" (click)="update()">Opslaan</ion-button>
   </div>
 </ion-content>

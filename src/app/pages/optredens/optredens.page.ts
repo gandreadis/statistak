@@ -8,7 +8,7 @@ import {Component, OnInit} from '@angular/core';
 })
 export class OptredensPage implements OnInit {
 
-  optredens: Optreden[] = [];
+  optredensPerDag: Record<string, Optreden[]> = {};
 
   constructor(private db: DatabaseService) {
   }
@@ -17,7 +17,19 @@ export class OptredensPage implements OnInit {
     this.db.getDatabaseState().subscribe(rdy => {
       if (rdy) {
         this.db.getOptredens().subscribe(optredens => {
-          this.optredens = optredens;
+          this.optredensPerDag = {};
+          optredens.forEach(optreden => {
+            if (this.optredensPerDag.hasOwnProperty(optreden.datum)) {
+              this.optredensPerDag[optreden.datum].push(optreden);
+            } else {
+              this.optredensPerDag[optreden.datum] = [optreden];
+            }
+          });
+          for (const datum in this.optredensPerDag) {
+            if (this.optredensPerDag.hasOwnProperty(datum)) {
+              this.optredensPerDag[datum].sort(dynamicSort('tijd'));
+            }
+          }
         });
       }
     });
