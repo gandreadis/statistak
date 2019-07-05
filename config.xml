@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.gandreadis.statistak" version="0.0.1" xmlns="http://www.w3.org/ns/widgets">
-  <name>MyApp</name>
-  <description>An awesome Ionic/Cordova app.</description>
-  <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
+  <name>Statistak</name>
+  <description>De Statistak, voor Ricciotti!</description>
+  <author email="info@gandreadis.com" href="https://gandreadis.com/">Georgios Andreadis</author>
   <content original-src="index.html" src="http://localhost:8100"/>
   <access origin="*"/>
   <allow-intent href="http://*/*"/>

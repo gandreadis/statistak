@@ -6,7 +6,8 @@ const routes: Routes = [
   {path: 'repertoire', loadChildren: './pages/repertoire/repertoire.module#RepertoirePageModule'},
   {path: 'optredens', loadChildren: './pages/optredens/optredens.module#OptredensPageModule'},
   {path: 'optreden', loadChildren: './pages/optreden/optreden.module#OptredenPageModule'},
-  {path: 'stuk', loadChildren: './pages/stuk/stuk.module#StukPageModule'}
+  {path: 'stuk', loadChildren: './pages/stuk/stuk.module#StukPageModule'},
+  {path: 'statistiek', loadChildren: './pages/statistiek/statistiek.module#StatistiekPageModule'}
 ];
 
 @NgModule({

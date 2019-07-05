@@ -128,10 +128,15 @@ export class DatabaseService {
       optreden.isWildOp ? 1 : 0,
       optreden.aantalBezoekers,
     ];
-    // TODO stukken
     return this.database.executeSql('INSERT INTO optreden (locatie, plaats, landCode, longitude, latitude, datum, tijd, ' +
       'isBuiten, isSociaal, isOpenbaar, isBesloten, isWildOp, aantalBezoekers) ' +
-      'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', data).then(() => {
+      'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', data).then(async () => {
+
+      if (optreden.stukken.length > 0) {
+        const stukString = optreden.stukken.map(stuk => `(${optreden.id}, ${stuk.id})`).join(', ');
+
+        await this.database.executeSql(`INSERT INTO optreden_repertoire (optredenId, stukId) VALUES ${stukString}`);
+      }
       this.loadOptredens();
     });
   }
@@ -186,7 +191,27 @@ export class DatabaseService {
     return this.database.executeSql(`
     UPDATE optreden SET locatie = ?, plaats = ?, landCode = ?, longitude = ?, latitude = ?, datum = ?, tijd = ?,
       isBuiten = ?, isSociaal = ?, isOpenbaar = ?, isBesloten = ?, isWildOp = ?, aantalBezoekers = ?
-      WHERE id = ${optreden.id}`, data).then(() => {
+      WHERE id = ${optreden.id}`, data).then(async () => {
+      if (optreden.stukken.length > 0) {
+        const stukString = optreden.stukken.map(stuk => `(${optreden.id}, ${stuk.id})`).join(', ');
+
+        try {
+          await this.database.executeSql(`DELETE FROM optreden_repertoire WHERE optredenId=${optreden.id}`);
+        } catch (e) {
+          if (!e.hasOwnProperty('rows')) {
+            console.error(e);
+          }
+        }
+
+        try {
+          await this.database.executeSql(`INSERT INTO optreden_repertoire (optredenId, stukId) VALUES ${stukString}`);
+        } catch (e) {
+          if (!e.hasOwnProperty('rows')) {
+            console.error(e);
+          }
+        }
+
+      }
       this.loadOptredens();
     });
   }

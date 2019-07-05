@@ -21,7 +21,6 @@ export class OptredensPage implements OnInit {
     this.db.getDatabaseState().subscribe(rdy => {
       if (rdy) {
         this.db.getOptredens().subscribe(optredens => {
-          console.log(optredens);
           const datumNaarOptredens = {};
           optredens.forEach(optreden => {
             if (datumNaarOptredens.hasOwnProperty(optreden.datum)) {

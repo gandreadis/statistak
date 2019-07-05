@@ -8,51 +8,60 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-          path: 'optredens',
-          children: [
-              {
-                  path: '',
-                  loadChildren: '../pages/optredens/optredens.module#OptredensPageModule'
-              },
-              {
-                  path: ':id',
-                  children: [
-                      {
-                          path: '',
-                          loadChildren: '../pages/optreden/optreden.module#OptredenPageModule'
-                      }
-                  ]
-              },
-        ]
-      },
-      {
-          path: 'repertoire',
+        path: 'optredens',
         children: [
           {
             path: '',
-              loadChildren: '../pages/repertoire/repertoire.module#RepertoirePageModule'
+            loadChildren: '../pages/optredens/optredens.module#OptredensPageModule'
           },
-            {
-                path: ':id',
-                children: [
-                    {
-                        path: '',
-                        loadChildren: '../pages/stuk/stuk.module#StukPageModule'
-                    }
-                ]
-            },
+          {
+            path: ':id',
+            children: [
+              {
+                path: '',
+                loadChildren: '../pages/optreden/optreden.module#OptredenPageModule'
+              }
+            ]
+          },
+        ]
+      },
+      {
+        path: 'repertoire',
+        children: [
+          {
+            path: '',
+            loadChildren: '../pages/repertoire/repertoire.module#RepertoirePageModule'
+          },
+          {
+            path: ':id',
+            children: [
+              {
+                path: '',
+                loadChildren: '../pages/stuk/stuk.module#StukPageModule'
+              }
+            ]
+          },
+        ]
+      },
+      {
+        path: 'statistiek',
+        children: [
+          {
+            path: '',
+            loadChildren: '../pages/statistiek/statistiek.module#StatistiekPageModule'
+          },
         ]
       },
       {
         path: '',
-          redirectTo: '/tabs/optredens',
+        redirectTo: '/tabs/optredens',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-      redirectTo: '/tabs/optredens',
+    redirectTo: '/tabs/optredens',
     pathMatch: 'full'
   }
 ];
