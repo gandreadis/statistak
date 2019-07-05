@@ -16,32 +16,41 @@ export class OptredenPage implements OnInit {
   }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      const optredenId = params.get('id');
+    this.db.getDatabaseState().subscribe(rdy => {
+      if (rdy) {
+        this.route.paramMap.subscribe(params => {
+          const optredenId = params.get('id');
 
-      if (optredenId === '-1') {
-        this.optreden = {
-          id: -1,
-          locatie: '',
-          plaats: '',
-          landCode: 'nl',
-          longitude: 0,
-          latitude: 0,
-          datum: SharedModule.getCurrentDatum(),
-          tijd: SharedModule.getCurrentTijd(),
-          isBuiten: false,
-          isSociaal: false,
-          isOpenbaar: false,
-          isBesloten: false,
-          isWildOp: false,
-          aantalBezoekers: 0,
-        };
-        return;
+          if (optredenId === '-1') {
+            this.optreden = {
+              id: -1,
+              locatie: '',
+              plaats: '',
+              landCode: 'nl',
+              longitude: 0,
+              latitude: 0,
+              datum: SharedModule.getCurrentDatum(),
+              tijd: SharedModule.getCurrentTijd(),
+              isBuiten: false,
+              isSociaal: false,
+              isOpenbaar: false,
+              isBesloten: false,
+              isWildOp: false,
+              aantalBezoekers: 0,
+              stukken: [],
+            };
+            return;
+          }
+          this.db.getOptreden(optredenId).then(data => {
+            this.optreden = data;
+          });
+        });
       }
-      this.db.getOptreden(optredenId).then(data => {
-        this.optreden = data;
-      });
     });
+  }
+
+  fixDatum() {
+    this.optreden.datum = this.optreden.datum.split('T')[0];
   }
 
   delete() {
@@ -60,7 +69,7 @@ export class OptredenPage implements OnInit {
       this.db.addOptreden(this.optreden).then(async (res) => {
         const toast = await this.toast.create({
           message: 'Optreden aangemaakt',
-          duration: 3000
+          duration: 1000
         });
         toast.present();
         this.router.navigateByUrl('/tabs/optredens');
@@ -71,7 +80,7 @@ export class OptredenPage implements OnInit {
     this.db.updateOptreden(this.optreden).then(async (res) => {
       const toast = await this.toast.create({
         message: 'Optreden bijgewerkt',
-        duration: 3000
+        duration: 1000
       });
       toast.present();
       this.router.navigateByUrl('/tabs/optredens');

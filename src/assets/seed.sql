@@ -21,14 +21,20 @@ INSERT OR IGNORE INTO optreden VALUES (2, 'Maassluise Muziekweek', 'Maassluis', 
 DROP TABLE IF EXISTS stuk;
 CREATE TABLE IF NOT EXISTS stuk(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    titel TEXT
+    titel TEXT,
+    componist TEXT,
+    code TEXT
 );
-INSERT OR IGNORE INTO stuk VALUES (1, 'Miniaturen voor strijkkwartet');
+INSERT OR IGNORE INTO stuk VALUES (1, 'Miniaturen voor strijkkwartet', 'Tsintsadze', '11');
+INSERT OR IGNORE INTO stuk VALUES (2, 'Oopsala', '?', 'L');
 
 DROP TABLE IF EXISTS optreden_repertoire;
 CREATE TABLE IF NOT EXISTS optreden_repertoire(
     optredenId INTEGER,
     stukId INTEGER,
-    PRIMARY KEY (optredenId, stukId)
+    PRIMARY KEY (optredenId, stukId),
+    FOREIGN KEY(optredenId) REFERENCES optreden (id) ON DELETE CASCADE,
+    FOREIGN KEY(stukId) REFERENCES stuk (id) ON DELETE CASCADE
 );
-INSERT OR IGNORE INTO optreden_repertoire VALUES (1, 'S');
+INSERT OR IGNORE INTO optreden_repertoire VALUES (1, 1);
+INSERT OR IGNORE INTO optreden_repertoire VALUES (1, 2);

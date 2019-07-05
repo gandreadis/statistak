@@ -26,20 +26,28 @@
           </ion-chip>
         </div>
         <div>
-          <ion-chip outline="{{!optreden.isBuiten}}">
+          <ion-chip color="{{optreden.isBuiten ? 'primary' : 'dark'}}">
             <ion-label>Buiten</ion-label>
           </ion-chip>
-          <ion-chip outline="{{!optreden.isSociaal}}">
+          <ion-chip color="{{optreden.isSociaal ? 'primary' : 'dark'}}">
             <ion-label>S</ion-label>
           </ion-chip>
-          <ion-chip outline="{{!optreden.isOpenbaar}}">
+          <ion-chip color="{{optreden.isOpenbaar ? 'primary' : 'dark'}}">
             <ion-label>O</ion-label>
           </ion-chip>
-          <ion-chip outline="{{!optreden.isBesloten}}">
+          <ion-chip color="{{optreden.isBuiten ? 'primary' : 'dark'}}">
             <ion-label>B</ion-label>
           </ion-chip>
-          <ion-chip outline="{{!optreden.isWildOp}}">
+          <ion-chip color="{{optreden.isWildOp ? 'primary' : 'dark'}}">
             <ion-label>W</ion-label>
+          </ion-chip>
+        </div>
+
+        <p *ngIf="optreden.stukken.length > 0">Programma</p>
+
+        <div>
+          <ion-chip outline *ngFor="let stuk of optreden.stukken">
+            <ion-label>{{stuk.code}}</ion-label>
           </ion-chip>
         </div>
       </ion-card-content>

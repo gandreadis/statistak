@@ -1,9 +1,32 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>stuk</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/repertoire"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Stuk</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="delete()">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
+  <div *ngIf="stuk">
+    <ion-item>
+      <ion-label position="stacked">Titel</ion-label>
+      <ion-input [(ngModel)]="stuk.titel" placeholder="Titel"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Componist</ion-label>
+      <ion-input [(ngModel)]="stuk.componist" placeholder="Componist"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Code</ion-label>
+      <ion-input [(ngModel)]="stuk.code" placeholder="Code"></ion-input>
+    </ion-item>
 
+    <ion-button expand="block" (click)="update()">Opslaan</ion-button>
+  </div>
 </ion-content>

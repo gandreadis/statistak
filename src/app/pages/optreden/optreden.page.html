@@ -33,7 +33,8 @@
 
     <ion-item>
       <ion-label>Datum</ion-label>
-      <ion-datetime displayFormat="DD/MM/YY" placeholder="Selecteer datum" [(ngModel)]="optreden.datum"></ion-datetime>
+      <ion-datetime displayFormat="YYYY-MM-DD" placeholder="Selecteer datum" (ionChange)="fixDatum()"
+                    [(ngModel)]="optreden.datum"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label>Tijd</ion-label>

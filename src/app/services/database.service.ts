@@ -4,6 +4,7 @@ import {SQLitePorter} from '@ionic-native/sqlite-porter/ngx';
 import {HttpClient} from '@angular/common/http';
 import {SQLite, SQLiteObject} from '@ionic-native/sqlite/ngx';
 import {BehaviorSubject, Observable} from 'rxjs';
+import {SharedModule} from '../shared/shared.module';
 
 export interface Optreden {
   id: number;
@@ -20,11 +21,14 @@ export interface Optreden {
   isBesloten: boolean;
   isWildOp: boolean;
   aantalBezoekers: number;
+  stukken: Stuk[];
 }
 
 export interface Stuk {
   id: number;
   titel: string;
+  componist: string;
+  code: string;
 }
 
 @Injectable({
@@ -76,11 +80,14 @@ export class DatabaseService {
   }
 
   loadOptredens() {
-    return this.database.executeSql('SELECT * FROM optreden', []).then(data => {
+    return this.database.executeSql('SELECT * FROM optreden', []).then(async data => {
       const optredens: Optreden[] = [];
 
       if (data.rows.length > 0) {
         for (let i = 0; i < data.rows.length; i++) {
+          const stukken = await this.getOptredenRepertoire(data.rows.item(i).id);
+          stukken.sort(SharedModule.dynamicSort('code'));
+
           optredens.push({
             id: data.rows.item(i).id,
             locatie: data.rows.item(i).locatie,
@@ -96,6 +103,7 @@ export class DatabaseService {
             isBesloten: data.rows.item(i).isBesloten === 1,
             isWildOp: data.rows.item(i).isWildOp === 1,
             aantalBezoekers: data.rows.item(i).aantalBezoekers,
+            stukken,
           });
         }
       }
@@ -120,6 +128,7 @@ export class DatabaseService {
       optreden.isWildOp ? 1 : 0,
       optreden.aantalBezoekers,
     ];
+    // TODO stukken
     return this.database.executeSql('INSERT INTO optreden (locatie, plaats, landCode, longitude, latitude, datum, tijd, ' +
       'isBuiten, isSociaal, isOpenbaar, isBesloten, isWildOp, aantalBezoekers) ' +
       'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', data).then(() => {
@@ -128,7 +137,10 @@ export class DatabaseService {
   }
 
   getOptreden(id): Promise<Optreden> {
-    return this.database.executeSql('SELECT * FROM optreden WHERE id = ?', [id]).then(data => {
+    return this.database.executeSql('SELECT * FROM optreden WHERE id = ?', [id]).then(async data => {
+      const stukken = await this.getOptredenRepertoire(data.rows.item(0).id);
+      stukken.sort(SharedModule.dynamicSort('code'));
+
       return {
         id: data.rows.item(0).id,
         locatie: data.rows.item(0).locatie,
@@ -144,6 +156,7 @@ export class DatabaseService {
         isBesloten: data.rows.item(0).isBesloten === 1,
         isWildOp: data.rows.item(0).isWildOp === 1,
         aantalBezoekers: data.rows.item(0).aantalBezoekers,
+        stukken,
       };
     });
   }
@@ -187,17 +200,25 @@ export class DatabaseService {
           stukken.push({
             id: data.rows.item(i).id,
             titel: data.rows.item(i).titel,
+            componist: data.rows.item(i).componist,
+            code: data.rows.item(i).code,
           });
         }
       }
+
+      stukken.sort(SharedModule.dynamicSort('code'));
 
       this.stukken.next(stukken);
     });
   }
 
-  addStuk(titel) {
-    const data = [titel];
-    return this.database.executeSql('INSERT INTO stuk (titel) VALUES (?)', data).then(() => {
+  addStuk(stuk: Stuk) {
+    const data = [
+      stuk.titel,
+      stuk.componist,
+      stuk.code,
+    ];
+    return this.database.executeSql('INSERT INTO stuk (titel, componist, code) VALUES (?, ?, ?)', data).then(() => {
       this.loadStukken();
     });
   }
@@ -207,20 +228,51 @@ export class DatabaseService {
       return {
         id: data.rows.item(0).id,
         titel: data.rows.item(0).titel,
+        componist: data.rows.item(0).componist,
+        code: data.rows.item(0).code,
       };
+    });
+  }
+
+  getOptredenRepertoire(optredenId): Promise<Stuk[]> {
+    return this.database.executeSql(`
+    SELECT * FROM optreden_repertoire JOIN stuk ON optreden_repertoire.stukId = stuk.id
+    WHERE optreden_repertoire.optredenId = ?`, [optredenId]).then(data => {
+      const stukken: Stuk[] = [];
+
+      if (data.rows.length > 0) {
+        for (let i = 0; i < data.rows.length; i++) {
+          stukken.push({
+            id: data.rows.item(i).id,
+            titel: data.rows.item(i).titel,
+            componist: data.rows.item(i).componist,
+            code: data.rows.item(i).code,
+          });
+        }
+      }
+
+      stukken.sort(SharedModule.dynamicSort('code'));
+
+      return stukken;
     });
   }
 
   deleteStuk(id) {
     return this.database.executeSql('DELETE FROM stuk WHERE id = ?', [id]).then(_ => {
       this.loadStukken();
+      this.loadOptredens();
     });
   }
 
   updateStuk(stuk: Stuk) {
-    const data = [stuk.titel];
-    return this.database.executeSql(`UPDATE stuk SET titel = ? WHERE id = ${stuk.id}`, data).then(() => {
+    const data = [
+      stuk.titel,
+      stuk.componist,
+      stuk.code,
+    ];
+    return this.database.executeSql(`UPDATE stuk SET titel = ?, componist = ?, code = ? WHERE id = ${stuk.id}`, data).then(() => {
       this.loadStukken();
+      this.loadOptredens();
     });
   }
 }
