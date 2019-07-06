@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.gandreadis.statistak" version="0.0.1" xmlns="http://www.w3.org/ns/widgets">
-  <name>MyApp</name>
-  <description>An awesome Ionic/Cordova app.</description>
-  <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
+  <name>Statistak</name>
+  <description>Statistak, voor Ricciotti!</description>
+  <author email="info@gandreadis.com" href="https://gandreadis.com/">Georgios Andreadis</author>
   <content original-src="index.html" src="http://localhost:8100"/>
   <access origin="*"/>
   <allow-intent href="http://*/*"/>
@@ -88,5 +88,5 @@
   <plugin name="cordova-plugin-splashscreen" spec="5.0.2"/>
   <plugin name="cordova-plugin-ionic-webview" spec="^4.0.0"/>
   <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5"/>
-  <allow-navigation href="http://localhost:8100" sessionid="58bb5cf4"/>
+  <allow-navigation href="http://localhost:8100" sessionid="9e302249"/>
 </widget>

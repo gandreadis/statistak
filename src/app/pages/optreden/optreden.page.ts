@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {DatabaseService, Optreden} from '../../services/database.service';
+import {DatabaseService, Optreden, Stuk} from '../../services/database.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ToastController} from '@ionic/angular';
 import {SharedModule} from '../../shared/shared.module';
@@ -11,6 +11,7 @@ import {SharedModule} from '../../shared/shared.module';
 })
 export class OptredenPage implements OnInit {
   optreden: Optreden = null;
+  stukken: Stuk[] = [];
 
   constructor(private route: ActivatedRoute, private db: DatabaseService, private router: Router, private toast: ToastController) {
   }
@@ -45,8 +46,28 @@ export class OptredenPage implements OnInit {
             this.optreden = data;
           });
         });
+
+        this.db.getStukken().subscribe(stukken => {
+          this.stukken = stukken;
+        });
       }
     });
+  }
+
+  containsStuk(stuk) {
+    return this.optreden.stukken.filter(o => o.id === stuk.id).length > 0;
+  }
+
+  updateStuk(stuk, event) {
+    if (event.detail.checked) {
+      if (!this.containsStuk(stuk)) {
+        this.optreden.stukken.push(stuk);
+      }
+    } else {
+      if (this.containsStuk(stuk)) {
+        this.optreden.stukken = this.optreden.stukken.filter(o => o.id !== stuk.id);
+      }
+    }
   }
 
   fixDatum() {

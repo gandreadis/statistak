@@ -1,6 +1,7 @@
 import {DatabaseService, Optreden} from '../../services/database.service';
 import {Component, OnInit} from '@angular/core';
 import {SharedModule} from '../../shared/shared.module';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-optredens',
@@ -45,6 +46,10 @@ export class OptredensPage implements OnInit {
         });
       }
     });
+  }
+
+  formatDatum(datum) {
+    return moment(datum).format('MMMM Do');
   }
 
 }

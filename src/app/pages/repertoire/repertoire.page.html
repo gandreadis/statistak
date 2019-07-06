@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="kartuli">
     <ion-title>Repertoire</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -11,6 +11,12 @@
         <strong>{{stuk.titel}}</strong><br/>
         {{stuk.componist}}
       </ion-label>
+      <ion-chip color="primary" *ngIf="stuk.metSolistKlarinet" slot="end">
+        <ion-label>K</ion-label>
+      </ion-chip>
+      <ion-chip color="secondary" *ngIf="stuk.metSolistZang" slot="end">
+        <ion-label>Z</ion-label>
+      </ion-chip>
       <ion-chip outline slot="end">
         <ion-label>{{stuk.code}}</ion-label>
       </ion-chip>

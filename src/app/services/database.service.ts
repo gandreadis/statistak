@@ -29,6 +29,8 @@ export interface Stuk {
   titel: string;
   componist: string;
   code: string;
+  metSolistKlarinet: boolean;
+  metSolistZang: boolean;
 }
 
 @Injectable({
@@ -65,6 +67,17 @@ export class DatabaseService {
           })
           .catch(e => console.error(e));
       });
+  }
+
+  importDatabase(sql) {
+    return this.sqlitePorter.importSqlToDb(this.database, sql).finally(() => {
+      this.loadOptredens();
+      this.loadStukken();
+    });
+  }
+
+  exportDatabase() {
+    return this.sqlitePorter.exportDbToSql(this.database);
   }
 
   getDatabaseState() {
@@ -227,6 +240,8 @@ export class DatabaseService {
             titel: data.rows.item(i).titel,
             componist: data.rows.item(i).componist,
             code: data.rows.item(i).code,
+            metSolistKlarinet: data.rows.item(i).metSolistKlarinet === 1,
+            metSolistZang: data.rows.item(i).metSolistZang === 1,
           });
         }
       }
@@ -242,8 +257,10 @@ export class DatabaseService {
       stuk.titel,
       stuk.componist,
       stuk.code,
+      stuk.metSolistKlarinet ? 1 : 0,
+      stuk.metSolistZang ? 1 : 0,
     ];
-    return this.database.executeSql('INSERT INTO stuk (titel, componist, code) VALUES (?, ?, ?)', data).then(() => {
+    return this.database.executeSql('INSERT INTO stuk (titel, componist, code, metSolistKlarinet, metSolistZang) VALUES (?, ?, ?, ?, ?)', data).then(() => {
       this.loadStukken();
     });
   }
@@ -255,6 +272,8 @@ export class DatabaseService {
         titel: data.rows.item(0).titel,
         componist: data.rows.item(0).componist,
         code: data.rows.item(0).code,
+        metSolistKlarinet: data.rows.item(0).metSolistKlarinet === 1,
+        metSolistZang: data.rows.item(0).metSolistZang === 1,
       };
     });
   }
@@ -272,6 +291,8 @@ export class DatabaseService {
             titel: data.rows.item(i).titel,
             componist: data.rows.item(i).componist,
             code: data.rows.item(i).code,
+            metSolistKlarinet: data.rows.item(i).metSolistKlarinet === 1,
+            metSolistZang: data.rows.item(i).metSolistZang === 1,
           });
         }
       }
@@ -294,8 +315,11 @@ export class DatabaseService {
       stuk.titel,
       stuk.componist,
       stuk.code,
+      stuk.metSolistKlarinet ? 1 : 0,
+      stuk.metSolistZang ? 1 : 0,
     ];
-    return this.database.executeSql(`UPDATE stuk SET titel = ?, componist = ?, code = ? WHERE id = ${stuk.id}`, data).then(() => {
+    return this.database.executeSql(`UPDATE stuk SET titel = ?, componist = ?, code = ?, metSolistKlarinet = ?, metSolistZang = ?
+    WHERE id = ${stuk.id}`, data).then(() => {
       this.loadStukken();
       this.loadOptredens();
     });

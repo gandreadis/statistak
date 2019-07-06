@@ -53,6 +53,15 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'backup',
+        children: [
+          {
+            path: '',
+            loadChildren: '../pages/backup/backup.module#BackupPageModule'
+          },
+        ]
+      },
+      {
         path: '',
         redirectTo: '/tabs/optredens',
         pathMatch: 'full'

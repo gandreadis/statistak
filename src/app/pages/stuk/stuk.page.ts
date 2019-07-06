@@ -27,6 +27,8 @@ export class StukPage implements OnInit {
               titel: '',
               componist: '',
               code: '',
+              metSolistKlarinet: false,
+              metSolistZang: false,
             };
             return;
           }

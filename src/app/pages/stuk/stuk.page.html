@@ -31,5 +31,14 @@
       <ion-label position="stacked">Code</ion-label>
       <ion-input [(ngModel)]="stuk.code" placeholder="Code"></ion-input>
     </ion-item>
+    <ion-item>
+      <ion-label>Met solist klarinet</ion-label>
+      <ion-checkbox slot="end" [(ngModel)]="stuk.metSolistKlarinet"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Met solist zang</ion-label>
+      <ion-checkbox slot="end" [(ngModel)]="stuk.metSolistZang"></ion-checkbox>
+    </ion-item>
+
   </div>
 </ion-content>

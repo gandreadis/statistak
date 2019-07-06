@@ -70,5 +70,16 @@
       <ion-input type="number" [(ngModel)]="optreden.aantalBezoekers"></ion-input>
     </ion-item>
 
+    <h2>Repertoire</h2>
+    <ion-item *ngFor="let stuk of stukken">
+      <ion-label>
+        <strong>{{stuk.titel}}</strong><br/>
+        {{stuk.componist}}
+      </ion-label>
+      <ion-chip outline slot="end">
+        <ion-label>{{stuk.code}}</ion-label>
+      </ion-chip>
+      <ion-checkbox slot="end" checked="{{containsStuk(stuk)}}" (ionChange)="updateStuk(stuk, $event)"></ion-checkbox>
+    </ion-item>
   </div>
 </ion-content>

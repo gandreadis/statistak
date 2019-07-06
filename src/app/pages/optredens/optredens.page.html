@@ -1,12 +1,12 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="kartuli">
     <ion-title>Optredens</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
   <div *ngFor="let optredenDag of optredensPerDag">
-    <h1 text-center>{{optredenDag.datum}}</h1>
+    <h1 text-center>{{formatDatum(optredenDag.datum)}}</h1>
     <ion-card *ngFor="let optreden of optredenDag.optredens" [routerLink]="['/tabs/optredens', optreden.id]">
       <ion-card-header>
         <ion-card-subtitle>
