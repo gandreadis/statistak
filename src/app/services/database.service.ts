@@ -324,4 +324,29 @@ export class DatabaseService {
       this.loadOptredens();
     });
   }
+
+  getNumOptredensPerDag() {
+    return this.database.executeSql(`SELECT count(*) AS numOptredens, datum FROM optreden GROUP BY datum`).catch(data => {
+      if (!data.hasOwnProperty('rows')) {
+        console.error('Real error');
+        return;
+      }
+      const dagen = [];
+      for (let i = 0; i < data.rows.length; i++) {
+        dagen.push({
+          name: new Date(data.rows.item(i).datum),
+          value: data.rows.item(i).numOptredens,
+        });
+      }
+      return dagen;
+    });
+  }
+
+  getAverageOptredensPerDag() {
+    return this.getNumOptredensPerDag().then(data => {
+      const average = arr => arr.reduce((p, c) => p + c, 0) / arr.length;
+
+      return average(data.map(o => o.value));
+    });
+  }
 }

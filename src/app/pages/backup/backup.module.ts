@@ -5,13 +5,14 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {IonicModule} from '@ionic/angular';
 
-import {StatistiekPage} from './statistiek.page';
-import {NgxChartsModule} from '@swimlane/ngx-charts';
+import {BackupPage} from './backup.page';
+import {SocialSharing} from '@ionic-native/social-sharing/ngx';
+import {Clipboard} from '@ionic-native/clipboard/ngx';
 
 const routes: Routes = [
   {
     path: '',
-    component: StatistiekPage
+    component: BackupPage
   }
 ];
 
@@ -21,9 +22,12 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    NgxChartsModule,
   ],
-  declarations: [StatistiekPage]
+  providers: [
+    SocialSharing,
+    Clipboard,
+  ],
+  declarations: [BackupPage]
 })
-export class StatistiekPageModule {
+export class BackupPageModule {
 }

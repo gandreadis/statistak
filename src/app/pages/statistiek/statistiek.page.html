@@ -4,6 +4,16 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
+  <h2>Optredens per dag</h2>
+  <ngx-charts-bar-vertical
+    [view]="view"
+    [results]="numOptredens"
+    [xAxis]="true"
+    [yAxis]="true"
+    (window:resize)="onResize($event)"
+  >
+  </ngx-charts-bar-vertical>
 
+  <p class="ion-text-center"><strong>Gemiddeld per dag:</strong> {{averageNumOptredens}}</p>
 </ion-content>

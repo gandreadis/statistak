@@ -1,8 +1,8 @@
 {
   "name": "statistak",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "author": "Georgios Andreadis",
+  "homepage": "https://gandreadis.com/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -13,6 +13,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/animations": "^8.1.0",
     "@angular/common": "^7.2.2",
     "@angular/core": "^7.2.2",
     "@angular/forms": "^7.2.2",
@@ -29,6 +30,7 @@
     "@ionic-native/status-bar": "^5.0.0",
     "@ionic/angular": "^4.1.0",
     "@ionic/storage": "^2.2.0",
+    "@swimlane/ngx-charts": "^12.0.1",
     "cordova-android": "8.0.0",
     "cordova-clipboard": "^1.3.0",
     "cordova-plugin-android-notch": "^1.0.3",
@@ -74,7 +76,7 @@
     "tslint": "~5.17.0",
     "typescript": "~3.1.6"
   },
-  "description": "An Ionic project",
+  "description": "Statistak, voor Ricciotti!",
   "cordova": {
     "plugins": {
       "cordova-sqlite-storage": {},
