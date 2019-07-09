@@ -5,11 +5,16 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-segment [ngModel]="mode" value="globaal" (ionChange)="updateCharts($event)">
+    <ion-segment-button value="globaal">Globaal</ion-segment-button>
+    <ion-segment-button value="nl"><span class="flag-icon flag-icon-nl"></span></ion-segment-button>
+    <ion-segment-button value="ge"><span class="flag-icon flag-icon-ge"></span></ion-segment-button>
+  </ion-segment>
   <ion-grid>
     <ion-row>
       <ion-col>
         <ion-list>
-          <ion-item *ngFor="let stuk of this.ricciottiCharts; let i = index">
+          <ion-item *ngFor="let stuk of ricciottiCharts; let i = index">
             <ion-label>
               <strong>{{stuk.titel}}</strong><br/>
               {{stuk.componist}}

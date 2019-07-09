@@ -439,9 +439,13 @@ export class DatabaseService {
     });
   }
 
-  getRicciottiCharts() {
+  getRicciottiCharts(landCode?) {
+    const where = landCode ? `WHERE landCode = '${landCode}'` : '';
+
     return this.database.executeSql(`
-    SELECT count(*) AS numOptredens, stukId FROM optreden_repertoire JOIN stuk ON stuk.id = stukId
+    SELECT count(*) AS numOptredens, stukId FROM (SELECT * FROM optreden_repertoire
+    JOIN stuk ON stuk.id = stukId
+    JOIN optreden ON optreden.id = optredenId ${where})
     GROUP BY stukId ORDER BY numOptredens DESC`).catch(async data => {
       if (!data.hasOwnProperty('rows')) {
         console.error('Real error');
