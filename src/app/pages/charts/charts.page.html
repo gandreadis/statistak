@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="kartuli">
+    <ion-title>De Ricciotti Charts</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-list>
+          <ion-item *ngFor="let stuk of this.ricciottiCharts; let i = index">
+            <ion-label>
+              <strong>{{stuk.titel}}</strong><br/>
+              {{stuk.componist}}
+            </ion-label>
+            <ion-badge slot="start" color="primary">{{i + 1}}</ion-badge>
+            <ion-chip color="success" slot="end">
+              <ion-label>{{stuk['count']}}</ion-label>
+            </ion-chip>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

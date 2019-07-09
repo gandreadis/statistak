@@ -367,6 +367,70 @@ export class DatabaseService {
       });
   }
 
+  getNumOptredensVoorLand(landCode?) {
+    const where = landCode ? `WHERE landCode = '${landCode}'` : '';
+
+    return this.database.executeSql(`
+    SELECT count(*) AS numOptredens FROM optreden ${where}`)
+      .catch(data => {
+        if (!data.hasOwnProperty('rows')) {
+          console.error('Real error');
+          return;
+        }
+        const num = data.rows.item(0).numOptredens;
+
+        return num === null ? 0 : num;
+      });
+  }
+
+  getPubliekVoorLand(landCode?) {
+    const where = landCode ? `WHERE landCode = '${landCode}'` : '';
+
+    return this.database.executeSql(`
+    SELECT sum(aantalBezoekers) AS aantalBezoekers FROM optreden ${where}`)
+      .catch(data => {
+        if (!data.hasOwnProperty('rows')) {
+          console.error('Real error');
+          return;
+        }
+        const num = data.rows.item(0).aantalBezoekers;
+
+        return num === null ? 0 : num;
+      });
+  }
+
+  getPercentageWildopVoorLand(landCode?) {
+    const where = landCode ? `WHERE landCode = '${landCode}'` : '';
+
+    return this.database.executeSql(`
+    SELECT AVG(isWildOp) AS percentage FROM optreden ${where}`)
+      .catch(data => {
+        if (!data.hasOwnProperty('rows')) {
+          console.error('Real error');
+          return;
+        }
+        const percentage = data.rows.item(0).percentage;
+
+        return percentage === null ? 0 : percentage;
+      });
+  }
+
+  getPercentageDoelgroepVoorLand(doelgroep, landCode?) {
+    const where = landCode ? `WHERE landCode = '${landCode}'` : '';
+
+    return this.database.executeSql(`
+    SELECT AVG(${doelgroep}) AS percentage FROM optreden ${where}`)
+      .catch(data => {
+        if (!data.hasOwnProperty('rows')) {
+          console.error('Real error');
+          return;
+        }
+        const percentage = data.rows.item(0).percentage;
+
+        return percentage === null ? 0 : percentage;
+      });
+  }
+
   getAverageOptredensPerDag() {
     return this.getNumOptredensPerDag().then(data => {
       const average = arr => arr.reduce((p, c) => p + c, 0) / arr.length;

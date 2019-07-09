@@ -53,6 +53,15 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'charts',
+        children: [
+          {
+            path: '',
+            loadChildren: '../pages/charts/charts.module#ChartsPageModule'
+          },
+        ]
+      },
+      {
         path: 'backup',
         children: [
           {

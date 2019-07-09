@@ -6,18 +6,47 @@
 
 <ion-content padding>
   <ion-grid>
-    <h2>Optredens per dag</h2>
+    <h2>Aantal OPs</h2>
     <ion-row>
-      <ion-col style="height: 200px">
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Globaal</ion-card-subtitle>
+            <ion-card-title>{{numOptredens}}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle><span class="flag-icon flag-icon-nl"></span></ion-card-subtitle>
+            <ion-card-title>{{numOptredensInNL}}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle><span class="flag-icon flag-icon-ge"></span></ion-card-subtitle>
+            <ion-card-title>{{numOptredensInGE}}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <h2>OP/dag</h2>
+    <ion-row>
+      <ion-col style="height: 180px">
         <ngx-charts-bar-vertical
-          [results]="numOptredens"
+          [results]="numOptredensPerDag"
           [xAxis]="true"
           [yAxis]="true"
         >
         </ngx-charts-bar-vertical>
       </ion-col>
     </ion-row>
-    <h3>Gemiddeld aantal</h3>
+
+    <h2>Gemiddeld OP/dag</h2>
     <ion-row>
       <ion-col>
         <ion-card>
@@ -44,21 +73,73 @@
         </ion-card>
       </ion-col>
     </ion-row>
-    <h2>De Ricciotti Charts</h2>
+
+    <h2>Percentage WildOP</h2>
     <ion-row>
       <ion-col>
-        <ion-list>
-          <ion-item *ngFor="let stuk of this.ricciottiCharts; let i = index">
-            <ion-label>
-              <strong>{{stuk.titel}}</strong><br/>
-              {{stuk.componist}}
-            </ion-label>
-            <ion-badge slot="start" color="primary">{{i + 1}}</ion-badge>
-            <ion-chip color="success" slot="end">
-              <ion-label>{{stuk['count']}}</ion-label>
-            </ion-chip>
-          </ion-item>
-        </ion-list>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Globaal</ion-card-subtitle>
+            <ion-card-title>{{(averageWildop * 100).toFixed(0)}}%</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle><span class="flag-icon flag-icon-nl"></span></ion-card-subtitle>
+            <ion-card-title>{{(averageWildopInNL * 100).toFixed(0)}}%</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle><span class="flag-icon flag-icon-ge"></span></ion-card-subtitle>
+            <ion-card-title>{{(averageWildopInGE * 100).toFixed(0)}}%</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <h2>Doelgroep</h2>
+    <ion-row>
+      <ion-col style="height: 180px">
+        <ngx-charts-bar-vertical-2d
+          [results]="percentageDoelgroep"
+          [xAxis]="true"
+          [yAxis]="true"
+          [legend]="true"
+        >
+        </ngx-charts-bar-vertical-2d>
+      </ion-col>
+    </ion-row>
+
+    <h2>Publiek</h2>
+    <ion-row>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Globaal</ion-card-subtitle>
+            <ion-card-title>{{publiek}}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle><span class="flag-icon flag-icon-nl"></span></ion-card-subtitle>
+            <ion-card-title>{{publiekInNL}}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle><span class="flag-icon flag-icon-ge"></span></ion-card-subtitle>
+            <ion-card-title>{{publiekInGE}}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
