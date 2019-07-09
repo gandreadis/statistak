@@ -24,4 +24,8 @@ export class BackupPage implements OnInit {
     this.databaseService.exportDatabase().then(sql => this.socialSharing.share(sql));
   }
 
+  resetDB() {
+    this.databaseService.resetDatabase(() => this.databaseService.seedDatabase());
+  }
+
 }

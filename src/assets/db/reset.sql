@@ -1,0 +1,3 @@
+DROP TABLE IF EXISTS optreden;
+DROP TABLE IF EXISTS stuk;
+DROP TABLE IF EXISTS optreden_repertoire;

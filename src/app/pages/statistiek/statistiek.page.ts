@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {DatabaseService} from '../../services/database.service';
+import {DatabaseService, Stuk} from '../../services/database.service';
 
 @Component({
   selector: 'app-statistiek',
@@ -8,19 +8,13 @@ import {DatabaseService} from '../../services/database.service';
 })
 export class StatistiekPage implements OnInit {
 
-  view: any[] = [300, 200];
-  defaultHeight = 200;
-  padding = 10;
-
   numOptredens: any[] = [];
   averageNumOptredens = 0;
+  averageNumOptredensInNL = 0;
+  averageNumOptredensInGE = 0;
+  ricciottiCharts: Stuk[] = [];
 
   constructor(private databaseService: DatabaseService) {
-    this.view = [innerWidth - this.padding * 2, this.defaultHeight];
-  }
-
-  onResize(event) {
-    this.view = [event.target.innerWidth - this.padding * 2, this.defaultHeight];
   }
 
   ngOnInit() {
@@ -32,6 +26,15 @@ export class StatistiekPage implements OnInit {
           });
           this.databaseService.getAverageOptredensPerDag().then(data => {
             this.averageNumOptredens = data;
+          });
+          this.databaseService.getAverageOptredensPerDagVoorLand('nl').then(data => {
+            this.averageNumOptredensInNL = data;
+          });
+          this.databaseService.getAverageOptredensPerDagVoorLand('ge').then(data => {
+            this.averageNumOptredensInGE = data;
+          });
+          this.databaseService.getRicciottiCharts().then(data => {
+            this.ricciottiCharts = data;
           });
         });
       }

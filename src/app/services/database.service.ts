@@ -56,8 +56,17 @@ export class DatabaseService {
     });
   }
 
+  resetDatabase(cb) {
+    this.http.get('assets/db/reset.sql', {responseType: 'text'})
+      .subscribe(sql => {
+        this.sqlitePorter.importSqlToDb(this.database, sql)
+          .then(cb)
+          .catch(e => console.error(e));
+      });
+  }
+
   seedDatabase() {
-    this.http.get('assets/seed.sql', {responseType: 'text'})
+    this.http.get('assets/db/seed.sql', {responseType: 'text'})
       .subscribe(sql => {
         this.sqlitePorter.importSqlToDb(this.database, sql)
           .then(_ => {
@@ -342,11 +351,44 @@ export class DatabaseService {
     });
   }
 
+  getAverageOptredensPerDagVoorLand(landCode) {
+    return this.database.executeSql(`
+    SELECT avg(numOptredens) AS avgNumOptredens FROM
+    (SELECT count(*) AS numOptredens FROM optreden
+    WHERE landCode = '${landCode}' GROUP BY datum)`)
+      .catch(data => {
+        if (!data.hasOwnProperty('rows')) {
+          console.error('Real error');
+          return;
+        }
+        const avg = data.rows.item(0).avgNumOptredens;
+
+        return avg === null ? 0 : avg;
+      });
+  }
+
   getAverageOptredensPerDag() {
     return this.getNumOptredensPerDag().then(data => {
       const average = arr => arr.reduce((p, c) => p + c, 0) / arr.length;
 
       return average(data.map(o => o.value));
+    });
+  }
+
+  getRicciottiCharts() {
+    return this.database.executeSql(`
+    SELECT count(*) AS numOptredens, stukId FROM optreden_repertoire JOIN stuk ON stuk.id = stukId
+    GROUP BY stukId ORDER BY numOptredens DESC`).catch(async data => {
+      if (!data.hasOwnProperty('rows')) {
+        console.error('Real error');
+        return;
+      }
+      const stukken = [];
+      for (let i = 0; i < data.rows.length; i++) {
+        const stuk = await this.getStuk(data.rows.item(i).stukId);
+        stukken.push(Object.assign(stuk, {count: data.rows.item(i).numOptredens}));
+      }
+      return stukken;
     });
   }
 }

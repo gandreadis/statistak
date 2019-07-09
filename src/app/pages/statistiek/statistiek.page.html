@@ -5,15 +5,61 @@
 </ion-header>
 
 <ion-content padding>
-  <h2>Optredens per dag</h2>
-  <ngx-charts-bar-vertical
-    [view]="view"
-    [results]="numOptredens"
-    [xAxis]="true"
-    [yAxis]="true"
-    (window:resize)="onResize($event)"
-  >
-  </ngx-charts-bar-vertical>
-
-  <p class="ion-text-center"><strong>Gemiddeld per dag:</strong> {{averageNumOptredens}}</p>
+  <ion-grid>
+    <h2>Optredens per dag</h2>
+    <ion-row>
+      <ion-col style="height: 200px">
+        <ngx-charts-bar-vertical
+          [results]="numOptredens"
+          [xAxis]="true"
+          [yAxis]="true"
+        >
+        </ngx-charts-bar-vertical>
+      </ion-col>
+    </ion-row>
+    <h3>Gemiddeld aantal</h3>
+    <ion-row>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Globaal</ion-card-subtitle>
+            <ion-card-title>{{averageNumOptredens.toFixed(1)}}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle><span class="flag-icon flag-icon-nl"></span></ion-card-subtitle>
+            <ion-card-title>{{averageNumOptredensInNL.toFixed(1)}}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle><span class="flag-icon flag-icon-ge"></span></ion-card-subtitle>
+            <ion-card-title>{{averageNumOptredensInGE.toFixed(1)}}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <h2>De Ricciotti Charts</h2>
+    <ion-row>
+      <ion-col>
+        <ion-list>
+          <ion-item *ngFor="let stuk of this.ricciottiCharts; let i = index">
+            <ion-label>
+              <strong>{{stuk.titel}}</strong><br/>
+              {{stuk.componist}}
+            </ion-label>
+            <ion-badge slot="start" color="primary">{{i + 1}}</ion-badge>
+            <ion-chip color="success" slot="end">
+              <ion-label>{{stuk['count']}}</ion-label>
+            </ion-chip>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

@@ -5,10 +5,13 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-button expand (click)="importDB()">
+  <ion-button expand="block" (click)="importDB()">
     Import DB from clipboard
   </ion-button>
-  <ion-button expand (click)="exportDB()">
+  <ion-button expand="block" (click)="exportDB()">
     Export DB to Share
+  </ion-button>
+  <ion-button expand="block" (click)="resetDB()">
+    Reset DB
   </ion-button>
 </ion-content>
