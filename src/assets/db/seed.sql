@@ -27,10 +27,10 @@ CREATE TABLE IF NOT EXISTS stuk(
     metSolistKlarinet INTEGER,
     metSolistZang INTEGER
 );
-INSERT OR IGNORE INTO stuk VALUES (1, 'Miniaturen voor strijkkwartet', 'Tsintsadze', '11', 0, 0);
-INSERT OR IGNORE INTO stuk VALUES (2, 'Oopsala', '?', 'L', 0, 0);
-INSERT OR IGNORE INTO stuk VALUES (3, 'Kancheliade', 'Kancheli', '15', 1, 0);
-INSERT OR IGNORE INTO stuk VALUES (4, 'Dolce riposo', 'Händel', '22', 0, 1);
+INSERT OR IGNORE INTO stuk VALUES (1, 'Miniaturen voor strijkkwartet', 'Sulkhan Tsintsadze', '11', 0, 0);
+INSERT OR IGNORE INTO stuk VALUES (2, 'Oopsala', 'Gijs Kramers', 'L', 0, 0);
+INSERT OR IGNORE INTO stuk VALUES (3, 'Kancheliade', 'Giya Kancheli', '15', 1, 0);
+INSERT OR IGNORE INTO stuk VALUES (4, 'Dolce riposo', 'G.F. Händel', '22', 0, 1);
 
 CREATE TABLE IF NOT EXISTS optreden_repertoire(
     optredenId INTEGER,
@@ -45,4 +45,4 @@ INSERT OR IGNORE INTO optreden_repertoire VALUES (2, 3);
 INSERT OR IGNORE INTO optreden_repertoire VALUES (3, 3);
 INSERT OR IGNORE INTO optreden_repertoire VALUES (3, 4);
 INSERT OR IGNORE INTO optreden_repertoire VALUES (4, 1);
-INSERT OR IGNORE INTO optreden_repertoire VALUES (4, 2);
+INSERT OR IGNORE INTO optreden_repertoire VALUES (4, 4);

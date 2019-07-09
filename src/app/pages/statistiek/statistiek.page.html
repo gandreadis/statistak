@@ -36,7 +36,7 @@
 
     <h2>OP/dag</h2>
     <ion-row>
-      <ion-col style="height: 180px">
+      <ion-col style="height: 150px">
         <ngx-charts-bar-vertical
           [results]="numOptredensPerDag"
           [xAxis]="true"
@@ -102,16 +102,45 @@
       </ion-col>
     </ion-row>
 
+    <h2>Percentage Buiten</h2>
+    <ion-row>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Globaal</ion-card-subtitle>
+            <ion-card-title>{{(averageBuiten * 100).toFixed(0)}}%</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle><span class="flag-icon flag-icon-nl"></span></ion-card-subtitle>
+            <ion-card-title>{{(averageBuitenInNL * 100).toFixed(0)}}%</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle><span class="flag-icon flag-icon-ge"></span></ion-card-subtitle>
+            <ion-card-title>{{(averageBuitenInGE * 100).toFixed(0)}}%</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
     <h2>Doelgroep</h2>
     <ion-row>
-      <ion-col style="height: 180px">
-        <ngx-charts-bar-vertical-2d
+      <ion-col style="height: 300px">
+        <ngx-charts-bar-horizontal-2d
           [results]="percentageDoelgroep"
           [xAxis]="true"
           [yAxis]="true"
           [legend]="true"
+          [xScaleMax]="1"
         >
-        </ngx-charts-bar-vertical-2d>
+        </ngx-charts-bar-horizontal-2d>
       </ion-col>
     </ion-row>
 
@@ -140,6 +169,20 @@
             <ion-card-title>{{publiekInGE}}</ion-card-title>
           </ion-card-header>
         </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <h2>Solist/OP</h2>
+    <ion-row>
+      <ion-col style="height: 300px">
+        <ngx-charts-bar-horizontal-2d
+          [results]="percentageSolisten"
+          [xAxis]="true"
+          [yAxis]="true"
+          [legend]="true"
+          [xScaleMax]="1"
+        >
+        </ngx-charts-bar-horizontal-2d>
       </ion-col>
     </ion-row>
   </ion-grid>

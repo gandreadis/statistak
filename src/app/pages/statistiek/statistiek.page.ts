@@ -21,7 +21,11 @@ export class StatistiekPage implements OnInit {
   averageWildop = 0;
   averageWildopInNL = 0;
   averageWildopInGE = 0;
+  averageBuiten = 0;
+  averageBuitenInNL = 0;
+  averageBuitenInGE = 0;
   percentageDoelgroep = [];
+  percentageSolisten = [];
 
   constructor(private databaseService: DatabaseService) {
   }
@@ -62,6 +66,15 @@ export class StatistiekPage implements OnInit {
           });
           this.databaseService.getPercentageWildopVoorLand('ge').then(data => {
             this.averageWildopInGE = data;
+          });
+          this.databaseService.getPercentageBuitenVoorLand().then(data => {
+            this.averageBuiten = data;
+          });
+          this.databaseService.getPercentageBuitenVoorLand('nl').then(data => {
+            this.averageBuitenInNL = data;
+          });
+          this.databaseService.getPercentageBuitenVoorLand('ge').then(data => {
+            this.averageBuitenInGE = data;
           });
           this.databaseService.getAverageOptredensPerDagVoorLand('nl').then(data => {
             this.averageNumOptredensInNL = data;
@@ -130,6 +143,52 @@ export class StatistiekPage implements OnInit {
                   {
                     name: 'ge',
                     value: isBeslotenGE,
+                  },
+                ],
+              },
+            ];
+          });
+
+          this.databaseService.getPercentageSolistenVoorLand('metSolistKlarinet').then(async data => {
+            const metSolistKlarinetGlobaal = data;
+            const metSolistKlarinetNL = await this.databaseService.getPercentageSolistenVoorLand('metSolistKlarinet', 'nl');
+            const metSolistKlarinetGE = await this.databaseService.getPercentageSolistenVoorLand('metSolistKlarinet', 'ge');
+            const metSolistZangGlobaal = await this.databaseService.getPercentageSolistenVoorLand('metSolistZang');
+            const metSolistZangNL = await this.databaseService.getPercentageSolistenVoorLand('metSolistZang', 'nl');
+            const metSolistZangGE = await this.databaseService.getPercentageSolistenVoorLand('metSolistZang', 'ge');
+
+            this.percentageSolisten = [
+              {
+                name: 'Klarinet',
+                series: [
+                  {
+                    name: '🌍',
+                    value: metSolistKlarinetGlobaal,
+                  },
+                  {
+                    name: 'nl',
+                    value: metSolistKlarinetNL,
+                  },
+                  {
+                    name: 'ge',
+                    value: metSolistKlarinetGE,
+                  },
+                ],
+              },
+              {
+                name: 'Zang',
+                series: [
+                  {
+                    name: '🌍',
+                    value: metSolistZangGlobaal,
+                  },
+                  {
+                    name: 'nl',
+                    value: metSolistZangNL,
+                  },
+                  {
+                    name: 'ge',
+                    value: metSolistZangGE,
                   },
                 ],
               },

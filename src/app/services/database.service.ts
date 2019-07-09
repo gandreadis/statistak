@@ -415,11 +415,48 @@ export class DatabaseService {
       });
   }
 
+  getPercentageBuitenVoorLand(landCode?) {
+    const where = landCode ? `WHERE landCode = '${landCode}'` : '';
+
+    return this.database.executeSql(`
+    SELECT AVG(isBuiten) AS percentage FROM optreden ${where}`)
+      .catch(data => {
+        if (!data.hasOwnProperty('rows')) {
+          console.error('Real error');
+          return;
+        }
+        const percentage = data.rows.item(0).percentage;
+
+        return percentage === null ? 0 : percentage;
+      });
+  }
+
   getPercentageDoelgroepVoorLand(doelgroep, landCode?) {
     const where = landCode ? `WHERE landCode = '${landCode}'` : '';
 
     return this.database.executeSql(`
     SELECT AVG(${doelgroep}) AS percentage FROM optreden ${where}`)
+      .catch(data => {
+        if (!data.hasOwnProperty('rows')) {
+          console.error('Real error');
+          return;
+        }
+        const percentage = data.rows.item(0).percentage;
+
+        return percentage === null ? 0 : percentage;
+      });
+  }
+
+  getPercentageSolistenVoorLand(solist, landCode?) {
+    const where = landCode ? `WHERE optreden.landCode = '${landCode}'` : '';
+
+    return this.database.executeSql(`
+    SELECT AVG(solist) AS percentage FROM
+    (SELECT MAX(stuk.${solist}) AS solist FROM optreden_repertoire
+    JOIN optreden ON optreden.id = optredenId
+    JOIN stuk ON stuk.id = stukId
+    ${where}
+    GROUP BY optredenId)`)
       .catch(data => {
         if (!data.hasOwnProperty('rows')) {
           console.error('Real error');
