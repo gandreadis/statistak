@@ -42,7 +42,10 @@ CREATE TABLE IF NOT EXISTS optreden_repertoire(
 INSERT OR IGNORE INTO optreden_repertoire VALUES (1, 1);
 INSERT OR IGNORE INTO optreden_repertoire VALUES (1, 2);
 INSERT OR IGNORE INTO optreden_repertoire VALUES (2, 3);
+INSERT OR IGNORE INTO optreden_repertoire VALUES (2, 4);
 INSERT OR IGNORE INTO optreden_repertoire VALUES (3, 3);
 INSERT OR IGNORE INTO optreden_repertoire VALUES (3, 4);
 INSERT OR IGNORE INTO optreden_repertoire VALUES (4, 1);
+INSERT OR IGNORE INTO optreden_repertoire VALUES (4, 2);
+INSERT OR IGNORE INTO optreden_repertoire VALUES (4, 3);
 INSERT OR IGNORE INTO optreden_repertoire VALUES (4, 4);

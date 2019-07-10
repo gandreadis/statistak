@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="kartuli">
-    <ion-title>Statistak</ion-title>
+    <ion-title>Statistak 📈📉📊</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -36,11 +36,13 @@
 
     <h2>OP/dag</h2>
     <ion-row>
-      <ion-col style="height: 150px">
+      <ion-col>
         <ngx-charts-bar-vertical
+          [view]="view"
           [results]="numOptredensPerDag"
           [xAxis]="true"
           [yAxis]="true"
+          (window:resize)="onResize($event)"
         >
         </ngx-charts-bar-vertical>
       </ion-col>
@@ -102,7 +104,7 @@
       </ion-col>
     </ion-row>
 
-    <h2>Percentage Buiten</h2>
+    <h2>Percentage buiten</h2>
     <ion-row>
       <ion-col>
         <ion-card>
@@ -183,6 +185,23 @@
           [xScaleMax]="1"
         >
         </ngx-charts-bar-horizontal-2d>
+      </ion-col>
+    </ion-row>
+
+    <h2>Top 10 in combinatie gespeeld</h2>
+    <ion-row>
+      <ion-col>
+        <ion-list>
+          <ion-item *ngFor="let combi of combinations; let i = index">
+            <ion-label>
+              <strong>{{combi.titels}}</strong>
+            </ion-label>
+            <ion-badge slot="start" color="primary">{{i + 1}}</ion-badge>
+            <ion-chip color="success" slot="end">
+              <ion-label>{{combi.count}}</ion-label>
+            </ion-chip>
+          </ion-item>
+        </ion-list>
       </ion-col>
     </ion-row>
   </ion-grid>

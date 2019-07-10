@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {DatabaseService} from '../../services/database.service';
+import {DatabaseService, Optreden} from '../../services/database.service';
 
 @Component({
   selector: 'app-statistiek',
@@ -7,6 +7,10 @@ import {DatabaseService} from '../../services/database.service';
   styleUrls: ['./statistiek.page.scss'],
 })
 export class StatistiekPage implements OnInit {
+
+  view: any[] = [300, 200];
+  defaultHeight = 200;
+  padding = 20;
 
   numOptredensPerDag: any[] = [];
   numOptredens = 0;
@@ -26,14 +30,20 @@ export class StatistiekPage implements OnInit {
   averageBuitenInGE = 0;
   percentageDoelgroep = [];
   percentageSolisten = [];
+  combinations: { titels: string, count: number }[] = [];
 
   constructor(private databaseService: DatabaseService) {
+    this.view = [innerWidth - this.padding * 2, this.defaultHeight];
+  }
+
+  onResize(event) {
+    this.view = [event.target.innerWidth - this.padding * 2, this.defaultHeight];
   }
 
   ngOnInit() {
     this.databaseService.getDatabaseState().subscribe(rdy => {
       if (rdy) {
-        this.databaseService.getOptredens().subscribe(optredens => {
+        this.databaseService.getOptredens().subscribe(async optredens => {
           this.databaseService.getNumOptredensPerDag().then(data => {
             this.numOptredensPerDag = data;
           });
@@ -159,7 +169,7 @@ export class StatistiekPage implements OnInit {
 
             this.percentageSolisten = [
               {
-                name: 'Klarinet',
+                name: 'Levan',
                 series: [
                   {
                     name: '🌍',
@@ -176,7 +186,7 @@ export class StatistiekPage implements OnInit {
                 ],
               },
               {
-                name: 'Zang',
+                name: 'Janneke',
                 series: [
                   {
                     name: '🌍',
@@ -194,9 +204,55 @@ export class StatistiekPage implements OnInit {
               },
             ];
           });
+
+          this.combinations = await this.computePopularCombinations(optredens);
         });
       }
     });
+  }
+
+  async computePopularCombinations(optredens: Optreden[]) {
+    const allSets = [];
+    optredens.forEach(optreden => {
+      const stukIds = optreden.stukken.map(o => o.id);
+      for (let i = 0; i < stukIds.length; i++) {
+        for (let j = 0; j <= i; j++) {
+          if (i !== j) {
+            allSets.push(stukIds[i] + '_' + stukIds[j]);
+          }
+        }
+      }
+    });
+
+    const counts = {};
+
+    allSets.forEach((combi: string) => {
+      const switched = combi.split('_').reverse().join('_');
+
+      if (counts[combi] || counts[switched]) {
+        counts[combi] += 1;
+      } else {
+        counts[combi] = 1;
+      }
+    });
+
+    const combinations = [];
+    for (const combi in counts) {
+      if (counts.hasOwnProperty(combi)) {
+        const stukIds = combi.split('_');
+        const stuk1 = await this.databaseService.getStuk(stukIds[0]);
+        const stuk2 = await this.databaseService.getStuk(stukIds[1]);
+
+        combinations.push({
+          titels: stuk1.titel + ' & ' + stuk2.titel,
+          count: counts[combi],
+        });
+      }
+    }
+
+    combinations.sort((a, b) => b.count - a.count);
+
+    return combinations.slice(0, 10);
   }
 
 }
