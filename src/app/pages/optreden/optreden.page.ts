@@ -38,6 +38,8 @@ export class OptredenPage implements OnInit {
               isBesloten: false,
               isWildOp: false,
               aantalBezoekers: 0,
+              gastdirigent: '',
+              opmerkingen: '',
               stukken: [],
             };
             return;

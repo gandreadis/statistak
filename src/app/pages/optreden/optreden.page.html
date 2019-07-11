@@ -69,6 +69,14 @@
       <ion-label position="stacked">Aantal bezoekers</ion-label>
       <ion-input type="number" [(ngModel)]="optreden.aantalBezoekers"></ion-input>
     </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Gastdirigent</ion-label>
+      <ion-input [(ngModel)]="optreden.gastdirigent" placeholder="Gastdirigent"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Opmerkingen</ion-label>
+      <ion-input [(ngModel)]="optreden.opmerkingen" placeholder="Opmerkingen"></ion-input>
+    </ion-item>
 
     <h2>Repertoire</h2>
     <ion-item *ngFor="let stuk of stukken">

@@ -12,12 +12,14 @@ CREATE TABLE IF NOT EXISTS optreden(
     isOpenbaar INTEGER,
     isBesloten INTEGER,
     isWildOp INTEGER,
-    aantalBezoekers INTEGER
+    aantalBezoekers INTEGER,
+    gastdirigent TEXT,
+    opmerkingen TEXT
 );
-INSERT OR IGNORE INTO optreden VALUES (1, 'Amerpoort', 'Baarn', 'nl', 0.0, 0.0, '2019-07-25', '18:30', 0, 1, 1, 0, 0, 45);
-INSERT OR IGNORE INTO optreden VALUES (2, 'Maassluise Muziekweek', 'Maassluis', 'nl', 0.0, 0.0, '2019-07-27', '15:00', 1, 0, 1, 0, 0, 500);
-INSERT OR IGNORE INTO optreden VALUES (3, 'Mikes Badhuistheater', 'Amsterdam', 'nl', 0.0, 0.0, '2019-07-27', '19:00', 0, 0, 1, 0, 0, 310);
-INSERT OR IGNORE INTO optreden VALUES (4, 'Ergens in Georgie', 'Tbilisi', 'ge', 0.0, 0.0, '2019-08-03', '19:00', 0, 1, 0, 1, 0, 30);
+INSERT OR IGNORE INTO optreden VALUES (1, 'Amerpoort', 'Baarn', 'nl', 0.0, 0.0, '2019-07-25', '18:30', 0, 1, 1, 0, 0, 45, '', '');
+INSERT OR IGNORE INTO optreden VALUES (2, 'Maassluise Muziekweek', 'Maassluis', 'nl', 0.0, 0.0, '2019-07-27', '15:00', 1, 0, 1, 0, 0, 500, '', 'Hummel fantasie met Sunniva Skaug (altviool)');
+INSERT OR IGNORE INTO optreden VALUES (3, 'Mikes Badhuistheater', 'Amsterdam', 'nl', 0.0, 0.0, '2019-07-27', '19:00', 0, 0, 1, 0, 0, 310, '', '');
+INSERT OR IGNORE INTO optreden VALUES (4, 'Ergens in Georgie', 'Tbilisi', 'ge', 0.0, 0.0, '2019-08-03', '19:00', 0, 1, 0, 1, 0, 30, 'Nana', '');
 
 CREATE TABLE IF NOT EXISTS stuk(
     id INTEGER PRIMARY KEY AUTOINCREMENT,

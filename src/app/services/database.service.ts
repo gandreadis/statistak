@@ -21,6 +21,8 @@ export interface Optreden {
   isBesloten: boolean;
   isWildOp: boolean;
   aantalBezoekers: number;
+  gastdirigent: string;
+  opmerkingen: string;
   stukken: Stuk[];
 }
 
@@ -125,6 +127,8 @@ export class DatabaseService {
             isBesloten: data.rows.item(i).isBesloten === 1,
             isWildOp: data.rows.item(i).isWildOp === 1,
             aantalBezoekers: data.rows.item(i).aantalBezoekers,
+            gastdirigent: data.rows.item(i).gastdirigent,
+            opmerkingen: data.rows.item(i).opmerkingen,
             stukken,
           });
         }
@@ -149,10 +153,13 @@ export class DatabaseService {
       optreden.isBesloten ? 1 : 0,
       optreden.isWildOp ? 1 : 0,
       optreden.aantalBezoekers,
+      optreden.gastdirigent,
+      optreden.opmerkingen,
     ];
-    return this.database.executeSql('INSERT INTO optreden (locatie, plaats, landCode, longitude, latitude, datum, tijd, ' +
-      'isBuiten, isSociaal, isOpenbaar, isBesloten, isWildOp, aantalBezoekers) ' +
-      'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', data).then(async () => {
+    return this.database.executeSql(`
+    INSERT INTO optreden (locatie, plaats, landCode, longitude, latitude, datum, tijd, isBuiten,
+    isSociaal, isOpenbaar, isBesloten, isWildOp, aantalBezoekers, gastdirigent, opmerkingen)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, data).then(async () => {
 
       if (optreden.stukken.length > 0) {
         const stukString = optreden.stukken.map(stuk => `(${optreden.id}, ${stuk.id})`).join(', ');
@@ -183,6 +190,8 @@ export class DatabaseService {
         isBesloten: data.rows.item(0).isBesloten === 1,
         isWildOp: data.rows.item(0).isWildOp === 1,
         aantalBezoekers: data.rows.item(0).aantalBezoekers,
+        gastdirigent: data.rows.item(0).gastdirigent,
+        opmerkingen: data.rows.item(0).opmerkingen,
         stukken,
       };
     });
@@ -209,10 +218,12 @@ export class DatabaseService {
       optreden.isBesloten ? 1 : 0,
       optreden.isWildOp ? 1 : 0,
       optreden.aantalBezoekers,
+      optreden.gastdirigent,
+      optreden.opmerkingen,
     ];
     return this.database.executeSql(`
     UPDATE optreden SET locatie = ?, plaats = ?, landCode = ?, longitude = ?, latitude = ?, datum = ?, tijd = ?,
-      isBuiten = ?, isSociaal = ?, isOpenbaar = ?, isBesloten = ?, isWildOp = ?, aantalBezoekers = ?
+      isBuiten = ?, isSociaal = ?, isOpenbaar = ?, isBesloten = ?, isWildOp = ?, aantalBezoekers = ?, gastdirigent = ?, opmerkingen = ?
       WHERE id = ${optreden.id}`, data).then(async () => {
       if (optreden.stukken.length > 0) {
         const stukString = optreden.stukken.map(stuk => `(${optreden.id}, ${stuk.id})`).join(', ');
@@ -269,7 +280,9 @@ export class DatabaseService {
       stuk.metSolistKlarinet ? 1 : 0,
       stuk.metSolistZang ? 1 : 0,
     ];
-    return this.database.executeSql('INSERT INTO stuk (titel, componist, code, metSolistKlarinet, metSolistZang) VALUES (?, ?, ?, ?, ?)', data).then(() => {
+    return this.database.executeSql(`
+    INSERT INTO stuk (titel, componist, code, metSolistKlarinet, metSolistZang)
+    VALUES (?, ?, ?, ?, ?)`, data).then(() => {
       this.loadStukken();
     });
   }

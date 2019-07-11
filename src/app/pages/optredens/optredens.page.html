@@ -12,17 +12,20 @@
         <ion-card-subtitle>
           <span class="flag-icon flag-icon-{{optreden.landCode}}"></span>
           {{ optreden.plaats }}
+          <ion-badge color="medium" style="position: absolute; top: 0; right: 0">
+            {{optreden.tijd}}
+          </ion-badge>
         </ion-card-subtitle>
         <ion-card-title>{{ optreden.locatie }}</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
         <div>
-          <ion-chip color="secondary">
-            <ion-label>{{optreden.tijd}}</ion-label>
-          </ion-chip>
           <ion-chip color="tertiary">
             <ion-label>{{optreden.aantalBezoekers}} bezoekers</ion-label>
+          </ion-chip>
+          <ion-chip color="success" *ngIf="optreden.gastdirigent.length > 0">
+            <ion-label>Gastdirigent: {{optreden.gastdirigent}}</ion-label>
           </ion-chip>
         </div>
         <div>
@@ -49,6 +52,11 @@
           <ion-chip outline *ngFor="let stuk of optreden.stukken">
             <ion-label>{{stuk.code}}</ion-label>
           </ion-chip>
+        </div>
+
+        <div class="ion-padding-vertical" *ngIf="optreden.opmerkingen.length > 0">
+          <ion-icon name="chatbubbles"></ion-icon>
+          {{optreden.opmerkingen}}
         </div>
       </ion-card-content>
     </ion-card>
