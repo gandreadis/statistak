@@ -161,10 +161,27 @@ export class DatabaseService {
     isSociaal, isOpenbaar, isBesloten, isWildOp, aantalBezoekers, gastdirigent, opmerkingen)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, data).then(async () => {
 
-      if (optreden.stukken.length > 0) {
-        const stukString = optreden.stukken.map(stuk => `(${optreden.id}, ${stuk.id})`).join(', ');
+      let optredenIdResponse;
+      try {
+        optredenIdResponse = await this.database.executeSql(`SELECT seq FROM sqlite_sequence WHERE name='optreden'`);
+      } catch (e) {
+        if (!e.hasOwnProperty('rows')) {
+          console.error(e);
+        }
+        optredenIdResponse = e;
+      }
 
-        await this.database.executeSql(`INSERT INTO optreden_repertoire (optredenId, stukId) VALUES ${stukString}`);
+      const optredenId = optredenIdResponse.rows.item(0).seq;
+      if (optreden.stukken.length > 0) {
+        const stukString = optreden.stukken.map(stuk => `(${optredenId}, ${stuk.id})`).join(', ');
+
+        try {
+          await this.database.executeSql(`INSERT INTO optreden_repertoire (optredenId, stukId) VALUES ${stukString}`);
+        } catch (e) {
+          if (!e.hasOwnProperty('rows')) {
+            console.error(e);
+          }
+        }
       }
       this.loadOptredens();
     });
