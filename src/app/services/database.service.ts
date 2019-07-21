@@ -510,7 +510,8 @@ export class DatabaseService {
     const where = landCode ? `WHERE landCode = '${landCode}'` : '';
 
     return this.database.executeSql(`
-    SELECT count(*) AS numOptredens, stukId FROM (SELECT * FROM optreden_repertoire
+    SELECT count(*) AS numOptredens, sum(aantalBezoekers) AS bezoekers, stukId FROM 
+    (SELECT stukId, optreden.aantalBezoekers AS aantalBezoekers FROM optreden_repertoire
     JOIN stuk ON stuk.id = stukId
     JOIN optreden ON optreden.id = optredenId ${where})
     GROUP BY stukId ORDER BY numOptredens DESC`).catch(async data => {
@@ -521,7 +522,10 @@ export class DatabaseService {
       const stukken = [];
       for (let i = 0; i < data.rows.length; i++) {
         const stuk = await this.getStuk(data.rows.item(i).stukId);
-        stukken.push(Object.assign(stuk, {count: data.rows.item(i).numOptredens}));
+        stukken.push(Object.assign(stuk, {
+          optredens: data.rows.item(i).numOptredens,
+          bezoekers: data.rows.item(i).bezoekers,
+        }));
       }
       return stukken;
     });
