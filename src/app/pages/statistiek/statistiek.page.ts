@@ -8,8 +8,8 @@ import {DatabaseService, Optreden} from '../../services/database.service';
 })
 export class StatistiekPage implements OnInit {
 
-  view: any[] = [300, 200];
-  defaultHeight = 200;
+  view: any[] = [300, 300];
+  defaultHeight = 300;
   padding = 20;
 
   numOptredensPerDag: any[] = [];
@@ -33,7 +33,11 @@ export class StatistiekPage implements OnInit {
   combinations: { titels: string, count: number }[] = [];
 
   constructor(private databaseService: DatabaseService) {
-    this.view = [innerWidth - this.padding * 2, this.defaultHeight];
+    this.view = [window.innerWidth - this.padding * 2, this.defaultHeight];
+
+    setTimeout(() => {
+      this.view = [window.innerWidth - this.padding * 2 + 1, this.defaultHeight + 1];
+    }, 1000);
   }
 
   onResize(event) {
