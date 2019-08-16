@@ -6,7 +6,8 @@
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let stuk of stukken" button [routerLink]="['/tabs/repertoire/', stuk.id]">
+    <ion-item *ngFor="let stuk of stukken" button
+              [routerLink]="env.editable ? ['/tabs/repertoire/', stuk.id] : undefined">
       <ion-label>
         <strong>{{stuk.titel}}</strong><br/>
         {{stuk.componist}}
@@ -24,7 +25,7 @@
   </ion-list>
 
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="env.editable">
     <ion-fab-button [routerLink]="'/tabs/repertoire/-1'">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>

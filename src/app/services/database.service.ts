@@ -1,10 +1,11 @@
 import {Platform} from '@ionic/angular';
 import {Injectable} from '@angular/core';
-import {SQLitePorter} from '@ionic-native/sqlite-porter/ngx';
 import {HttpClient} from '@angular/common/http';
-import {SQLite, SQLiteObject} from '@ionic-native/sqlite/ngx';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {SharedModule} from '../shared/shared.module';
+import {SQLDatabase} from './sqlite';
+import {SQLitePorter} from '@ionic-native/sqlite-porter/ngx';
+import {SQLite} from '@ionic-native/sqlite/ngx';
 
 export interface Optreden {
   id: number;
@@ -39,29 +40,26 @@ export interface Stuk {
   providedIn: 'root'
 })
 export class DatabaseService {
-  private database: SQLiteObject;
+  private sql: SQLDatabase;
   private dbReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   optredens = new BehaviorSubject([]);
   stukken = new BehaviorSubject([]);
 
-  constructor(private plt: Platform, private sqlitePorter: SQLitePorter, private sqlite: SQLite, private http: HttpClient) {
+  constructor(private plt: Platform, private http: HttpClient, private sqlitePorter: SQLitePorter, private sqlite: SQLite) {
     this.plt.ready().then(() => {
-      this.sqlite.create({
-        name: 'statistak.db',
-        location: 'default'
-      })
-        .then((db: SQLiteObject) => {
-          this.database = db;
-          this.seedDatabase();
-        });
+      this.sql = new SQLDatabase(sqlitePorter, sqlite);
+      this.sql.init().then(() => {
+        this.resetDatabase(() => this.seedDatabase());
+        // this.seedDatabase();
+      });
     });
   }
 
   resetDatabase(cb) {
     this.http.get('assets/db/reset.sql', {responseType: 'text'})
       .subscribe(sql => {
-        this.sqlitePorter.importSqlToDb(this.database, sql)
+        this.sql.import(sql)
           .then(cb)
           .catch(e => console.error(e));
       });
@@ -70,7 +68,7 @@ export class DatabaseService {
   seedDatabase() {
     this.http.get('assets/db/seed.sql', {responseType: 'text'})
       .subscribe(sql => {
-        this.sqlitePorter.importSqlToDb(this.database, sql)
+        this.sql.import(sql)
           .then(_ => {
             this.loadOptredens();
             this.loadStukken();
@@ -81,14 +79,18 @@ export class DatabaseService {
   }
 
   importDatabase(sql) {
-    return this.sqlitePorter.importSqlToDb(this.database, sql).finally(() => {
+    return this.sql.import(sql).finally(() => {
       this.loadOptredens();
       this.loadStukken();
     });
   }
 
   exportDatabase() {
-    return this.sqlitePorter.exportDbToSql(this.database);
+    return this.sql.export();
+  }
+
+  getCache() {
+    return this.sql.cache;
   }
 
   getDatabaseState() {
@@ -104,31 +106,31 @@ export class DatabaseService {
   }
 
   loadOptredens() {
-    return this.database.executeSql('SELECT * FROM optreden', []).then(async data => {
+    return this.sql.exec('SELECT * FROM optreden').then(async data => {
       const optredens: Optreden[] = [];
 
-      if (data.rows.length > 0) {
-        for (let i = 0; i < data.rows.length; i++) {
-          const stukken = await this.getOptredenRepertoire(data.rows.item(i).id);
+      if (data.length > 0) {
+        for (let i = 0; i < data.length; i++) {
+          const stukken = await this.getOptredenRepertoire(data[i].id);
           stukken.sort(SharedModule.dynamicSort('code'));
 
           optredens.push({
-            id: data.rows.item(i).id,
-            locatie: data.rows.item(i).locatie,
-            plaats: data.rows.item(i).plaats,
-            landCode: data.rows.item(i).landCode,
-            longitude: data.rows.item(i).longitude,
-            latitude: data.rows.item(i).latitude,
-            datum: data.rows.item(i).datum,
-            tijd: data.rows.item(i).tijd,
-            isBuiten: data.rows.item(i).isBuiten === 1,
-            isSociaal: data.rows.item(i).isSociaal === 1,
-            isOpenbaar: data.rows.item(i).isOpenbaar === 1,
-            isBesloten: data.rows.item(i).isBesloten === 1,
-            isWildOp: data.rows.item(i).isWildOp === 1,
-            aantalBezoekers: data.rows.item(i).aantalBezoekers,
-            gastdirigent: data.rows.item(i).gastdirigent,
-            opmerkingen: data.rows.item(i).opmerkingen,
+            id: data[i].id,
+            locatie: data[i].locatie,
+            plaats: data[i].plaats,
+            landCode: data[i].landCode,
+            longitude: data[i].longitude,
+            latitude: data[i].latitude,
+            datum: data[i].datum,
+            tijd: data[i].tijd,
+            isBuiten: data[i].isBuiten === 1,
+            isSociaal: data[i].isSociaal === 1,
+            isOpenbaar: data[i].isOpenbaar === 1,
+            isBesloten: data[i].isBesloten === 1,
+            isWildOp: data[i].isWildOp === 1,
+            aantalBezoekers: data[i].aantalBezoekers,
+            gastdirigent: data[i].gastdirigent,
+            opmerkingen: data[i].opmerkingen,
             stukken,
           });
         }
@@ -156,66 +158,51 @@ export class DatabaseService {
       optreden.gastdirigent,
       optreden.opmerkingen,
     ];
-    return this.database.executeSql(`
+    return this.sql.execWithVars(`
     INSERT INTO optreden (locatie, plaats, landCode, longitude, latitude, datum, tijd, isBuiten,
     isSociaal, isOpenbaar, isBesloten, isWildOp, aantalBezoekers, gastdirigent, opmerkingen)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, data).then(async () => {
 
-      let optredenIdResponse;
-      try {
-        optredenIdResponse = await this.database.executeSql(`SELECT seq FROM sqlite_sequence WHERE name='optreden'`);
-      } catch (e) {
-        if (!e.hasOwnProperty('rows')) {
-          console.error(e);
-        }
-        optredenIdResponse = e;
-      }
+      let optredenIdResponse = await this.sql.exec(`SELECT seq FROM sqlite_sequence WHERE name='optreden'`);
 
-      const optredenId = optredenIdResponse.rows.item(0).seq;
+      const optredenId = optredenIdResponse[0].seq;
       if (optreden.stukken.length > 0) {
         const stukString = optreden.stukken.map(stuk => `(${optredenId}, ${stuk.id})`).join(', ');
-
-        try {
-          await this.database.executeSql(`INSERT INTO optreden_repertoire (optredenId, stukId) VALUES ${stukString}`);
-        } catch (e) {
-          if (!e.hasOwnProperty('rows')) {
-            console.error(e);
-          }
-        }
+        await this.sql.run(`INSERT INTO optreden_repertoire (optredenId, stukId) VALUES ${stukString}`);
       }
       this.loadOptredens();
     });
   }
 
   getOptreden(id): Promise<Optreden> {
-    return this.database.executeSql('SELECT * FROM optreden WHERE id = ?', [id]).then(async data => {
-      const stukken = await this.getOptredenRepertoire(data.rows.item(0).id);
+    return this.sql.exec(`SELECT * FROM optreden WHERE id = '${id}'`).then(async data => {
+      const stukken = await this.getOptredenRepertoire(data[0].id);
       stukken.sort(SharedModule.dynamicSort('code'));
 
       return {
-        id: data.rows.item(0).id,
-        locatie: data.rows.item(0).locatie,
-        plaats: data.rows.item(0).plaats,
-        landCode: data.rows.item(0).landCode,
-        longitude: data.rows.item(0).longitude,
-        latitude: data.rows.item(0).latitude,
-        datum: data.rows.item(0).datum,
-        tijd: data.rows.item(0).tijd,
-        isBuiten: data.rows.item(0).isBuiten === 1,
-        isSociaal: data.rows.item(0).isSociaal === 1,
-        isOpenbaar: data.rows.item(0).isOpenbaar === 1,
-        isBesloten: data.rows.item(0).isBesloten === 1,
-        isWildOp: data.rows.item(0).isWildOp === 1,
-        aantalBezoekers: data.rows.item(0).aantalBezoekers,
-        gastdirigent: data.rows.item(0).gastdirigent,
-        opmerkingen: data.rows.item(0).opmerkingen,
+        id: data[0].id,
+        locatie: data[0].locatie,
+        plaats: data[0].plaats,
+        landCode: data[0].landCode,
+        longitude: data[0].longitude,
+        latitude: data[0].latitude,
+        datum: data[0].datum,
+        tijd: data[0].tijd,
+        isBuiten: data[0].isBuiten === 1,
+        isSociaal: data[0].isSociaal === 1,
+        isOpenbaar: data[0].isOpenbaar === 1,
+        isBesloten: data[0].isBesloten === 1,
+        isWildOp: data[0].isWildOp === 1,
+        aantalBezoekers: data[0].aantalBezoekers,
+        gastdirigent: data[0].gastdirigent,
+        opmerkingen: data[0].opmerkingen,
         stukken,
       };
     });
   }
 
   deleteOptreden(id) {
-    return this.database.executeSql('DELETE FROM optreden WHERE id = ?', [id]).then(_ => {
+    return this.sql.run(`DELETE FROM optreden WHERE id = '${id}'`).then(_ => {
       this.loadOptredens();
     });
   }
@@ -238,28 +225,15 @@ export class DatabaseService {
       optreden.gastdirigent,
       optreden.opmerkingen,
     ];
-    return this.database.executeSql(`
+    return this.sql.execWithVars(`
     UPDATE optreden SET locatie = ?, plaats = ?, landCode = ?, longitude = ?, latitude = ?, datum = ?, tijd = ?,
       isBuiten = ?, isSociaal = ?, isOpenbaar = ?, isBesloten = ?, isWildOp = ?, aantalBezoekers = ?, gastdirigent = ?, opmerkingen = ?
       WHERE id = ${optreden.id}`, data).then(async () => {
       if (optreden.stukken.length > 0) {
         const stukString = optreden.stukken.map(stuk => `(${optreden.id}, ${stuk.id})`).join(', ');
 
-        try {
-          await this.database.executeSql(`DELETE FROM optreden_repertoire WHERE optredenId=${optreden.id}`);
-        } catch (e) {
-          if (!e.hasOwnProperty('rows')) {
-            console.error(e);
-          }
-        }
-
-        try {
-          await this.database.executeSql(`INSERT INTO optreden_repertoire (optredenId, stukId) VALUES ${stukString}`);
-        } catch (e) {
-          if (!e.hasOwnProperty('rows')) {
-            console.error(e);
-          }
-        }
+        await this.sql.run(`DELETE FROM optreden_repertoire WHERE optredenId=${optreden.id}`);
+        await this.sql.run(`INSERT INTO optreden_repertoire (optredenId, stukId) VALUES ${stukString}`);
 
       }
       this.loadOptredens();
@@ -267,18 +241,18 @@ export class DatabaseService {
   }
 
   loadStukken() {
-    return this.database.executeSql('SELECT * FROM stuk', []).then(data => {
+    return this.sql.exec('SELECT * FROM stuk').then(data => {
       const stukken: Stuk[] = [];
 
-      if (data.rows.length > 0) {
-        for (let i = 0; i < data.rows.length; i++) {
+      if (data.length > 0) {
+        for (let i = 0; i < data.length; i++) {
           stukken.push({
-            id: data.rows.item(i).id,
-            titel: data.rows.item(i).titel,
-            componist: data.rows.item(i).componist,
-            code: data.rows.item(i).code,
-            metSolistKlarinet: data.rows.item(i).metSolistKlarinet === 1,
-            metSolistZang: data.rows.item(i).metSolistZang === 1,
+            id: data[i].id,
+            titel: data[i].titel,
+            componist: data[i].componist,
+            code: data[i].code,
+            metSolistKlarinet: data[i].metSolistKlarinet === 1,
+            metSolistZang: data[i].metSolistZang === 1,
           });
         }
       }
@@ -286,7 +260,7 @@ export class DatabaseService {
       stukken.sort(SharedModule.dynamicSort('code'));
 
       this.stukken.next(stukken);
-    });
+    }).catch(err => console.error('yoyo', err));
   }
 
   addStuk(stuk: Stuk) {
@@ -297,7 +271,7 @@ export class DatabaseService {
       stuk.metSolistKlarinet ? 1 : 0,
       stuk.metSolistZang ? 1 : 0,
     ];
-    return this.database.executeSql(`
+    return this.sql.execWithVars(`
     INSERT INTO stuk (titel, componist, code, metSolistKlarinet, metSolistZang)
     VALUES (?, ?, ?, ?, ?)`, data).then(() => {
       this.loadStukken();
@@ -305,33 +279,33 @@ export class DatabaseService {
   }
 
   getStuk(id): Promise<Stuk> {
-    return this.database.executeSql('SELECT * FROM stuk WHERE id = ?', [id]).then(data => {
+    return this.sql.exec(`SELECT * FROM stuk WHERE id = '${id}'`).then(data => {
       return {
-        id: data.rows.item(0).id,
-        titel: data.rows.item(0).titel,
-        componist: data.rows.item(0).componist,
-        code: data.rows.item(0).code,
-        metSolistKlarinet: data.rows.item(0).metSolistKlarinet === 1,
-        metSolistZang: data.rows.item(0).metSolistZang === 1,
+        id: data[0].id,
+        titel: data[0].titel,
+        componist: data[0].componist,
+        code: data[0].code,
+        metSolistKlarinet: data[0].metSolistKlarinet === 1,
+        metSolistZang: data[0].metSolistZang === 1,
       };
     });
   }
 
   getOptredenRepertoire(optredenId): Promise<Stuk[]> {
-    return this.database.executeSql(`
+    return this.sql.exec(`
     SELECT * FROM optreden_repertoire JOIN stuk ON optreden_repertoire.stukId = stuk.id
-    WHERE optreden_repertoire.optredenId = ?`, [optredenId]).then(data => {
+    WHERE optreden_repertoire.optredenId = '${optredenId}'`).then(data => {
       const stukken: Stuk[] = [];
 
-      if (data.rows.length > 0) {
-        for (let i = 0; i < data.rows.length; i++) {
+      if (data.length > 0) {
+        for (let i = 0; i < data.length; i++) {
           stukken.push({
-            id: data.rows.item(i).id,
-            titel: data.rows.item(i).titel,
-            componist: data.rows.item(i).componist,
-            code: data.rows.item(i).code,
-            metSolistKlarinet: data.rows.item(i).metSolistKlarinet === 1,
-            metSolistZang: data.rows.item(i).metSolistZang === 1,
+            id: data[i].id,
+            titel: data[i].titel,
+            componist: data[i].componist,
+            code: data[i].code,
+            metSolistKlarinet: data[i].metSolistKlarinet === 1,
+            metSolistZang: data[i].metSolistZang === 1,
           });
         }
       }
@@ -343,7 +317,7 @@ export class DatabaseService {
   }
 
   deleteStuk(id) {
-    return this.database.executeSql('DELETE FROM stuk WHERE id = ?', [id]).then(_ => {
+    return this.sql.run(`DELETE FROM stuk WHERE id = '${id}'`).then(_ => {
       this.loadStukken();
       this.loadOptredens();
     });
@@ -357,7 +331,7 @@ export class DatabaseService {
       stuk.metSolistKlarinet ? 1 : 0,
       stuk.metSolistZang ? 1 : 0,
     ];
-    return this.database.executeSql(`UPDATE stuk SET titel = ?, componist = ?, code = ?, metSolistKlarinet = ?, metSolistZang = ?
+    return this.sql.execWithVars(`UPDATE stuk SET titel = ?, componist = ?, code = ?, metSolistKlarinet = ?, metSolistZang = ?
     WHERE id = ${stuk.id}`, data).then(() => {
       this.loadStukken();
       this.loadOptredens();
@@ -365,16 +339,12 @@ export class DatabaseService {
   }
 
   getNumOptredensPerDag() {
-    return this.database.executeSql(`SELECT count(*) AS numOptredens, datum FROM optreden GROUP BY datum`).catch(data => {
-      if (!data.hasOwnProperty('rows')) {
-        console.error('Real error');
-        return;
-      }
+    return this.sql.exec(`SELECT count(*) AS numOptredens, datum FROM optreden GROUP BY datum`).then(data => {
       const dagen = [];
-      for (let i = 0; i < data.rows.length; i++) {
+      for (let i = 0; i < data.length; i++) {
         dagen.push({
-          name: new Date(data.rows.item(i).datum),
-          value: data.rows.item(i).numOptredens,
+          name: new Date(data[i].datum),
+          value: data[i].numOptredens,
         });
       }
       return dagen;
@@ -382,16 +352,12 @@ export class DatabaseService {
   }
 
   getAverageOptredensPerDagVoorLand(landCode) {
-    return this.database.executeSql(`
+    return this.sql.exec(`
     SELECT avg(numOptredens) AS avgNumOptredens FROM
     (SELECT count(*) AS numOptredens FROM optreden
     WHERE landCode = '${landCode}' GROUP BY datum)`)
-      .catch(data => {
-        if (!data.hasOwnProperty('rows')) {
-          console.error('Real error');
-          return;
-        }
-        const avg = data.rows.item(0).avgNumOptredens;
+      .then(data => {
+        const avg = data[0].avgNumOptredens;
 
         return avg === null ? 0 : avg;
       });
@@ -400,14 +366,10 @@ export class DatabaseService {
   getNumOptredensVoorLand(landCode?) {
     const where = landCode ? `WHERE landCode = '${landCode}'` : '';
 
-    return this.database.executeSql(`
+    return this.sql.exec(`
     SELECT count(*) AS numOptredens FROM optreden ${where}`)
-      .catch(data => {
-        if (!data.hasOwnProperty('rows')) {
-          console.error('Real error');
-          return;
-        }
-        const num = data.rows.item(0).numOptredens;
+      .then(data => {
+        const num = data[0].numOptredens;
 
         return num === null ? 0 : num;
       });
@@ -416,14 +378,10 @@ export class DatabaseService {
   getPubliekVoorLand(landCode?) {
     const where = landCode ? `WHERE landCode = '${landCode}'` : '';
 
-    return this.database.executeSql(`
+    return this.sql.exec(`
     SELECT sum(aantalBezoekers) AS aantalBezoekers FROM optreden ${where}`)
-      .catch(data => {
-        if (!data.hasOwnProperty('rows')) {
-          console.error('Real error');
-          return;
-        }
-        const num = data.rows.item(0).aantalBezoekers;
+      .then(data => {
+        const num = data[0].aantalBezoekers;
 
         return num === null ? 0 : num;
       });
@@ -432,14 +390,10 @@ export class DatabaseService {
   getPercentageWildopVoorLand(landCode?) {
     const where = landCode ? `WHERE landCode = '${landCode}'` : '';
 
-    return this.database.executeSql(`
+    return this.sql.exec(`
     SELECT AVG(isWildOp) AS percentage FROM optreden ${where}`)
-      .catch(data => {
-        if (!data.hasOwnProperty('rows')) {
-          console.error('Real error');
-          return;
-        }
-        const percentage = data.rows.item(0).percentage;
+      .then(data => {
+        const percentage = data[0].percentage;
 
         return percentage === null ? 0 : percentage;
       });
@@ -448,14 +402,10 @@ export class DatabaseService {
   getPercentageBuitenVoorLand(landCode?) {
     const where = landCode ? `WHERE landCode = '${landCode}'` : '';
 
-    return this.database.executeSql(`
+    return this.sql.exec(`
     SELECT AVG(isBuiten) AS percentage FROM optreden ${where}`)
-      .catch(data => {
-        if (!data.hasOwnProperty('rows')) {
-          console.error('Real error');
-          return;
-        }
-        const percentage = data.rows.item(0).percentage;
+      .then(data => {
+        const percentage = data[0].percentage;
 
         return percentage === null ? 0 : percentage;
       });
@@ -464,14 +414,10 @@ export class DatabaseService {
   getPercentageDoelgroepVoorLand(doelgroep, landCode?) {
     const where = landCode ? `WHERE landCode = '${landCode}'` : '';
 
-    return this.database.executeSql(`
+    return this.sql.exec(`
     SELECT AVG(${doelgroep}) AS percentage FROM optreden ${where}`)
-      .catch(data => {
-        if (!data.hasOwnProperty('rows')) {
-          console.error('Real error');
-          return;
-        }
-        const percentage = data.rows.item(0).percentage;
+      .then(data => {
+        const percentage = data[0].percentage;
 
         return percentage === null ? 0 : percentage;
       });
@@ -480,19 +426,15 @@ export class DatabaseService {
   getPercentageSolistenVoorLand(solist, landCode?) {
     const where = landCode ? `WHERE optreden.landCode = '${landCode}'` : '';
 
-    return this.database.executeSql(`
+    return this.sql.exec(`
     SELECT AVG(solist) AS percentage FROM
     (SELECT MAX(stuk.${solist}) AS solist FROM optreden_repertoire
     JOIN optreden ON optreden.id = optredenId
     JOIN stuk ON stuk.id = stukId
     ${where}
     GROUP BY optredenId)`)
-      .catch(data => {
-        if (!data.hasOwnProperty('rows')) {
-          console.error('Real error');
-          return;
-        }
-        const percentage = data.rows.item(0).percentage;
+      .then(data => {
+        const percentage = data[0].percentage;
 
         return percentage === null ? 0 : percentage;
       });
@@ -509,22 +451,18 @@ export class DatabaseService {
   getRicciottiCharts(landCode?) {
     const where = landCode ? `WHERE landCode = '${landCode}'` : '';
 
-    return this.database.executeSql(`
+    return this.sql.exec(`
     SELECT count(*) AS numOptredens, sum(aantalBezoekers) AS bezoekers, stukId FROM 
     (SELECT stukId, optreden.aantalBezoekers AS aantalBezoekers FROM optreden_repertoire
     JOIN stuk ON stuk.id = stukId
     JOIN optreden ON optreden.id = optredenId ${where})
-    GROUP BY stukId ORDER BY numOptredens DESC`).catch(async data => {
-      if (!data.hasOwnProperty('rows')) {
-        console.error('Real error');
-        return;
-      }
+    GROUP BY stukId ORDER BY numOptredens DESC`).then(async data => {
       const stukken = [];
-      for (let i = 0; i < data.rows.length; i++) {
-        const stuk = await this.getStuk(data.rows.item(i).stukId);
+      for (let i = 0; i < data.length; i++) {
+        const stuk = await this.getStuk(data[i].stukId);
         stukken.push(Object.assign(stuk, {
-          optredens: data.rows.item(i).numOptredens,
-          bezoekers: data.rows.item(i).bezoekers,
+          optredens: data[i].numOptredens,
+          bezoekers: data[i].bezoekers,
         }));
       }
       return stukken;

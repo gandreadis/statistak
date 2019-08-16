@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {DatabaseService, Stuk} from '../../services/database.service';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-repertoire',
@@ -7,7 +8,7 @@ import {DatabaseService, Stuk} from '../../services/database.service';
   styleUrls: ['./repertoire.page.scss'],
 })
 export class RepertoirePage implements OnInit {
-
+  env = environment;
   stukken: Stuk[] = [];
 
   constructor(private db: DatabaseService) {

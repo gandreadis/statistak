@@ -2,6 +2,7 @@ import {DatabaseService, Optreden} from '../../services/database.service';
 import {Component, OnInit} from '@angular/core';
 import {SharedModule} from '../../shared/shared.module';
 import * as moment from 'moment';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-optredens',
@@ -9,6 +10,7 @@ import * as moment from 'moment';
   styleUrls: ['./optredens.page.scss'],
 })
 export class OptredensPage implements OnInit {
+  env = environment;
 
   optredensPerDag: {
     datum: string,

@@ -7,7 +7,8 @@
 <ion-content padding>
   <div *ngFor="let optredenDag of optredensPerDag">
     <h1 text-center>{{formatDatum(optredenDag.datum)}}</h1>
-    <ion-card *ngFor="let optreden of optredenDag.optredens" [routerLink]="['/tabs/optredens', optreden.id]">
+    <ion-card *ngFor="let optreden of optredenDag.optredens"
+              [routerLink]="env.editable ? ['/tabs/optredens', optreden.id] : undefined">
       <ion-card-header>
         <ion-card-subtitle>
           <span class="flag-icon flag-icon-{{optreden.landCode}}"></span>
@@ -62,8 +63,7 @@
     </ion-card>
   </div>
 
-
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="env.editable">
     <ion-fab-button [routerLink]="'/tabs/optredens/-1'">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
