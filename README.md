@@ -1,6 +1,6 @@
 # Statistak
 
-App for keeping track of tour performances, made for use on tour with the [Ricciotti Ensemble](https://ricciotti.nl).
+App for keeping track of tour performances, made for use on tour with the [Ricciotti Ensemble](https://ricciotti.nl)!
 
 ![Screenshots 1](misc/statistak-screenshot-series-1.jpg)
 ![Screenshots 2](misc/statistak-screenshot-series-2.jpg)
