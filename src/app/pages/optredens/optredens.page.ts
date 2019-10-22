@@ -3,6 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import {SharedModule} from '../../shared/shared.module';
 import * as moment from 'moment';
 import {environment} from '../../../environments/environment';
+import {utils, WorkBook, WorkSheet, writeFile} from 'xlsx';
 
 @Component({
   selector: 'app-optredens',
@@ -16,6 +17,7 @@ export class OptredensPage implements OnInit {
     datum: string,
     optredens: Optreden[],
   }[] = [];
+  optredens: Optreden[] = [];
 
   constructor(private db: DatabaseService) {
   }
@@ -24,6 +26,7 @@ export class OptredensPage implements OnInit {
     this.db.getDatabaseState().subscribe(rdy => {
       if (rdy) {
         this.db.getOptredens().subscribe(optredens => {
+          this.optredens = optredens;
           const datumNaarOptredens = {};
           optredens.forEach(optreden => {
             if (datumNaarOptredens.hasOwnProperty(optreden.datum)) {
@@ -45,6 +48,44 @@ export class OptredensPage implements OnInit {
           }
 
           this.optredensPerDag.sort(SharedModule.dynamicSort('datum'));
+
+          const data = [];
+
+          this.optredens.forEach((optreden, i) => {
+            const row = [];
+            row.push(
+              i + 1,
+              optreden.datum,
+              optreden.tijd,
+              '?',
+              optreden.locatie,
+              optreden.plaats,
+              '',
+              '',
+              (optreden.isBesloten ? 'SB' : (
+                optreden.isOpenbaar && optreden.isSociaal ? 'SO' : (
+                  optreden.isOpenbaar ? 'O' : (
+                    optreden.isWildOp ? 'WO' : ''
+                  )
+                )
+              )),
+              '',
+              optreden.aantalBezoekers,
+              optreden.gastdirigent,
+              '',
+            );
+            optreden.stukken.map(stuk => stuk.code).forEach(stuk => row.push(stuk));
+            data.push(row);
+          });
+
+          const ws: WorkSheet = utils.aoa_to_sheet(data);
+
+          /* generate workbook and add the worksheet */
+          const wb: WorkBook = utils.book_new();
+          utils.book_append_sheet(wb, ws, 'Sheet1');
+
+          /* save to file */
+          writeFile(wb, 'SheetJS.xlsx');
         });
       }
     });
