@@ -21,6 +21,9 @@ export interface Optreden {
   isOpenbaar: boolean;
   isBesloten: boolean;
   isWildOp: boolean;
+  mansen: boolean;
+  cds: boolean;
+  groupies: boolean;
   aantalBezoekers: number;
   gastdirigent: string;
   opmerkingen: string;
@@ -32,8 +35,8 @@ export interface Stuk {
   titel: string;
   componist: string;
   code: string;
-  metSolistKlarinet: boolean;
-  metSolistZang: boolean;
+  metSolist1: boolean;
+  metSolist2: boolean;
 }
 
 @Injectable({
@@ -50,8 +53,8 @@ export class DatabaseService {
     this.plt.ready().then(() => {
       this.sql = new SQLDatabase(sqlitePorter, sqlite);
       this.sql.init().then(() => {
-        this.resetDatabase(() => this.seedDatabase());
-        // this.seedDatabase();
+        // this.resetDatabase(() => this.seedDatabase());
+        this.seedDatabase();
       });
     });
   }
@@ -128,6 +131,9 @@ export class DatabaseService {
             isOpenbaar: data[i].isOpenbaar === 1,
             isBesloten: data[i].isBesloten === 1,
             isWildOp: data[i].isWildOp === 1,
+            mansen: data[i].mansen === 1,
+            cds: data[i].cds === 1,
+            groupies: data[i].groupies === 1,
             aantalBezoekers: data[i].aantalBezoekers,
             gastdirigent: data[i].gastdirigent,
             opmerkingen: data[i].opmerkingen,
@@ -154,14 +160,17 @@ export class DatabaseService {
       optreden.isOpenbaar ? 1 : 0,
       optreden.isBesloten ? 1 : 0,
       optreden.isWildOp ? 1 : 0,
+      optreden.mansen ? 1 : 0,
+      optreden.cds ? 1 : 0,
+      optreden.groupies ? 1 : 0,
       optreden.aantalBezoekers,
       optreden.gastdirigent,
       optreden.opmerkingen,
     ];
     return this.sql.execWithVars(`
     INSERT INTO optreden (locatie, plaats, landCode, longitude, latitude, datum, tijd, isBuiten,
-    isSociaal, isOpenbaar, isBesloten, isWildOp, aantalBezoekers, gastdirigent, opmerkingen)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, data).then(async () => {
+    isSociaal, isOpenbaar, isBesloten, isWildOp, mansen, cds, groupies, aantalBezoekers, gastdirigent, opmerkingen)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, data).then(async () => {
 
       let optredenIdResponse = await this.sql.exec(`SELECT seq FROM sqlite_sequence WHERE name='optreden'`);
 
@@ -193,6 +202,9 @@ export class DatabaseService {
         isOpenbaar: data[0].isOpenbaar === 1,
         isBesloten: data[0].isBesloten === 1,
         isWildOp: data[0].isWildOp === 1,
+        mansen: data[0].mansen === 1,
+        cds: data[0].cds === 1,
+        groupies: data[0].groupies === 1,
         aantalBezoekers: data[0].aantalBezoekers,
         gastdirigent: data[0].gastdirigent,
         opmerkingen: data[0].opmerkingen,
@@ -221,13 +233,16 @@ export class DatabaseService {
       optreden.isOpenbaar ? 1 : 0,
       optreden.isBesloten ? 1 : 0,
       optreden.isWildOp ? 1 : 0,
+      optreden.mansen ? 1 : 0,
+      optreden.cds ? 1 : 0,
+      optreden.groupies ? 1 : 0,
       optreden.aantalBezoekers,
       optreden.gastdirigent,
       optreden.opmerkingen,
     ];
     return this.sql.execWithVars(`
     UPDATE optreden SET locatie = ?, plaats = ?, landCode = ?, longitude = ?, latitude = ?, datum = ?, tijd = ?,
-      isBuiten = ?, isSociaal = ?, isOpenbaar = ?, isBesloten = ?, isWildOp = ?, aantalBezoekers = ?, gastdirigent = ?, opmerkingen = ?
+      isBuiten = ?, isSociaal = ?, isOpenbaar = ?, isBesloten = ?, isWildOp = ?, mansen = ?, cds = ?, groupies = ?, aantalBezoekers = ?, gastdirigent = ?, opmerkingen = ?
       WHERE id = ${optreden.id}`, data).then(async () => {
       if (optreden.stukken.length > 0) {
         const stukString = optreden.stukken.map(stuk => `(${optreden.id}, ${stuk.id})`).join(', ');
@@ -251,8 +266,8 @@ export class DatabaseService {
             titel: data[i].titel,
             componist: data[i].componist,
             code: data[i].code,
-            metSolistKlarinet: data[i].metSolistKlarinet === 1,
-            metSolistZang: data[i].metSolistZang === 1,
+            metSolist1: data[i].metSolist1 === 1,
+            metSolist2: data[i].metSolist2 === 1,
           });
         }
       }
@@ -268,11 +283,11 @@ export class DatabaseService {
       stuk.titel,
       stuk.componist,
       stuk.code,
-      stuk.metSolistKlarinet ? 1 : 0,
-      stuk.metSolistZang ? 1 : 0,
+      stuk.metSolist1 ? 1 : 0,
+      stuk.metSolist2 ? 1 : 0,
     ];
     return this.sql.execWithVars(`
-    INSERT INTO stuk (titel, componist, code, metSolistKlarinet, metSolistZang)
+    INSERT INTO stuk (titel, componist, code, metSolist1, metSolist2)
     VALUES (?, ?, ?, ?, ?)`, data).then(() => {
       this.loadStukken();
     });
@@ -285,8 +300,8 @@ export class DatabaseService {
         titel: data[0].titel,
         componist: data[0].componist,
         code: data[0].code,
-        metSolistKlarinet: data[0].metSolistKlarinet === 1,
-        metSolistZang: data[0].metSolistZang === 1,
+        metSolist1: data[0].metSolist1 === 1,
+        metSolist2: data[0].metSolist2 === 1,
       };
     });
   }
@@ -304,8 +319,8 @@ export class DatabaseService {
             titel: data[i].titel,
             componist: data[i].componist,
             code: data[i].code,
-            metSolistKlarinet: data[i].metSolistKlarinet === 1,
-            metSolistZang: data[i].metSolistZang === 1,
+            metSolist1: data[i].metSolist1 === 1,
+            metSolist2: data[i].metSolist2 === 1,
           });
         }
       }
@@ -328,10 +343,10 @@ export class DatabaseService {
       stuk.titel,
       stuk.componist,
       stuk.code,
-      stuk.metSolistKlarinet ? 1 : 0,
-      stuk.metSolistZang ? 1 : 0,
+      stuk.metSolist1 ? 1 : 0,
+      stuk.metSolist2 ? 1 : 0,
     ];
-    return this.sql.execWithVars(`UPDATE stuk SET titel = ?, componist = ?, code = ?, metSolistKlarinet = ?, metSolistZang = ?
+    return this.sql.execWithVars(`UPDATE stuk SET titel = ?, componist = ?, code = ?, metSolist1 = ?, metSolist2 = ?
     WHERE id = ${stuk.id}`, data).then(() => {
       this.loadStukken();
       this.loadOptredens();

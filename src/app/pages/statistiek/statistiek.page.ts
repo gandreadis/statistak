@@ -163,46 +163,46 @@ export class StatistiekPage implements OnInit {
             ];
           });
 
-          this.databaseService.getPercentageSolistenVoorLand('metSolistKlarinet').then(async data => {
-            const metSolistKlarinetGlobaal = data;
-            const metSolistKlarinetNL = await this.databaseService.getPercentageSolistenVoorLand('metSolistKlarinet', 'nl');
-            const metSolistKlarinetGE = await this.databaseService.getPercentageSolistenVoorLand('metSolistKlarinet', 'ge');
-            const metSolistZangGlobaal = await this.databaseService.getPercentageSolistenVoorLand('metSolistZang');
-            const metSolistZangNL = await this.databaseService.getPercentageSolistenVoorLand('metSolistZang', 'nl');
-            const metSolistZangGE = await this.databaseService.getPercentageSolistenVoorLand('metSolistZang', 'ge');
+          this.databaseService.getPercentageSolistenVoorLand('metSolist1').then(async data => {
+            const metSolist1Globaal = data;
+            const metSolist1NL = await this.databaseService.getPercentageSolistenVoorLand('metSolist1', 'nl');
+            const metSolist1GE = await this.databaseService.getPercentageSolistenVoorLand('metSolist1', 'ge');
+            const metSolist2Globaal = await this.databaseService.getPercentageSolistenVoorLand('metSolist2');
+            const metSolist2NL = await this.databaseService.getPercentageSolistenVoorLand('metSolist2', 'nl');
+            const metSolist2GE = await this.databaseService.getPercentageSolistenVoorLand('metSolist2', 'ge');
 
             this.percentageSolisten = [
               {
-                name: 'Levan',
+                name: 'Solist 1',
                 series: [
                   {
                     name: '🌍',
-                    value: metSolistKlarinetGlobaal,
+                    value: metSolist1Globaal,
                   },
                   {
                     name: 'nl',
-                    value: metSolistKlarinetNL,
+                    value: metSolist1NL,
                   },
                   {
                     name: 'ge',
-                    value: metSolistKlarinetGE,
+                    value: metSolist1GE,
                   },
                 ],
               },
               {
-                name: 'Janneke',
+                name: 'Solist 2',
                 series: [
                   {
                     name: '🌍',
-                    value: metSolistZangGlobaal,
+                    value: metSolist2Globaal,
                   },
                   {
                     name: 'nl',
-                    value: metSolistZangNL,
+                    value: metSolist2NL,
                   },
                   {
                     name: 'ge',
-                    value: metSolistZangGE,
+                    value: metSolist2GE,
                   },
                 ],
               },

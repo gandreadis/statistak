@@ -12,11 +12,11 @@
         <strong>{{stuk.titel}}</strong><br/>
         {{stuk.componist}}
       </ion-label>
-      <ion-chip color="primary" *ngIf="stuk.metSolistKlarinet" slot="end">
-        <ion-label>K</ion-label>
+      <ion-chip color="primary" *ngIf="stuk.metSolist1" slot="end">
+        <ion-label>1</ion-label>
       </ion-chip>
-      <ion-chip color="secondary" *ngIf="stuk.metSolistZang" slot="end">
-        <ion-label>Z</ion-label>
+      <ion-chip color="secondary" *ngIf="stuk.metSolist2" slot="end">
+        <ion-label>2</ion-label>
       </ion-chip>
       <ion-chip outline slot="end">
         <ion-label>{{stuk.code}}</ion-label>
