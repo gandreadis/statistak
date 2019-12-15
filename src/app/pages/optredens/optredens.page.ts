@@ -62,6 +62,7 @@ export class OptredensPage implements OnInit {
               optreden.plaats,
               '',
               '',
+              '',
               (optreden.isBesloten ? 'SB' : (
                 optreden.isOpenbaar && optreden.isSociaal ? 'SO' : (
                   optreden.isOpenbaar ? 'O' : (
@@ -75,6 +76,14 @@ export class OptredensPage implements OnInit {
               '',
             );
             optreden.stukken.map(stuk => stuk.code).forEach(stuk => row.push(stuk));
+            while (row.length < 37) {
+              row.push('');
+            }
+            row.push(
+              optreden.mansen,
+              optreden.cds,
+              optreden.groupies,
+            );
             data.push(row);
           });
 
