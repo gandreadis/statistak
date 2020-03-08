@@ -1,11 +1,11 @@
-import {Injectable} from '@nestjs/common';
-import {InjectModel} from "@nestjs/mongoose";
-import {Model} from "mongoose";
-import {Tour} from "../interfaces/tour.interface";
-import {TourDto} from "../dtos/tour.dto";
-import {utils, WorkSheet} from 'xlsx';
-import {Performance} from "../interfaces/performance.interface";
-import {Piece} from "../interfaces/piece.interface";
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Tour } from '../interfaces/tour.interface';
+import { TourDto } from '../dtos/tour.dto';
+import { utils, WorkSheet } from 'xlsx';
+import { Performance } from '../interfaces/performance.interface';
+import { Piece } from '../interfaces/piece.interface';
 
 const arrayPropertyComparator = (property: string) => {
   let sortOrder = 1;
@@ -25,8 +25,7 @@ export class ToursService {
     @InjectModel('Tour') private readonly tourModel: Model<Tour>,
     @InjectModel('Performance') private readonly performanceModel: Model<Performance>,
     @InjectModel('Piece') private readonly pieceModel: Model<Piece>,
-  ) {
-  }
+  ) {}
 
   async createTour(createTourDTO: TourDto): Promise<Tour> {
     const newTour = await new this.tourModel(createTourDTO);
@@ -42,7 +41,7 @@ export class ToursService {
   }
 
   async editTour(tourId, createTourDTO: TourDto): Promise<Tour> {
-    return await this.tourModel.findByIdAndUpdate(tourId, createTourDTO, {new: true});
+    return await this.tourModel.findByIdAndUpdate(tourId, createTourDTO, { new: true });
   }
 
   async deleteTour(tourId): Promise<Tour> {
@@ -50,7 +49,10 @@ export class ToursService {
   }
 
   async exportToExcel(tourId): Promise<string> {
-    const allPerformances = await this.performanceModel.find({tour: tourId}).populate('pieces').exec();
+    const allPerformances = await this.performanceModel
+      .find({ tour: tourId })
+      .populate('pieces')
+      .exec();
     const performancesByDate = {};
     allPerformances.forEach(performance => {
       if (performancesByDate.hasOwnProperty(performance.date)) {
@@ -66,7 +68,8 @@ export class ToursService {
       if (performancesByDate.hasOwnProperty(date)) {
         performancesByDate[date].sort(arrayPropertyComparator('time'));
         performanceDays.push({
-          date, performances: performancesByDate[date]
+          date,
+          performances: performancesByDate[date],
         });
       }
     }
@@ -75,39 +78,82 @@ export class ToursService {
 
     const data = [];
     data.push([
-      "Nummer", "Datum", "Tijd", "Duur", "Locatie", "Stad", "Stadsdeel", "Buurtactiviteit", "Provincie", "O/SO/SB/WO", "Doelgroep", "Publiek", "Gastdirirgent", "Repertoire (niet op volgorde)", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "Mansen", "CD verkoop", "Groupies", "Opmerking Groupies", "Uitkoop", "Maaltijden", "Extra", "Opmerking", "Contactpersoon"
+      'Nummer',
+      'Datum',
+      'Tijd',
+      'Duur',
+      'Locatie',
+      'Stad',
+      'Stadsdeel',
+      'Buurtactiviteit',
+      'Provincie',
+      'O/SO/SB/WO',
+      'Doelgroep',
+      'Publiek',
+      'Gastdirirgent',
+      'Repertoire (niet op volgorde)',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      '10',
+      '11',
+      '12',
+      '13',
+      '14',
+      '15',
+      '16',
+      '17',
+      '18',
+      '19',
+      '20',
+      '21',
+      '22',
+      '23',
+      'Mansen',
+      'CD verkoop',
+      'Groupies',
+      'Opmerking Groupies',
+      'Uitkoop',
+      'Maaltijden',
+      'Extra',
+      'Opmerking',
+      'Contactpersoon',
     ]);
 
     let counter = 1;
-    performanceDays.forEach(performanceDay => performanceDay.performances.map((performance: Performance) => {
-      const row = [];
-      row.push(
-        counter++,
-        performance.date,
-        performance.time,
-        '?',
-        performance.locationName,
-        performance.city,
-        '',
-        '',
-        '',
-        performance.type,
-        '',
-        performance.audienceCount,
-        performance.guestConductor,
-        '',
-      );
-      performance.pieces.map(piece => piece.code).forEach(piece => row.push(piece));
-      while (row.length < 37) {
-        row.push('');
-      }
-      row.push(
-        performance.isWithCollection,
-        performance.isWithCDSale,
-        performance.isWithSponsorTalk,
-      );
-      data.push(row);
-    }));
+    performanceDays.forEach(performanceDay =>
+      performanceDay.performances.map((performance: Performance) => {
+        const row = [];
+        row.push(
+          counter++,
+          performance.date,
+          performance.time,
+          '?',
+          performance.locationName,
+          performance.city,
+          '',
+          '',
+          '',
+          performance.type,
+          '',
+          performance.audienceCount,
+          performance.guestConductor,
+          '',
+        );
+        performance.pieces.map(piece => piece.code).forEach(piece => row.push(piece));
+        while (row.length < 37) {
+          row.push('');
+        }
+        row.push(performance.isWithCollection, performance.isWithCDSale, performance.isWithSponsorTalk);
+        data.push(row);
+      }),
+    );
 
     const ws: WorkSheet = utils.aoa_to_sheet(data);
     return utils.sheet_to_csv(ws);

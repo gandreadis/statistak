@@ -1,14 +1,12 @@
-import {MiddlewareConsumer, Module, RequestMethod} from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { PiecesService } from './pieces.service';
-import {PiecesController} from "./pieces.controller";
-import {MongooseModule} from "@nestjs/mongoose";
-import {PieceSchema} from "../../schemas/piece.schema";
-import {AuthenticationMiddleware} from "../../authentication.middleware";
+import { PiecesController } from './pieces.controller';
+import { MongooseModule } from '@nestjs/mongoose';
+import { PieceSchema } from '../../schemas/piece.schema';
+import { AuthenticationMiddleware } from '../../authentication.middleware';
 
 @Module({
-  imports: [MongooseModule.forFeature([
-    {name: 'Piece', schema: PieceSchema},
-  ])],
+  imports: [MongooseModule.forFeature([{ name: 'Piece', schema: PieceSchema }])],
   providers: [PiecesService],
   controllers: [PiecesController],
 })

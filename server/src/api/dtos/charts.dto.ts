@@ -1,4 +1,4 @@
-import {PieceDto} from "./piece.dto";
+import { PieceDto } from './piece.dto';
 
 export class ChartsEntryDto {
   readonly numberOfPerformances: number;

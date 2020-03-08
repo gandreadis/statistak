@@ -1,7 +1,7 @@
-import {Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Post, Put, Res} from '@nestjs/common';
-import {PerformanceDto} from "../../dtos/performance.dto";
-import {ValidateObjectId} from "../../pipes/validate-object-id.pipes";
-import {PerformancesService} from "./performances.service";
+import { Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Post, Put, Res } from '@nestjs/common';
+import { PerformanceDto } from '../../dtos/performance.dto';
+import { ValidateObjectId } from '../../pipes/validate-object-id.pipes';
+import { PerformancesService } from './performances.service';
 
 @Controller('api/tours/:tourId/performances')
 export class PerformancesController {
@@ -9,7 +9,7 @@ export class PerformancesController {
 
   @Post()
   async createPerformance(
-    @Param("tourId", new ValidateObjectId()) tourId,
+    @Param('tourId', new ValidateObjectId()) tourId,
     @Body() createPerformanceDTO: PerformanceDto,
     @Res() res,
   ) {
@@ -22,7 +22,7 @@ export class PerformancesController {
 
   @Get(':performanceId')
   async getPerformance(
-    @Param("tourId", new ValidateObjectId()) tourId,
+    @Param('tourId', new ValidateObjectId()) tourId,
     @Param('performanceId', new ValidateObjectId()) performanceId,
     @Res() res,
   ) {
@@ -34,17 +34,14 @@ export class PerformancesController {
   }
 
   @Get()
-  async getPerformances(
-    @Param("tourId", new ValidateObjectId()) tourId,
-    @Res() res,
-  ) {
+  async getPerformances(@Param('tourId', new ValidateObjectId()) tourId, @Res() res) {
     const performances = await this.performancesService.getPerformances(tourId);
     return res.status(HttpStatus.OK).json(performances);
   }
 
   @Put(':performanceId')
   async editPerformance(
-    @Param("tourId", new ValidateObjectId()) tourId,
+    @Param('tourId', new ValidateObjectId()) tourId,
     @Param('performanceId', new ValidateObjectId()) performanceId,
     @Body() createPerformanceDTO: PerformanceDto,
     @Res() res,
@@ -61,7 +58,7 @@ export class PerformancesController {
 
   @Delete(':performanceId')
   async deletePerformance(
-    @Param("tourId", new ValidateObjectId()) tourId,
+    @Param('tourId', new ValidateObjectId()) tourId,
     @Param('performanceId', new ValidateObjectId()) performanceId,
     @Res() res,
   ) {

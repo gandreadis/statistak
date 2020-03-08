@@ -1,5 +1,5 @@
 import { Document } from 'mongoose';
-import {Tour} from "./tour.interface";
+import { Tour } from './tour.interface';
 
 export class Piece extends Document {
   readonly title: string;
@@ -8,4 +8,3 @@ export class Piece extends Document {
   readonly code: string;
   readonly tour: Tour;
 }
-

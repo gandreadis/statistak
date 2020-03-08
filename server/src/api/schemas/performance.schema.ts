@@ -1,4 +1,4 @@
-import {Schema} from "mongoose";
+import { Schema } from 'mongoose';
 
 export const PerformanceSchema = new Schema({
   locationName: String,
@@ -14,6 +14,6 @@ export const PerformanceSchema = new Schema({
   isWithCDSale: Boolean,
   isWithSponsorTalk: Boolean,
   comments: String,
-  pieces: [{ type: Schema.Types.ObjectId, ref: 'Piece'}],
-  tour: { type: Schema.Types.ObjectId, ref: 'Tour'},
+  pieces: [{ type: Schema.Types.ObjectId, ref: 'Piece' }],
+  tour: { type: Schema.Types.ObjectId, ref: 'Tour' },
 });

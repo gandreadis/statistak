@@ -9,7 +9,7 @@ export class StatsDto {
       SO: number;
       SB: number;
       WO: number;
-    }
+    };
   }[];
   readonly audienceCounts: { [key: string]: number }[];
 }

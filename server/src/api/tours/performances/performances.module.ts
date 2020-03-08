@@ -1,14 +1,12 @@
-import {MiddlewareConsumer, Module, RequestMethod} from '@nestjs/common';
-import {PerformancesService} from './performances.service';
-import {PerformancesController} from "./performances.controller";
-import {MongooseModule} from "@nestjs/mongoose";
-import {PerformanceSchema} from "../../schemas/performance.schema";
-import {AuthenticationMiddleware} from "../../authentication.middleware";
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import { PerformancesService } from './performances.service';
+import { PerformancesController } from './performances.controller';
+import { MongooseModule } from '@nestjs/mongoose';
+import { PerformanceSchema } from '../../schemas/performance.schema';
+import { AuthenticationMiddleware } from '../../authentication.middleware';
 
 @Module({
-  imports: [MongooseModule.forFeature([
-    {name: 'Performance', schema: PerformanceSchema},
-  ])],
+  imports: [MongooseModule.forFeature([{ name: 'Performance', schema: PerformanceSchema }])],
   providers: [PerformancesService],
   controllers: [PerformancesController],
 })

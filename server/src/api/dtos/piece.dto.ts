@@ -1,4 +1,4 @@
-import {TourDto} from "./tour.dto";
+import { TourDto } from './tour.dto';
 
 export class PieceDto {
   readonly title: string;

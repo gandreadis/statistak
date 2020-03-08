@@ -1,5 +1,5 @@
-import {PieceDto} from "./piece.dto";
-import {TourDto} from "./tour.dto";
+import { PieceDto } from './piece.dto';
+import { TourDto } from './tour.dto';
 
 export class PerformanceDto {
   readonly locationName: string;

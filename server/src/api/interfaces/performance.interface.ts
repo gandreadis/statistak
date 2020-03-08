@@ -1,6 +1,6 @@
 import { Document } from 'mongoose';
-import {Piece} from "./piece.interface";
-import {Tour} from "./tour.interface";
+import { Piece } from './piece.interface';
+import { Tour } from './tour.interface';
 
 export interface Performance extends Document {
   readonly locationName: string;

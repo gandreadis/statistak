@@ -5,4 +5,3 @@ export class Tour extends Document {
   readonly season: string;
   readonly year: number;
 }
-

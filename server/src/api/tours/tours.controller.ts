@@ -10,17 +10,16 @@ import {
   Param,
   Post,
   Put,
-  Res
+  Res,
 } from '@nestjs/common';
-import {ToursService} from "./tours.service";
-import {TourDto} from "../dtos/tour.dto";
-import {ValidateObjectId} from "../pipes/validate-object-id.pipes";
+import { ToursService } from './tours.service';
+import { TourDto } from '../dtos/tour.dto';
+import { ValidateObjectId } from '../pipes/validate-object-id.pipes';
 import { Readable } from 'stream';
 
 @Controller('api/tours')
 export class ToursController {
-  constructor(private toursService: ToursService) {
-  }
+  constructor(private toursService: ToursService) {}
 
   @Post()
   async createTour(@Res() res, @Body() createTourDTO: TourDto) {
@@ -32,10 +31,7 @@ export class ToursController {
   }
 
   @Get(':tourId')
-  async getTour(
-    @Res() res,
-    @Param('tourId', new ValidateObjectId()) tourId,
-  ) {
+  async getTour(@Res() res, @Param('tourId', new ValidateObjectId()) tourId) {
     const tour = await this.toursService.getTour(tourId);
     if (!tour) {
       throw new NotFoundException('Tour does not exist!');
@@ -50,11 +46,7 @@ export class ToursController {
   }
 
   @Put(':tourId')
-  async editTour(
-    @Res() res,
-    @Param('tourId', new ValidateObjectId()) tourId,
-    @Body() createTourDTO: TourDto,
-  ) {
+  async editTour(@Res() res, @Param('tourId', new ValidateObjectId()) tourId, @Body() createTourDTO: TourDto) {
     const editedTour = await this.toursService.editTour(tourId, createTourDTO);
     if (!editedTour) {
       throw new NotFoundException('Tour does not exist!');
@@ -66,10 +58,7 @@ export class ToursController {
   }
 
   @Delete(':tourId')
-  async deleteTour(
-    @Res() res,
-    @Param('tourId', new ValidateObjectId()) tourId,
-  ) {
+  async deleteTour(@Res() res, @Param('tourId', new ValidateObjectId()) tourId) {
     const deletedTour = await this.toursService.deleteTour(tourId);
     if (!deletedTour) {
       throw new NotFoundException('Tour does not exist!');
@@ -84,10 +73,7 @@ export class ToursController {
   @Get(':tourId/csv')
   @Header('Content-Type', 'text/csv')
   @Header('Content-Disposition', 'attachment; filename=export.csv')
-  async getExcelExport(
-    @Res() res,
-    @Param('tourId', new ValidateObjectId()) tourId,
-  ) {
+  async getExcelExport(@Res() res, @Param('tourId', new ValidateObjectId()) tourId) {
     const s = new Readable();
     s._read = () => {};
     s.push(await this.toursService.exportToExcel(tourId));
