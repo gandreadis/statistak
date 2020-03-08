@@ -1,7 +1,0 @@
-{
-  "name": "statistak",
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "angular"
-}

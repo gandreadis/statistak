@@ -1,3 +1,0 @@
-CREATE TABLE IF NOT EXISTS optreden( id INTEGER PRIMARY KEY AUTOINCREMENT, locatie TEXT, plaats TEXT, landCode TEXT, longitude REAL, latitude REAL, datum TEXT, tijd TEXT, isBuiten INTEGER, isSociaal INTEGER, isOpenbaar INTEGER, isBesloten INTEGER, isWildOp INTEGER, mansen INTEGER, cds INTEGER, groupies INTEGER, aantalBezoekers INTEGER, gastdirigent TEXT, opmerkingen TEXT );
-CREATE TABLE IF NOT EXISTS stuk( id INTEGER PRIMARY KEY AUTOINCREMENT, titel TEXT, componist TEXT, code TEXT, metSolist1 INTEGER, metSolist2 INTEGER );
-CREATE TABLE IF NOT EXISTS optreden_repertoire( optredenId INTEGER, stukId INTEGER, PRIMARY KEY (optredenId, stukId), FOREIGN KEY(optredenId) REFERENCES optreden (id) ON DELETE CASCADE, FOREIGN KEY(stukId) REFERENCES stuk (id) ON DELETE CASCADE );
