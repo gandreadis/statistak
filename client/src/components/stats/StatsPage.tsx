@@ -110,6 +110,12 @@ const StatsPage = ({ stats }: StatsPageProps) => {
             <Bar dataKey="WO" fill="#FF8042" maxBarSize={MAX_BAR_SIZE} />
             <Legend />
           </StatsBarChart>
+
+          <StatsSectionHeader text="Average Guest Conductor Name" />
+          <Typography variant="subtitle1" component="p">
+            During this tour, we had lots of guest conductors lead our orchestra. If we put all of their names together,
+            this is their collective name: <strong>{stats.averageGuestConductorName}</strong>
+          </Typography>
         </>
       )}
     </Page>

@@ -12,4 +12,5 @@ export class StatsDto {
     };
   }[];
   readonly audienceCounts: { [key: string]: number }[];
+  readonly averageGuestConductorName: string;
 }

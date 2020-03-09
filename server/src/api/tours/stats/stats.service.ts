@@ -28,7 +28,31 @@ export class StatsService {
     array.sort((a, b) => (a._id > b._id ? 1 : b._id > a._id ? -1 : 0));
   }
 
+  static computeAverageGuestConductorName(performances: Performance[]): string {
+    const charactersPerPosition: number[][] = [];
+
+    performances.filter(it => it.guestConductor).forEach(performance => {
+      for (let i = 0; i < performance.guestConductor.length; i++) {
+        if (i >= charactersPerPosition.length) {
+          charactersPerPosition.push([]);
+        }
+        charactersPerPosition[i].push(performance.guestConductor.charCodeAt(i));
+      }
+    });
+
+    const averageCharacters = charactersPerPosition.map(it => {
+      const sum = it.reduce((a, b) => a + b, 0);
+      return String.fromCharCode(Math.round((sum / it.length) || 0));
+    });
+
+    return averageCharacters.join("");
+  }
+
   async getStats(tourId: string): Promise<StatsDto> {
+    const performances = await this.performanceModel
+      .find({ tour: tourId })
+      .exec();
+
     const audienceCounts = await this.performanceModel.aggregate([
       { $match: { tour: new Types.ObjectId(tourId) } },
       { $group: { _id: '$country', audienceCount: { $sum: '$audienceCount' } } },
@@ -68,6 +92,8 @@ export class StatsService {
     ]);
     StatsService.sortById(numPerformancesPerDay);
 
+    const averageGuestConductorName = StatsService.computeAverageGuestConductorName(performances);
+
     return {
       audienceCounts,
       meanNumPerformancesPerDay,
@@ -75,6 +101,7 @@ export class StatsService {
       numPerformancesByType,
       numPerformancesOutside,
       numPerformancesPerDay,
+      averageGuestConductorName,
     };
   }
 }
