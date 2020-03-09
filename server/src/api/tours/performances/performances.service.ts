@@ -30,10 +30,11 @@ export class PerformancesService {
   async editPerformance(performanceId, createPerformanceDTO: PerformanceDto): Promise<Performance> {
     return await this.performanceModel
       .findByIdAndUpdate(performanceId, createPerformanceDTO, { new: true })
-      .populate('pieces');
+      .populate('pieces')
+      .exec();
   }
 
   async deletePerformance(performanceId): Promise<Performance> {
-    return await this.performanceModel.findByIdAndRemove(performanceId).populate('pieces');
+    return await this.performanceModel.findByIdAndRemove(performanceId).populate('pieces').exec();
   }
 }

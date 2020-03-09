@@ -41,11 +41,11 @@ export class ToursService {
   }
 
   async editTour(tourId, createTourDTO: TourDto): Promise<Tour> {
-    return await this.tourModel.findByIdAndUpdate(tourId, createTourDTO, { new: true });
+    return await this.tourModel.findByIdAndUpdate(tourId, createTourDTO, { new: true }).exec();
   }
 
   async deleteTour(tourId): Promise<Tour> {
-    return await this.tourModel.findByIdAndRemove(tourId);
+    return await this.tourModel.findByIdAndRemove(tourId).exec();
   }
 
   async exportToExcel(tourId): Promise<string> {

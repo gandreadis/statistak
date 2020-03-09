@@ -32,6 +32,7 @@ function CreatePerformance(): JSX.Element {
       isWithSponsorTalk: values.isWithSponsorTalk,
       comments: values.comments,
       pieces: values.pieces,
+      tour: tourId,
     };
 
     const submitSuccess: boolean = await submitForm(formData);

@@ -22,10 +22,10 @@ export class PiecesService {
   }
 
   async editPiece(pieceId, createPieceDTO: PieceDto): Promise<Piece> {
-    return await this.pieceModel.findByIdAndUpdate(pieceId, createPieceDTO, { new: true });
+    return await this.pieceModel.findByIdAndUpdate(pieceId, createPieceDTO, { new: true }).exec();
   }
 
   async deletePiece(pieceId): Promise<Piece> {
-    return await this.pieceModel.findByIdAndRemove(pieceId);
+    return await this.pieceModel.findByIdAndRemove(pieceId).exec();
   }
 }
