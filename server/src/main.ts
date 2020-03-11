@@ -10,8 +10,10 @@ async function bootstrap() {
 
   if (process.env.SERVER_PORT == "443") {
     options = {
-      key: fs.readFileSync('/etc/letsencrypt/live/statistak.nl/privkey.pem'),
-      cert: fs.readFileSync('/etc/letsencrypt/live/statistak.nl/cert.pem'),
+      httpsOptions: {
+        key: fs.readFileSync('/etc/letsencrypt/live/statistak.nl/privkey.pem'),
+        cert: fs.readFileSync('/etc/letsencrypt/live/statistak.nl/cert.pem'),
+      },
     };
   }
 
