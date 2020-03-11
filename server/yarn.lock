@@ -401,6 +401,13 @@
     "@angular-devkit/schematics" "7.3.8"
     fs-extra "8.1.0"
 
+"@nestjs/serve-static@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@nestjs/serve-static/-/serve-static-2.0.0.tgz#9242412cc18ff1ac787c79a186c06aa966f71c95"
+  integrity sha512-mnhV2DbotGqfe7/YAdZVGVBVZerhGzf/VhBm/Ea70DvUxBecGwPkFBvtwXkoIXyPPoIfgICu8ZzkhQOQYVg3dA==
+  dependencies:
+    path-to-regexp "0.2.5"
+
 "@nestjs/testing@^6.10.14":
   version "6.11.5"
   resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-6.11.5.tgz#877b4cc78f39dfb9c01cf28c6176d6d9124ed2f9"
@@ -5462,6 +5469,11 @@ path-to-regexp@0.1.7:
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-0.1.7.tgz#df604178005f522f15eb4490e7247a1bfaa67f8c"
   integrity sha1-32BBeABfUi8V60SQ5yR6G/qmf4w=
+
+path-to-regexp@0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-0.2.5.tgz#0b426991e387fc4c675de23557f358715eb66fb0"
+  integrity sha1-C0JpkeOH/ExnXeI1V/NYcV62b7A=
 
 path-to-regexp@3.2.0:
   version "3.2.0"
