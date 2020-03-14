@@ -77,6 +77,16 @@ const EditableTour = ({ title, onSubmit, handleInputChanges, submitSuccess, load
             <FormControlLabel value="Winter" control={<Radio />} label="Winter" />
           </RadioGroup>
         </FormControl>
+        <TextField
+          id="color-field"
+          name="color"
+          label="Color"
+          onChange={handleStandardInputChange}
+          value={tour.color}
+          fullWidth
+          variant="outlined"
+          style={{fontFamily: "monospace"}}
+        />
       </form>
     </Page>
   );

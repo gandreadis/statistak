@@ -20,6 +20,7 @@ function CreateTour(): JSX.Element {
       title: values.title,
       year: values.year,
       season: values.season,
+      color: values.color,
     };
 
     const submitSuccess: boolean = await submitForm(formData);

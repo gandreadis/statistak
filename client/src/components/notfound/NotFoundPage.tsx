@@ -6,7 +6,7 @@ import {Link} from "react-router-dom";
 const NotFoundPage = () => (
   <Page title="404 - Not Found">
     <Typography variant="h5" component="p">
-      This page was not found... <Link to="/">Return Home 🏠</Link>
+      This page was not found... <Link to="/">Return Home</Link>
     </Typography>
   </Page>
 );

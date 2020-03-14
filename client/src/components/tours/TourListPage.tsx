@@ -21,6 +21,7 @@ type TourListItem = Array<{
   title: string;
   year: string;
   season: string;
+  color: string;
 }>;
 
 type TourListPageProps = {
@@ -50,7 +51,7 @@ const TourListPage = ({ tours }: TourListPageProps) => {
     >
       {sortedTours.map(tour => (
         <LinkWithoutUnderline to={`/tours/${tour._id}`} key={tour._id}>
-          <Card className={classes.card} variant="outlined">
+          <Card className={classes.card} style={{backgroundColor: tour.color}} variant="outlined">
             <CardContent>
               <Grid justify="space-between" container>
                 <Grid item xs={6}>

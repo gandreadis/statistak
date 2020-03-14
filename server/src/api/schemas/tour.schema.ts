@@ -4,4 +4,5 @@ export const TourSchema = new Schema({
   title: String,
   season: String,
   year: Number,
+  color: String,
 });
