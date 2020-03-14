@@ -17,6 +17,7 @@ import CreateTour from './containers/tours/CreateTour';
 import EditTour from './containers/tours/EditTour';
 import ViewStats from './containers/stats/ViewStats';
 import AboutPage from './components/about/AboutPage';
+import NotFoundPage from "./components/notfound/NotFoundPage";
 
 function App() {
   return (
@@ -39,7 +40,7 @@ function App() {
         <Route path={'/tours/:tourId/pieces/:pieceId/edit'} exact component={EditPiece} />
         <Route path={'/tours/:tourId/charts'} exact component={ViewCharts} />
         <Route path={'/tours/:tourId/stats'} exact component={ViewStats} />
-        <Route component={AboutPage}/>
+        <Route component={NotFoundPage}/>
       </Switch>
     </div>
   );
