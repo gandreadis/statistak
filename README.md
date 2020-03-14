@@ -4,7 +4,7 @@ App for keeping track of tour performances, made for use on tour with the [Ricci
 
 ## Installation
 
-Run the following commands to get this installed (with Node and the Yarn package manager installed), starting in the root directory of this project:
+Run the following commands to get the codebase installed (with Node and the Yarn package manager installed), starting in the root directory of this project:
 
 ```shell script
 cd server
