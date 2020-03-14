@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { Performance } from '../../interfaces/performance.interface';
 import { ChartsEntryDto } from '../../dtos/charts.dto';
 

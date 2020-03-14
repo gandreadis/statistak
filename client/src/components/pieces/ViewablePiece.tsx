@@ -40,7 +40,7 @@ const ViewablePiece = ({ onEdit, onDelete, deleteSuccess, loading, isAuthenticat
     <InfoItem icon={<TitleIcon />}>{piece.title}</InfoItem>
     <InfoItem icon={<PersonIcon />}>{`Composer: ${piece.composer}`}</InfoItem>
     {piece.arranger && <InfoItem icon={<EditIcon />}>{`Arranger: ${piece.arranger}`}</InfoItem>}
-    {piece.code && <InfoItem icon={<LabelIcon />}>{piece.code}</InfoItem>}
+    {piece.code && <InfoItem icon={<LabelIcon />}>{`Code: ${piece.code}`}</InfoItem>}
     {piece.soloists && piece.soloists.length > 0 && (
       <InfoItem icon={<DirectionsWalkIcon />}>
         {(piece.soloists.length > 1 ? 'Soloists: ' : 'Soloist: ') + piece.soloists.join(', ')}

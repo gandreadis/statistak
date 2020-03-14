@@ -17,5 +17,5 @@ export interface Performance extends Document {
   readonly isWithSponsorTalk: boolean;
   readonly comments: string;
   readonly pieces: Piece[];
-  readonly tour: Tour;
+  readonly tour: Tour | string;
 }

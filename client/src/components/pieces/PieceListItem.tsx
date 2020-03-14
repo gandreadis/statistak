@@ -3,8 +3,6 @@ import { Link, useParams } from 'react-router-dom';
 import { Avatar, Chip, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText } from '@material-ui/core';
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
 import { PieceProps } from './PieceList';
-import PeopleIcon from '@material-ui/icons/People';
-import ExploreIcon from '@material-ui/icons/Explore';
 
 type PieceListItemProps = {
   piece: PieceProps;
@@ -37,9 +35,9 @@ const PieceListItem = ({
       <ListItemSecondaryAction>
         {showChartsInfo ? (
           showNumberOfPerformances ? (
-            <Chip label={numberOfPerformances} title="Number of performances" color="default" icon={<ExploreIcon />} />
+            <Chip label={numberOfPerformances} title="Number of performances" color="secondary" />
           ) : (
-            <Chip label={audienceCount} title="Total audience count" color="default" icon={<PeopleIcon />} />
+            <Chip label={audienceCount} title="Total audience count" color="secondary" />
           )
         ) : (
           <Link to={`/pieces/${piece._id}`}>

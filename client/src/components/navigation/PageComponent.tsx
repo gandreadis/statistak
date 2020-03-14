@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AppBar, Container, Drawer, Hidden, IconButton, Toolbar, Typography } from '@material-ui/core';
+import {AppBar, Container, Drawer, Hidden, IconButton, SwipeableDrawer, Toolbar, Typography} from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import NavigationDrawer from '../../containers/navigation/NavigationDrawer';
@@ -38,7 +38,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     content: {
       flexGrow: 1,
-      padding: theme.spacing(3),
+      paddingTop: theme.spacing(3),
+      paddingBottom: theme.spacing(3),
     },
   }),
 );
@@ -80,17 +81,18 @@ const PageComponent = ({ title, actionButton, mobileOpen, handleDrawerToggle, ch
       </AppBar>
       <nav className={classes.drawer} aria-label="menu">
         <Hidden smUp implementation="css">
-          <Drawer
+          <SwipeableDrawer
             variant="temporary"
             open={mobileOpen}
             onClose={handleDrawerToggle}
+            onOpen={handleDrawerToggle}
             classes={{
               paper: classes.drawerPaper,
             }}
             ModalProps={{ keepMounted: true }}
           >
             <NavigationDrawer />
-          </Drawer>
+          </SwipeableDrawer>
         </Hidden>
         <Hidden xsDown implementation="css">
           <Drawer

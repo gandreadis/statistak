@@ -6,5 +6,5 @@ export class Piece extends Document {
   readonly composer: string;
   readonly arranger: string;
   readonly code: string;
-  readonly tour: Tour;
+  readonly tour: Tour | string;
 }

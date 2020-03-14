@@ -26,7 +26,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box p={3}>{children}</Box>}
+      {value === index && <Box py={3}>{children}</Box>}
     </Typography>
   );
 }
@@ -77,7 +77,7 @@ const ChartsListPage = ({ chartsEntries }: ChartsListPageProps) => {
             onChange={(_event, newValue) => setSortByPerformances(newValue === 0)}
             centered
           >
-            <Tab label="Number of Performances" />
+            <Tab label="Num. Performances" />
             <Tab label="Audience Count" />
           </Tabs>
           <TabPanel value={tabsValue} index={0}>

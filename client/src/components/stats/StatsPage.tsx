@@ -18,6 +18,7 @@ import {
 import { Box, Typography } from '@material-ui/core';
 
 const MAX_BAR_SIZE = 60;
+const MAX_Y_LABELS_WIDTH = 30;
 
 const NoInfoAlert = () => (
   <Alert severity="info">
@@ -51,7 +52,7 @@ const StatsBarChart = ({ data, xKey, yKey, children }: StatsChartProps) => (
   <ResponsiveChartContainer>
     <BarChart data={data}>
       <XAxis dataKey={xKey} />
-      <YAxis allowDecimals={false} />
+      <YAxis allowDecimals={false} width={MAX_Y_LABELS_WIDTH}/>
       <Tooltip />
       <CartesianGrid strokeDasharray="3 3" />
       {children ? children : <Bar dataKey={yKey} fill="#8884d8" maxBarSize={MAX_BAR_SIZE} />}
@@ -63,7 +64,7 @@ const StatsLineChart = ({ data, xKey, yKey }: StatsChartProps) => (
   <ResponsiveChartContainer>
     <LineChart data={data}>
       <XAxis dataKey={xKey} />
-      <YAxis />
+      <YAxis allowDecimals={false} width={MAX_Y_LABELS_WIDTH} />
       <CartesianGrid strokeDasharray="3 3" />
       <Tooltip />
       <Line type="monotone" dataKey={yKey} stroke="#8884d8" />
