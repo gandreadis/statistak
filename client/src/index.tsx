@@ -12,6 +12,7 @@ import { ThemeProvider } from '@material-ui/core';
 import ReactGA from 'react-ga';
 import { withGoogleAnalyticsTracker } from './withGoogleAnalyticsTracker';
 
+// Initialize Google Analytics
 ReactGA.initialize('UA-84285092-4');
 
 ReactDOM.render(
