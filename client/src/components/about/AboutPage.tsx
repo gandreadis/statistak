@@ -12,8 +12,8 @@ const AboutPage = () => (
     <br />
     <Typography variant="subtitle1" component="p">
       Created by <a href="https://gandreadis.com">Georgios Andreadis</a>. View the source and submit improvements on{' '}
-      <a href="https://github.com/gandreadis/statistak/">GitHub</a>! If you have suggestions or feedback on the app, please
-      don't hesitate to send them to <a href="mailto:info@gandreadis.com">info@gandreadis.com</a>.
+      <a href="https://github.com/gandreadis/statistak/">GitHub</a>! If you have suggestions or feedback on the app,
+      please don't hesitate to send them to <a href="mailto:info@gandreadis.com">info@gandreadis.com</a>.
     </Typography>
   </Page>
 );

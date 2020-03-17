@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Page from '../../containers/navigation/Page';
 import { Typography } from '@material-ui/core';
-import {Link} from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 const NotFoundPage = () => (
   <Page title="404 - Not Found">

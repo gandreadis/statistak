@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {AppBar, Container, Drawer, Hidden, IconButton, SwipeableDrawer, Toolbar, Typography} from '@material-ui/core';
+import { AppBar, Container, Drawer, Hidden, IconButton, SwipeableDrawer, Toolbar, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import NavigationDrawer from '../../containers/navigation/NavigationDrawer';

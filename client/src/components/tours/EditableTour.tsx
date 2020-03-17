@@ -85,7 +85,7 @@ const EditableTour = ({ title, onSubmit, handleInputChanges, submitSuccess, load
           value={tour.color}
           fullWidth
           variant="outlined"
-          style={{fontFamily: "monospace"}}
+          style={{ fontFamily: 'monospace' }}
         />
       </form>
     </Page>

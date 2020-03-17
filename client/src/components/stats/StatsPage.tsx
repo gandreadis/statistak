@@ -52,7 +52,7 @@ const StatsBarChart = ({ data, xKey, yKey, children }: StatsChartProps) => (
   <ResponsiveChartContainer>
     <BarChart data={data}>
       <XAxis dataKey={xKey} />
-      <YAxis allowDecimals={false} width={MAX_Y_LABELS_WIDTH}/>
+      <YAxis allowDecimals={false} width={MAX_Y_LABELS_WIDTH} />
       <Tooltip />
       <CartesianGrid strokeDasharray="3 3" />
       {children ? children : <Bar dataKey={yKey} fill="#8884d8" maxBarSize={MAX_BAR_SIZE} />}
