@@ -18,7 +18,7 @@ import { PERFORMANCE_TYPES } from './common';
 import InfoItem from '../../common/InfoItem';
 import { Box, Typography } from '@material-ui/core';
 import PieceList from '../pieces/PieceList';
-import ViewableVideoList from './ViewableVideoList';
+import ViewableVideoListWithPieces from './ViewableVideoListWithPieces';
 
 const generateSponsorText = (performance: any) => {
   let attributes = [];
@@ -127,7 +127,7 @@ const ViewablePerformance = ({
             Videos
           </Typography>
         </Box>
-        <ViewableVideoList videos={performance.videos} />
+        <ViewableVideoListWithPieces videos={performance.videos} />
       </>
     )}
   </Page>

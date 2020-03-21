@@ -8,6 +8,8 @@ import PersonIcon from '@material-ui/icons/Person';
 import LabelIcon from '@material-ui/icons/Label';
 import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
 import InfoItem from '../../common/InfoItem';
+import ViewableVideoListWithPerformance from './ViewableVideoListWithPerformance';
+import { Box, Typography } from '@material-ui/core';
 
 type ViewablePiece = {
   onEdit: (e: React.MouseEvent) => void;
@@ -45,6 +47,16 @@ const ViewablePiece = ({ onEdit, onDelete, deleteSuccess, loading, isAuthenticat
       <InfoItem icon={<DirectionsWalkIcon />}>
         {(piece.soloists.length > 1 ? 'Soloists: ' : 'Soloist: ') + piece.soloists.join(', ')}
       </InfoItem>
+    )}
+    {piece.videos && piece.videos.length > 0 && (
+      <>
+        <Box mt={4} mb={2}>
+          <Typography variant="h5" component="h2" align="center">
+            Videos
+          </Typography>
+        </Box>
+        <ViewableVideoListWithPerformance videos={piece.videos} />
+      </>
     )}
   </Page>
 );

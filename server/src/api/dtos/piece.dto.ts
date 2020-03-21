@@ -1,4 +1,5 @@
 import { TourDto } from './tour.dto';
+import { PerformanceDto } from './performance.dto';
 
 export class PieceDto {
   readonly title: string;
@@ -7,4 +8,8 @@ export class PieceDto {
   readonly code: string;
   readonly tour?: TourDto | string;
   readonly _id?: string;
+  readonly videos?: {
+    url: string;
+    performance: PerformanceDto | string;
+  };
 }

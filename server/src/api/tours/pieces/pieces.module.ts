@@ -4,9 +4,15 @@ import { PiecesController } from './pieces.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PieceSchema } from '../../schemas/piece.schema';
 import { AuthenticationMiddleware } from '../../authentication.middleware';
+import { PerformanceSchema } from '../../schemas/performance.schema';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: 'Piece', schema: PieceSchema }])],
+  imports: [
+    MongooseModule.forFeature([
+      { name: 'Piece', schema: PieceSchema },
+      { name: 'Performance', schema: PerformanceSchema },
+    ]),
+  ],
   providers: [PiecesService],
   controllers: [PiecesController],
 })

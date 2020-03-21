@@ -21,4 +21,5 @@ export class PerformanceDto {
   }[];
   readonly pieces: PieceDto[];
   readonly tour?: TourDto | string;
+  readonly _id?: string;
 }
