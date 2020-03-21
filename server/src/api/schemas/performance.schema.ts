@@ -14,6 +14,12 @@ export const PerformanceSchema = new Schema({
   isWithCDSale: Boolean,
   isWithSponsorTalk: Boolean,
   comments: String,
+  videos: [
+    {
+      url: String,
+      pieces: [{ type: Schema.Types.ObjectId, ref: 'Piece' }],
+    },
+  ],
   pieces: [{ type: Schema.Types.ObjectId, ref: 'Piece' }],
   tour: { type: Schema.Types.ObjectId, ref: 'Tour' },
 });

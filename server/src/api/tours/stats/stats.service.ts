@@ -31,27 +31,27 @@ export class StatsService {
   static computeAverageGuestConductorName(performances: Performance[]): string {
     const charactersPerPosition: number[][] = [];
 
-    performances.filter(it => it.guestConductor).forEach(performance => {
-      for (let i = 0; i < performance.guestConductor.length; i++) {
-        if (i >= charactersPerPosition.length) {
-          charactersPerPosition.push([]);
+    performances
+      .filter(it => it.guestConductor)
+      .forEach(performance => {
+        for (let i = 0; i < performance.guestConductor.length; i++) {
+          if (i >= charactersPerPosition.length) {
+            charactersPerPosition.push([]);
+          }
+          charactersPerPosition[i].push(performance.guestConductor.charCodeAt(i));
         }
-        charactersPerPosition[i].push(performance.guestConductor.charCodeAt(i));
-      }
-    });
+      });
 
     const averageCharacters = charactersPerPosition.map(it => {
       const sum = it.reduce((a, b) => a + b, 0);
-      return String.fromCharCode(Math.round((sum / it.length) || 0));
+      return String.fromCharCode(Math.round(sum / it.length || 0));
     });
 
-    return averageCharacters.join("");
+    return averageCharacters.join('');
   }
 
   async getStats(tourId: string): Promise<StatsDto> {
-    const performances = await this.performanceModel
-      .find({ tour: tourId })
-      .exec();
+    const performances = await this.performanceModel.find({ tour: tourId }).exec();
 
     const audienceCounts = await this.performanceModel.aggregate([
       { $match: { tour: new Types.ObjectId(tourId) } },

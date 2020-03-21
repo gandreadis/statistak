@@ -19,7 +19,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import { DatePicker, TimePicker } from '@material-ui/pickers';
 import moment from 'moment';
 import { PERFORMANCE_TYPES } from './common';
-import SelectPieces from '../../containers/pieces/SelectPieces';
+import withPieces from '../../containers/performances/withPieces';
+import EditableVideoList from './EditableVideoList';
+import SelectablePieceList from '../pieces/SelectablePieceList';
+import { PieceDto } from '../../../../server/src/api/dtos/piece.dto';
+import { PieceProps } from '../pieces/PieceList';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,6 +45,7 @@ type EditablePerformanceProps = {
   submitSuccess: boolean;
   loading: boolean;
   performance: any;
+  allPieces?: PieceDto[];
 };
 
 const EditablePerformance = ({
@@ -50,6 +55,7 @@ const EditablePerformance = ({
   submitSuccess,
   loading,
   performance,
+  allPieces,
 }: EditablePerformanceProps) => {
   const classes = useStyles();
 
@@ -178,18 +184,29 @@ const EditablePerformance = ({
             label="With groupies talk"
           />
         </FormControl>
-        <Box mt={2} mb={2}>
+        <Box pt={2} pb={1}>
           <Typography variant="h5" component="h2" align="center">
             Pieces
           </Typography>
         </Box>
-        <SelectPieces
+        <SelectablePieceList
+          allPieces={allPieces as PieceProps[]}
           selectedPieceIds={performance.pieces}
           setSelectedPieceIds={newSelectedPieceIds => handleInputChanges('pieces', newSelectedPieceIds)}
+        />
+        <Box pt={2} pb={1}>
+          <Typography variant="h5" component="h2" align="center">
+            Videos
+          </Typography>
+        </Box>
+        <EditableVideoList
+          allPieces={allPieces as PieceDto[]}
+          videos={performance.videos}
+          setVideos={newVideos => handleInputChanges('videos', newVideos)}
         />
       </form>
     </Page>
   );
 };
 
-export default EditablePerformance;
+export default (withPieces(EditablePerformance) as unknown) as React.ComponentClass<EditablePerformanceProps>;

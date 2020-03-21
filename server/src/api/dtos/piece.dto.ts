@@ -6,4 +6,5 @@ export class PieceDto {
   readonly arranger: string;
   readonly code: string;
   readonly tour?: TourDto | string;
+  readonly _id?: string;
 }

@@ -31,6 +31,7 @@ function CreatePerformance(): JSX.Element {
       isWithCDSale: values.isWithCDSale,
       isWithSponsorTalk: values.isWithSponsorTalk,
       comments: values.comments,
+      videos: values.videos,
       pieces: values.pieces,
       tour: tourId,
     };

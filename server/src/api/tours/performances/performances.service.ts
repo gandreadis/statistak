@@ -17,6 +17,7 @@ export class PerformancesService {
     return await this.performanceModel
       .findById(performanceId)
       .populate('pieces')
+      .populate('videos.pieces')
       .exec();
   }
 
@@ -24,6 +25,7 @@ export class PerformancesService {
     return await this.performanceModel
       .find({ tour: tourId })
       .populate('pieces')
+      .populate('videos.pieces')
       .exec();
   }
 
@@ -31,10 +33,15 @@ export class PerformancesService {
     return await this.performanceModel
       .findByIdAndUpdate(performanceId, createPerformanceDTO, { new: true })
       .populate('pieces')
+      .populate('videos.pieces')
       .exec();
   }
 
   async deletePerformance(performanceId): Promise<Performance> {
-    return await this.performanceModel.findByIdAndRemove(performanceId).populate('pieces').exec();
+    return await this.performanceModel
+      .findByIdAndRemove(performanceId)
+      .populate('pieces')
+      .populate('videos.pieces')
+      .exec();
   }
 }

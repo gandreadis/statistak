@@ -9,7 +9,6 @@ import {
   ListItemText,
   Paper,
 } from '@material-ui/core';
-import { arrayPropertyComparator } from '../../common/sorting';
 import { PieceProps } from './PieceList';
 
 type SelectablePieceListProps = {
@@ -19,9 +18,6 @@ type SelectablePieceListProps = {
 };
 
 const SelectablePieceList = ({ allPieces, selectedPieceIds, setSelectedPieceIds }: SelectablePieceListProps) => {
-  const sortedPieces = [...allPieces];
-  sortedPieces.sort(arrayPropertyComparator('code'));
-
   const handleToggle = (pieceId: string) => () => {
     const currentIndex = selectedPieceIds.indexOf(pieceId);
     const newPieceIds = [...selectedPieceIds];
@@ -38,7 +34,7 @@ const SelectablePieceList = ({ allPieces, selectedPieceIds, setSelectedPieceIds 
   return (
     <Paper>
       <List>
-        {sortedPieces.map(piece => (
+        {allPieces.map(piece => (
           <ListItem key={piece._id} dense button onClick={handleToggle(piece._id)}>
             <ListItemIcon>
               <Checkbox

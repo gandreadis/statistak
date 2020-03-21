@@ -16,6 +16,10 @@ export interface Performance extends Document {
   readonly isWithCDSale: boolean;
   readonly isWithSponsorTalk: boolean;
   readonly comments: string;
+  readonly videos: {
+    url: string;
+    pieces: Piece[];
+  }[];
   readonly pieces: Piece[];
   readonly tour: Tour | string;
 }

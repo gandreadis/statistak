@@ -14,5 +14,6 @@ export const EMPTY_PERFORMANCE_OBJECT = {
   isWithCDSale: false,
   isWithSponsorTalk: false,
   comments: '',
+  videos: [],
   pieces: [],
 };

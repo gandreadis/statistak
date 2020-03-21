@@ -15,6 +15,10 @@ export class PerformanceDto {
   readonly isWithCDSale: boolean;
   readonly isWithSponsorTalk: boolean;
   readonly comments: string;
+  readonly videos: {
+    url: string;
+    pieces: PieceDto[];
+  }[];
   readonly pieces: PieceDto[];
   readonly tour?: TourDto | string;
 }
