@@ -41,7 +41,7 @@ function EditTour(): JSX.Element {
     setValues({ ...values, formData });
     setLoading(false);
     setTimeout(() => {
-      history.push('/tours');
+      history.push(`/tours/${tourId}`);
     }, 500);
   };
 

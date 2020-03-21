@@ -54,7 +54,7 @@ function EditPerformance(): JSX.Element {
     setValues({ ...values, formData });
     setLoading(false);
     setTimeout(() => {
-      history.push(`/tours/${tourId}/performances`);
+      history.push(`/tours/${tourId}/performances/${performanceId}`);
     }, 500);
   };
 

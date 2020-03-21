@@ -38,7 +38,7 @@ function EditPiece(): JSX.Element {
     setValues({ ...values, formData });
     setLoading(false);
     setTimeout(() => {
-      history.push(`/tours/${tourId}/pieces`);
+      history.push(`/tours/${tourId}/pieces/${pieceId}`);
     }, 500);
   };
 
