@@ -21,6 +21,7 @@ const EditableVideoList = ({ videos, setVideos, allPieces }: EditableVideoListPr
 
   const addVideo = () => {
     setVideos([...videos, { url: '', pieces: [] }]);
+    setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 500);
   };
 
   const deleteVideo = (index: number) => {
