@@ -63,7 +63,7 @@ const EditableVideoList = ({ videos, setVideos, allPieces }: EditableVideoListPr
               variant="outlined"
               fullWidth
             />
-            <FormControl fullWidth>
+            <FormControl fullWidth variant="outlined" style={{ maxWidth: 250 }}>
               <InputLabel id={`pieces-select-label-${index}`}>Pieces in Video</InputLabel>
               <Select
                 labelId={`pieces-select-label-${index}`}

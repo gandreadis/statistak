@@ -42,7 +42,7 @@ const TourListPage = ({ tours }: TourListPageProps) => {
 
   return (
     <Page
-      title="Tours"
+      title="Ricciotti Tours"
       actionButton={
         <IconButton color="inherit" component={Link} to="/tours/create">
           <AddIcon />
