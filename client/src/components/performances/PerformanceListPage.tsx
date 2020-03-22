@@ -8,7 +8,7 @@ import { Link, useParams } from 'react-router-dom';
 import { arrayPropertyComparator } from '../../common/sorting';
 import PeopleIcon from '@material-ui/icons/People';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import NaturePeopleIcon from '@material-ui/icons/NaturePeople';
+import YouTubeIcon from '@material-ui/icons/YouTube';
 import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 import LibraryMusicIcon from '@material-ui/icons/LibraryMusic';
 import moment from 'moment';
@@ -32,6 +32,7 @@ type PerformanceListItem = Array<{
   audienceCount: number;
   guestConductor: string;
   pieces: any[];
+  videos: any[];
 }>;
 
 type PerformanceListPageProps = {
@@ -97,7 +98,7 @@ const PerformanceListPage = ({ performances }: PerformanceListPageProps) => {
                     <Grid item container spacing={1} xs={6} justify="flex-end">
                       <Grid item container spacing={1} justify="flex-end">
                         <Grid item>
-                          <Chip label={performance.type} color="default" icon={<NaturePeopleIcon />} size="small" />
+                          <Chip label={performance.audienceCount} color="default" icon={<PeopleIcon />} size="small" />
                         </Grid>
                         <Grid item>
                           <Chip label={performance.time} color="secondary" icon={<AccessTimeIcon />} size="small" />
@@ -114,6 +115,16 @@ const PerformanceListPage = ({ performances }: PerformanceListPageProps) => {
                             />
                           </Grid>
                         )}
+                        {performance.videos && performance.videos.length > 0 && (
+                          <Grid item>
+                            <Chip
+                              label={performance.videos.length}
+                              color="secondary"
+                              icon={<YouTubeIcon />}
+                              size="small"
+                            />
+                          </Grid>
+                        )}
                         <Grid item>
                           <Chip
                             label={(performance.pieces ? performance.pieces.length : 0) + ' pieces'}
@@ -121,9 +132,6 @@ const PerformanceListPage = ({ performances }: PerformanceListPageProps) => {
                             icon={<LibraryMusicIcon />}
                             size="small"
                           />
-                        </Grid>
-                        <Grid item>
-                          <Chip label={performance.audienceCount} color="default" icon={<PeopleIcon />} size="small" />
                         </Grid>
                       </Grid>
                     </Grid>
