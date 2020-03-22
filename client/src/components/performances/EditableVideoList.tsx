@@ -64,7 +64,7 @@ const EditableVideoList = ({ videos, setVideos, allPieces }: EditableVideoListPr
               variant="outlined"
               fullWidth
             />
-            <FormControl fullWidth variant="outlined" style={{ maxWidth: 250 }}>
+            <FormControl fullWidth variant="outlined" style={{ maxWidth: 250, marginTop: 10 }}>
               <InputLabel id={`pieces-select-label-${index}`}>Pieces in Video</InputLabel>
               <Select
                 labelId={`pieces-select-label-${index}`}
@@ -77,7 +77,9 @@ const EditableVideoList = ({ videos, setVideos, allPieces }: EditableVideoListPr
                     pieces: event.target.value as PieceDto[],
                   })
                 }
+                label="Pieces in Video"
                 input={<Input />}
+                variant="outlined"
               >
                 {allPieces.map(piece => (
                   <MenuItem key={piece._id} value={piece._id}>
