@@ -26,6 +26,7 @@
     "@nestjs/platform-express": "^7.0.1",
     "@nestjs/serve-static": "^2.0.0",
     "@types/mongoose": "^5.7.0",
+    "compression": "^1.7.4",
     "dotenv": "^8.2.0",
     "express-jwt": "^5.3.1",
     "jwks-rsa": "^1.6.2",

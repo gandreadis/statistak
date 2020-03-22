@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
+import * as compression from 'compression';
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ async function bootstrap() {
   }
 
   const app = await NestFactory.create(AppModule, options);
+  app.use(compression());
   app.enableCors();
   await app.listen(process.env.SERVER_PORT || 5000);
 }
