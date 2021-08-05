@@ -17,7 +17,7 @@ cd ..
 
 ## Development
 
-To locally develop this, run two commands in two separate terminals:
+To locally develop this, run these two commands in two separate terminals:
 
 * `yarn start:dev` in the `server` directory
 * `yarn start` in the `client` directory 
