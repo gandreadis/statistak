@@ -23,6 +23,7 @@ function CreatePerformance(): JSX.Element {
       country: values.country,
       date: values.date,
       time: values.time,
+      duration: values.duration,
       isOutside: values.isOutside,
       type: values.type,
       audienceCount: values.audienceCount,

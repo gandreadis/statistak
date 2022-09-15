@@ -7,6 +7,7 @@ export class PerformanceDto {
   readonly country: string;
   readonly date: string;
   readonly time: string;
+  readonly duration: number;
   readonly isOutside: boolean;
   readonly type: string;
   readonly audienceCount: number;

@@ -120,6 +120,17 @@ const EditablePerformance = ({
             }}
           />
         </div>
+        <TextField
+          id="duration-field"
+          name="duration"
+          label="Duration (in minutes)"
+          onChange={handleStandardInputChange}
+          value={performance.duration}
+          fullWidth
+          variant="outlined"
+          type="number"
+          multiline
+        />
         <div>
           <FormControlLabel
             control={<Checkbox checked={performance.isOutside} onChange={handleCheckInputChange} name="isOutside" />}

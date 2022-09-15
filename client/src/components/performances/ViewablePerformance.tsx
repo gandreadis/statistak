@@ -96,6 +96,8 @@ const ViewablePerformance = ({
     </InfoItem>
     <InfoItem icon={<AccessTimeIcon />}>
       {moment(`${performance.date} ${performance.time}`, 'YYYY-MM-DD HH:mm').format('LLL')}
+      {' - '}
+      {`${performance.duration} min.`}
     </InfoItem>
     <InfoItem icon={<HomeWorkIcon />}>{performance.isOutside ? 'Outside' : 'Inside'}</InfoItem>
     <InfoItem icon={<NaturePeopleIcon />}>{PERFORMANCE_TYPES[performance.type as string]}</InfoItem>

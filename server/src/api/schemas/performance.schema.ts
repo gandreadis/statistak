@@ -6,6 +6,7 @@ export const PerformanceSchema = new Schema({
   country: String,
   date: String,
   time: String,
+  duration: Number,
   isOutside: Boolean,
   type: String,
   audienceCount: Number,
