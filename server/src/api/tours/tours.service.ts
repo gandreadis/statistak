@@ -134,7 +134,7 @@ export class ToursService {
           counter++,
           performance.date,
           performance.time,
-          '?',
+          performance.duration || '?',
           performance.locationName,
           performance.city,
           '',
