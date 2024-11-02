@@ -157,6 +157,15 @@ const EditablePerformance = ({
           fullWidth
           variant="outlined"
         />
+        <TextField
+          id="comments-field"
+          name="comments"
+          label="Comments"
+          onChange={handleStandardInputChange}
+          value={performance.comments}
+          fullWidth
+          variant="outlined"
+        />
         <FormControl component="fieldset">
           <FormLabel component="legend">Type</FormLabel>
           <RadioGroup name="type" value={performance.type} onChange={handleStandardInputChange}>
