@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid2, Typography } from '@mui/material';
 
 type InfoItemProps = {
   icon: React.ReactElement;
@@ -7,16 +7,16 @@ type InfoItemProps = {
 };
 
 const InfoItem = ({ icon, children }: InfoItemProps) => (
-  <Grid container spacing={3}>
-    <Grid item xs={1}>
+  <Grid2 container spacing={3}>
+    <Grid2 size={{xs: 1}}>
       {icon}
-    </Grid>
-    <Grid item>
+    </Grid2>
+    <Grid2>
       <Typography variant="body1" component="p">
         {children}
       </Typography>
-    </Grid>
-  </Grid>
+    </Grid2>
+  </Grid2>
 );
 
 export default InfoItem;

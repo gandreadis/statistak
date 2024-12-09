@@ -1,22 +1,22 @@
 import * as React from 'react';
 import AppBarActionButton from '../navigation/AppBarActionButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import Page from '../../containers/navigation/Page';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import LocationCityIcon from '@material-ui/icons/LocationCity';
-import CommentIcon from '@material-ui/icons/Comment';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import HomeWorkIcon from '@material-ui/icons/HomeWork';
-import NaturePeopleIcon from '@material-ui/icons/NaturePeople';
-import PeopleIcon from '@material-ui/icons/People';
-import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
-import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import LocationCityIcon from '@mui/icons-material/LocationCity';
+import CommentIcon from '@mui/icons-material/Comment';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import HomeWorkIcon from '@mui/icons-material/HomeWork';
+import NaturePeopleIcon from '@mui/icons-material/NaturePeople';
+import PeopleIcon from '@mui/icons-material/People';
+import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 
 import moment from 'moment';
 import { PERFORMANCE_TYPES } from './common';
 import InfoItem from '../../common/InfoItem';
-import { Box, Typography } from '@material-ui/core';
+import { Box, Typography } from '@mui/material';
 import PieceList from '../pieces/PieceList';
 import ViewableVideoListWithPieces from './ViewableVideoListWithPieces';
 

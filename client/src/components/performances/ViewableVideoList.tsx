@@ -1,7 +1,7 @@
 import * as React from 'react';
 import YouTube from 'react-youtube';
 import queryString from 'query-string';
-import { Box, Paper } from '@material-ui/core';
+import { Box, Paper } from '@mui/material';
 
 type ViewableVideoListProps = {
   videos: { url: string }[];

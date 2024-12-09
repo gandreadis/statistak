@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useParams, withRouter } from 'react-router-dom';
-import { useAuth0 } from '../../contexts/auth0-context';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 import { PerformanceDto } from '../../../../server/src/api/dtos/performance.dto';
 import EditablePerformance from '../../components/performances/EditablePerformance';
 import { EMPTY_PERFORMANCE_OBJECT } from './common';
 
 function EditPerformance(): JSX.Element {
-  let history = useHistory();
+  let navigate = useNavigate();
   let { tourId, performanceId } = useParams();
 
   const { getIdTokenClaims } = useAuth0();
@@ -55,13 +55,16 @@ function EditPerformance(): JSX.Element {
     setValues({ ...values, formData });
     setLoading(false);
     setTimeout(() => {
-      history.push(`/tours/${tourId}/performances/${performanceId}`);
+      navigate(`/tours/${tourId}/performances/${performanceId}`);
     }, 500);
   };
 
   const submitForm = async (formData: {}) => {
     try {
       const accessToken = await getIdTokenClaims();
+      if (!accessToken) {
+        throw new Error("Access token error");
+      }
       const response = await fetch(
         `${process.env.REACT_APP_SERVER_BASE_URL}/api/tours/${tourId}/performances/${performanceId}`,
         {
@@ -100,4 +103,4 @@ function EditPerformance(): JSX.Element {
   );
 }
 
-export default withRouter(EditPerformance);
+export default EditPerformance;

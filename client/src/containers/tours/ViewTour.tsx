@@ -2,11 +2,11 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import ViewableTour from '../../components/tours/ViewableTour';
-import { useHistory } from 'react-router-dom';
-import { useAuth0 } from '../../contexts/auth0-context';
+import { useNavigate } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 function ViewTour() {
-  let history = useHistory();
+  let navigate = useNavigate();
   let { tourId } = useParams();
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
 
@@ -24,7 +24,7 @@ function ViewTour() {
   }, [tourId]);
 
   const onEdit = async (e: React.MouseEvent): Promise<void> => {
-    history.push(`/tours/${tourId}/edit`);
+    navigate(`/tours/${tourId}/edit`);
   };
 
   const onDelete = async (e: React.MouseEvent): Promise<void> => {
@@ -34,13 +34,16 @@ function ViewTour() {
     setDeleteSuccess(deleteSuccess);
     setLoading(false);
     setTimeout(() => {
-      history.push('/tours');
+      navigate('/tours');
     }, 500);
   };
 
   const deleteTour = async () => {
     try {
       const accessToken = await getIdTokenClaims();
+      if (!accessToken) {
+        throw new Error("Access token error");
+      }
       const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/api/tours/${tourId}`, {
         method: 'delete',
         headers: new Headers({

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { CircularProgress, IconButton } from '@material-ui/core';
-import CheckIcon from '@material-ui/icons/Check';
+import { CircularProgress, IconButton } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
 
 type AppBarActionButtonProps = {
   onClick: (e: any) => any;

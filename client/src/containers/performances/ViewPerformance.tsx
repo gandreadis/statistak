@@ -2,11 +2,11 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import ViewablePerformance from '../../components/performances/ViewablePerformance';
-import { useHistory } from 'react-router-dom';
-import { useAuth0 } from '../../contexts/auth0-context';
+import { useNavigate } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 function ViewPerformance() {
-  let history = useHistory();
+  let navigate = useNavigate();
   let { tourId, performanceId } = useParams();
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
 
@@ -26,7 +26,7 @@ function ViewPerformance() {
   }, [tourId, performanceId]);
 
   const onEdit = async (e: React.MouseEvent): Promise<void> => {
-    history.push(`/tours/${tourId}/performances/${performanceId}/edit`);
+    navigate(`/tours/${tourId}/performances/${performanceId}/edit`);
   };
 
   const onDelete = async (e: React.MouseEvent): Promise<void> => {
@@ -36,13 +36,16 @@ function ViewPerformance() {
     setDeleteSuccess(deleteSuccess);
     setLoading(false);
     setTimeout(() => {
-      history.push('/');
+      navigate('/');
     }, 500);
   };
 
   const deletePerformance = async () => {
     try {
       const accessToken = await getIdTokenClaims();
+      if (!accessToken) {
+        throw new Error("Access token error");
+      }
       const response = await fetch(
         `${process.env.REACT_APP_SERVER_BASE_URL}/api/tours/${tourId}/performances/${performanceId}`,
         {

@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { AppBar, Container, Drawer, Hidden, IconButton, SwipeableDrawer, Toolbar, Typography } from '@material-ui/core';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
+import { AppBar, Container, Drawer, Hidden, IconButton, SwipeableDrawer, Toolbar, Typography } from '@mui/material';
+import { createStyles, makeStyles } from '@mui/styles';
+import { Theme } from '@mui/material/styles';
+import MenuIcon from '@mui/icons-material/Menu';
 import NavigationDrawer from '../../containers/navigation/NavigationDrawer';
-import { CreateCSSProperties } from '@material-ui/core/styles/withStyles';
 import { Helmet } from 'react-helmet';
 
 const DRAWER_WIDTH = 240;
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
         display: 'none',
       },
     },
-    toolbar: theme.mixins.toolbar as CreateCSSProperties,
+    toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: DRAWER_WIDTH,
     },
@@ -56,7 +56,7 @@ const PageComponent = ({ title, actionButton, mobileOpen, handleDrawerToggle, ch
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={(classes as any).root}>
       <Helmet>
         <title>{title} - Statistak</title>
       </Helmet>

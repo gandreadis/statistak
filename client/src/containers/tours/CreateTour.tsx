@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useHistory, withRouter } from 'react-router-dom';
-import { useAuth0 } from '../../contexts/auth0-context';
+import { useNavigate } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 import { TourDto } from '../../../../server/src/api/dtos/tour.dto';
 import EditableTour from '../../components/tours/EditableTour';
 import { EMPTY_TOUR_OBJECT } from './common';
 
 function CreateTour(): JSX.Element {
-  let history = useHistory();
+  let navigate = useNavigate();
 
   const { getIdTokenClaims } = useAuth0();
   const [values, setValues] = useState<any>({ ...EMPTY_TOUR_OBJECT });
@@ -28,13 +28,16 @@ function CreateTour(): JSX.Element {
     setValues({ ...values, formData });
     setLoading(false);
     setTimeout(() => {
-      history.push('/tours');
+      navigate('/tours');
     }, 500);
   };
 
   const submitForm = async (formData: {}) => {
     try {
       const accessToken = await getIdTokenClaims();
+      if (!accessToken) {
+        throw new Error("Access token error");
+      }
       const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/api/tours`, {
         method: 'post',
         headers: new Headers({
@@ -70,4 +73,4 @@ function CreateTour(): JSX.Element {
   );
 }
 
-export default withRouter(CreateTour);
+export default CreateTour;

@@ -1,17 +1,17 @@
 import * as React from 'react';
 import AppBarActionButton from '../navigation/AppBarActionButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import Page from '../../containers/navigation/Page';
-import TitleIcon from '@material-ui/icons/Title';
-import PersonIcon from '@material-ui/icons/Person';
-import LabelIcon from '@material-ui/icons/Label';
-import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
+import TitleIcon from '@mui/icons-material/Title';
+import PersonIcon from '@mui/icons-material/Person';
+import LabelIcon from '@mui/icons-material/Label';
+import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
 import InfoItem from '../../common/InfoItem';
 import ViewableVideoListWithPerformance from './ViewableVideoListWithPerformance';
-import { Box, Typography } from '@material-ui/core';
+import { Box, Typography } from '@mui/material';
 
-type ViewablePiece = {
+type ViewablePieceT = {
   onEdit: (e: React.MouseEvent) => void;
   onDelete: (e: React.MouseEvent) => Promise<void>;
   deleteSuccess: boolean;
@@ -20,7 +20,7 @@ type ViewablePiece = {
   piece: any;
 };
 
-const ViewablePiece = ({ onEdit, onDelete, deleteSuccess, loading, isAuthenticated, piece }: ViewablePiece) => (
+const ViewablePiece = ({ onEdit, onDelete, deleteSuccess, loading, isAuthenticated, piece }: ViewablePieceT) => (
   <Page
     title={piece.title + (piece.code ? ` (${piece.code})` : '')}
     actionButton={

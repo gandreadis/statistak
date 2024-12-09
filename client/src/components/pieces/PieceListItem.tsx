@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Avatar, Chip, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText } from '@material-ui/core';
-import MusicNoteIcon from '@material-ui/icons/MusicNote';
+import { Avatar, Chip, ListItemButton, ListItemAvatar, ListItemSecondaryAction, ListItemText } from '@mui/material';
+import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import { PieceProps } from './PieceList';
 
 type PieceListItemProps = {
@@ -27,7 +27,7 @@ const PieceListItem = ({
     : 'No composer';
 
   return (
-    <ListItem button component={Link} to={`/tours/${tourId}/pieces/${piece._id}`} key={piece._id}>
+    <ListItemButton component={Link} to={`/tours/${tourId}/pieces/${piece._id}`} key={piece._id}>
       <ListItemAvatar>
         <Avatar>{showChartsInfo ? rank : <MusicNoteIcon />}</Avatar>
       </ListItemAvatar>
@@ -40,12 +40,10 @@ const PieceListItem = ({
             <Chip label={audienceCount} title="Total audience count" color="secondary" />
           )
         ) : (
-          <Link to={`/pieces/${piece._id}`}>
-            <Chip label={piece.code} />
-          </Link>
+          <Chip label={piece.code} />
         )}
       </ListItemSecondaryAction>
-    </ListItem>
+    </ListItemButton>
   );
 };
 

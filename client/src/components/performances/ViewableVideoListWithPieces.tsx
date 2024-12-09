@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { PieceDto } from '../../../../server/src/api/dtos/piece.dto';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ViewableVideoList from './ViewableVideoList';
 import { arrayPropertyComparator } from '../../common/sorting';

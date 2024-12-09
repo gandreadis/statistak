@@ -6,6 +6,7 @@ TODO
 
 Start CouchDB
 Enable CORS (`add-cors-to-couchdb`)
+//REACT_APP_SERVER_BASE_URL
 
 ## Development notes
 

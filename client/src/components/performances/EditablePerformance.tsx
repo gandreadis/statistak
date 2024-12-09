@@ -12,11 +12,11 @@ import {
   TextField,
   Theme,
   Typography,
-} from '@material-ui/core';
-import SaveIcon from '@material-ui/icons/Save';
+} from '@mui/material';
+import SaveIcon from '@mui/icons-material/Save';
 import Page from '../../containers/navigation/Page';
-import { makeStyles } from '@material-ui/core/styles';
-import { DatePicker, TimePicker } from '@material-ui/pickers';
+import { makeStyles } from '@mui/styles';
+import { DatePicker, TimePicker } from '@mui/x-date-pickers';
 import moment from 'moment';
 import { PERFORMANCE_TYPES } from './common';
 import withPieces from '../../containers/performances/withPieces';
@@ -75,7 +75,7 @@ const EditablePerformance = ({
         <AppBarActionButton onClick={onSubmit} loading={loading} actionSuccess={submitSuccess} icon={<SaveIcon />} />
       }
     >
-      <form id="performance-form" noValidate={true} className={classes.root}>
+      <form id="performance-form" noValidate={true} className={(classes as any).root}>
         <TextField
           id="location-name-field"
           name="locationName"
@@ -105,7 +105,7 @@ const EditablePerformance = ({
         />
         <div>
           <DatePicker
-            className={classes.datePicker}
+            className={(classes as any).datePicker}
             value={moment(performance.date, 'YYYY-MM-DD')}
             onChange={date => {
               const usableDate = date === null ? moment() : date;

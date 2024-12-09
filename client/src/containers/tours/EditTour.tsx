@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useParams, withRouter } from 'react-router-dom';
-import { useAuth0 } from '../../contexts/auth0-context';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 import { TourDto } from '../../../../server/src/api/dtos/tour.dto';
 import EditableTour from '../../components/tours/EditableTour';
 import { EMPTY_TOUR_OBJECT } from './common';
 
 function EditTour(): JSX.Element {
-  let history = useHistory();
+  let navigate = useNavigate();
   let { tourId } = useParams();
 
   const { getIdTokenClaims } = useAuth0();
@@ -41,13 +41,16 @@ function EditTour(): JSX.Element {
     setValues({ ...values, formData });
     setLoading(false);
     setTimeout(() => {
-      history.push(`/tours/${tourId}`);
+      navigate(`/tours/${tourId}`);
     }, 500);
   };
 
   const submitForm = async (formData: {}) => {
     try {
       const accessToken = await getIdTokenClaims();
+      if (!accessToken) {
+        throw new Error("Access token error");
+      }
       const response = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}/api/tours/${tourId}`, {
         method: 'put',
         headers: new Headers({
@@ -83,4 +86,4 @@ function EditTour(): JSX.Element {
   );
 }
 
-export default withRouter(EditTour);
+export default EditTour;

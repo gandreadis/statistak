@@ -1,31 +1,29 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { Auth0Provider } from './contexts/auth0-context';
-import { BrowserRouter, Route } from 'react-router-dom';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import MomentUtils from '@date-io/moment';
+import { BrowserRouter } from 'react-router-dom';
+import { Auth0Provider } from '@auth0/auth0-react';
 import THEME from './theme';
-import { ThemeProvider } from '@material-ui/core';
-import ReactGA from 'react-ga';
-import { withGoogleAnalyticsTracker } from './withGoogleAnalyticsTracker';
+import { ThemeProvider } from '@mui/material';
 
-// Initialize Google Analytics
-ReactGA.initialize('UA-84285092-4');
-
-ReactDOM.render(
-  <Auth0Provider>
-    <MuiPickersUtilsProvider utils={MomentUtils}>
-      <ThemeProvider theme={THEME}>
-        <BrowserRouter>
-          <Route component={withGoogleAnalyticsTracker(App)} />
-        </BrowserRouter>
-      </ThemeProvider>
-    </MuiPickersUtilsProvider>
+const container = document.getElementById('root');
+const root = createRoot(container!);
+root.render(
+  <Auth0Provider
+    domain={`${process.env.REACT_APP_AUTH0_DOMAIN}`}
+    clientId={`${process.env.REACT_APP_AUTH0_CLIENT_ID}`}
+    authorizationParams={{
+      redirect_uri: window.location.origin,
+    }}
+  >
+    <ThemeProvider theme={THEME}>
+      <BrowserRouter>
+        <App/>
+      </BrowserRouter>
+    </ThemeProvider>
   </Auth0Provider>,
-  document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change

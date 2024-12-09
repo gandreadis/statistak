@@ -22,6 +22,12 @@ To locally develop this, run these two commands in two separate terminals:
 * `yarn start:dev` in the `server` directory
 * `yarn start` in the `client` directory 
 
+Have a database running:
+
+```shell script
+brew services start mongodb-community@8.0
+```
+
 ## Restoring and Backing up
 To import the contents of the `data` directory into a running MongoDB instance, run the following command:
 
@@ -34,6 +40,10 @@ To back up the current state of a running MongoDB instance serving the `statista
 ```shell script
 mongodump --db=statistak --out=data
 ```
+
+## Maintenance
+
+`yarn upgrade` periodically, and then run `yarn-upgrade-all` from time to time.
 
 ## Credits
 

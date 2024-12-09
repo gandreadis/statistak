@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import PageComponent from '../../components/navigation/PageComponent';
-import { useAuth0 } from '../../contexts/auth0-context';
+import { useAuth0 } from '@auth0/auth0-react';
 
 type PageProps = {
   title: string;

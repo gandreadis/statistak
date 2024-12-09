@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Box, Button, FormControl, Input, InputLabel, MenuItem, Paper, Select, TextField } from '@material-ui/core';
+import { Box, Button, FormControl, Input, InputLabel, MenuItem, Paper, Select, TextField } from '@mui/material';
 import { PieceDto } from '../../../../server/src/api/dtos/piece.dto';
-import AddIcon from '@material-ui/icons/Add';
-import DeleteIcon from '@material-ui/icons/Delete';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type EditableVideoListProps = {
   videos: { url: string; pieces: PieceDto[] }[];

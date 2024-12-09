@@ -1,9 +1,10 @@
 import React from 'react';
 import AppBarActionButton from '../navigation/AppBarActionButton';
-import { createStyles, TextField, Theme } from '@material-ui/core';
-import SaveIcon from '@material-ui/icons/Save';
+import { createStyles, makeStyles } from '@mui/styles';
+import { Theme } from '@mui/material/styles';
+import SaveIcon from '@mui/icons-material/Save';
 import Page from '../../containers/navigation/Page';
-import { makeStyles } from '@material-ui/core/styles';
+import { TextField } from '@mui/material';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -39,7 +40,7 @@ const EditablePiece = ({ title, onSubmit, handleInputChanges, submitSuccess, loa
         <AppBarActionButton onClick={onSubmit} loading={loading} actionSuccess={submitSuccess} icon={<SaveIcon />} />
       }
     >
-      <form id="piece-form" noValidate={true} className={classes.root}>
+      <form id="piece-form" noValidate={true} className={(classes as any).root}>
         <TextField
           id="title-field"
           name="title"

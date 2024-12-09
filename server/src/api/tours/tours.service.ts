@@ -45,7 +45,7 @@ export class ToursService {
   }
 
   async deleteTour(tourId): Promise<Tour> {
-    return await this.tourModel.findByIdAndRemove(tourId).exec();
+    return await this.tourModel.findByIdAndDelete(tourId).exec();
   }
 
   async exportToExcel(tourId): Promise<string> {

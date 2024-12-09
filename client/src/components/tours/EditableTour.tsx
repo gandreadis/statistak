@@ -9,10 +9,10 @@ import {
   RadioGroup,
   TextField,
   Theme,
-} from '@material-ui/core';
-import SaveIcon from '@material-ui/icons/Save';
+} from '@mui/material';
+import SaveIcon from '@mui/icons-material/Save';
 import Page from '../../containers/navigation/Page';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -48,7 +48,7 @@ const EditableTour = ({ title, onSubmit, handleInputChanges, submitSuccess, load
         <AppBarActionButton onClick={onSubmit} loading={loading} actionSuccess={submitSuccess} icon={<SaveIcon />} />
       }
     >
-      <form id="tour-form" noValidate={true} className={classes.root}>
+      <form id="tour-form" noValidate={true} className={(classes as any).root}>
         <TextField
           id="title-field"
           name="title"

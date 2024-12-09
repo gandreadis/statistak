@@ -49,6 +49,6 @@ export class PiecesService {
   }
 
   async deletePiece(pieceId): Promise<Piece> {
-    return await this.pieceModel.findByIdAndRemove(pieceId).exec();
+    return await this.pieceModel.findByIdAndDelete(pieceId).exec();
   }
 }

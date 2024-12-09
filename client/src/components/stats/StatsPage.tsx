@@ -1,8 +1,7 @@
 import * as React from 'react';
 import Page from '../../containers/navigation/Page';
 import { StatsDto } from '../../../../server/src/api/dtos/stats.dto';
-import Alert from '@material-ui/lab/Alert';
-import { AlertTitle } from '@material-ui/lab';
+import { Alert, AlertTitle } from '@mui/material';
 import {
   Bar,
   BarChart,
@@ -15,7 +14,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { Box, Typography } from '@material-ui/core';
+import { Box, Typography } from '@mui/material';
 
 const MAX_BAR_SIZE = 60;
 const MAX_Y_LABELS_WIDTH = 30;

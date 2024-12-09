@@ -1,14 +1,14 @@
 import * as React from 'react';
 import AppBarActionButton from '../navigation/AppBarActionButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import Page from '../../containers/navigation/Page';
-import { Button, Grid } from '@material-ui/core';
-import ExploreIcon from '@material-ui/icons/Explore';
-import LibraryMusicIcon from '@material-ui/icons/LibraryMusic';
-import StarIcon from '@material-ui/icons/Star';
-import EqualizerIcon from '@material-ui/icons/Equalizer';
-import GetAppIcon from '@material-ui/icons/GetApp';
+import { Button, Grid2 } from '@mui/material';
+import ExploreIcon from '@mui/icons-material/Explore';
+import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
+import StarIcon from '@mui/icons-material/Star';
+import EqualizerIcon from '@mui/icons-material/Equalizer';
+import GetAppIcon from '@mui/icons-material/GetApp';
 import { Link } from 'react-router-dom';
 
 type ViewableTourProps = {
@@ -48,8 +48,8 @@ const ViewableTour = ({
       )
     }
   >
-    <Grid container justify="center" spacing={3}>
-      <Grid item>
+    <Grid2 container justifyContent="center" spacing={3}>
+      <Grid2>
         <Button
           variant="contained"
           color="primary"
@@ -59,8 +59,8 @@ const ViewableTour = ({
         >
           View performances
         </Button>
-      </Grid>
-      <Grid item>
+      </Grid2>
+      <Grid2>
         <Button
           variant="contained"
           color="primary"
@@ -70,8 +70,8 @@ const ViewableTour = ({
         >
           View pieces
         </Button>
-      </Grid>
-      <Grid item>
+      </Grid2>
+      <Grid2>
         <Button
           variant="contained"
           color="primary"
@@ -81,8 +81,8 @@ const ViewableTour = ({
         >
           View charts
         </Button>
-      </Grid>
-      <Grid item>
+      </Grid2>
+      <Grid2>
         <Button
           variant="contained"
           color="primary"
@@ -92,15 +92,15 @@ const ViewableTour = ({
         >
           View stats
         </Button>
-      </Grid>
+      </Grid2>
       {isAuthenticated && (
-        <Grid item>
+        <Grid2>
           <Button variant="contained" color="primary" endIcon={<GetAppIcon />} href={exportCsvLink} download>
             Export CSV
           </Button>
-        </Grid>
+        </Grid2>
       )}
-    </Grid>
+    </Grid2>
   </Page>
 );
 

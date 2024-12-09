@@ -39,7 +39,7 @@ export class PerformancesService {
 
   async deletePerformance(performanceId): Promise<Performance> {
     return await this.performanceModel
-      .findByIdAndRemove(performanceId)
+      .findByIdAndDelete(performanceId)
       .populate('pieces')
       .populate('videos.pieces')
       .exec();

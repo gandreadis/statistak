@@ -1,16 +1,17 @@
 import * as React from 'react';
-import { Box, Card, CardContent, Chip, Grid, IconButton, Typography } from '@material-ui/core';
+import { Box, Card, CardContent, Chip, Grid2, IconButton, Typography } from '@mui/material';
 import Page from '../../containers/navigation/Page';
 import LinkWithoutUnderline from '../../common/LinkWithoutUnderline';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import AddIcon from '@material-ui/icons/Add';
+import { createStyles, makeStyles } from '@mui/styles';
+import { Theme } from '@mui/material/styles';
+import AddIcon from '@mui/icons-material/Add';
 import { Link, useParams } from 'react-router-dom';
 import { arrayPropertyComparator } from '../../common/sorting';
-import PeopleIcon from '@material-ui/icons/People';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import YouTubeIcon from '@material-ui/icons/YouTube';
-import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
-import LibraryMusicIcon from '@material-ui/icons/LibraryMusic';
+import PeopleIcon from '@mui/icons-material/People';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
+import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import moment from 'moment';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -86,56 +87,56 @@ const PerformanceListPage = ({ performances }: PerformanceListPageProps) => {
             <LinkWithoutUnderline to={`/tours/${tourId}/performances/${performance._id}`} key={performance._id}>
               <Card className={classes.card} variant="outlined">
                 <CardContent>
-                  <Grid justify="space-between" container>
-                    <Grid item xs={6}>
+                  <Grid2 justifyContent="space-between" container>
+                    <Grid2 size={{xs: 6}}>
                       <Typography variant="h6" component="h3">
                         {performance.locationName}
                       </Typography>
                       <Typography variant="body2" component="p">
                         {performance.city} ({performance.country})
                       </Typography>
-                    </Grid>
-                    <Grid item container spacing={1} xs={6} justify="flex-end">
-                      <Grid item container spacing={1} justify="flex-end">
-                        <Grid item>
+                    </Grid2>
+                    <Grid2 container spacing={1} size={{xs: 6}} justifyContent="flex-end">
+                      <Grid2 container spacing={1} justifyContent="flex-end">
+                        <Grid2>
                           <Chip label={performance.audienceCount} color="default" icon={<PeopleIcon />} size="small" />
-                        </Grid>
-                        <Grid item>
+                        </Grid2>
+                        <Grid2>
                           <Chip label={performance.time} color="secondary" icon={<AccessTimeIcon />} size="small" />
-                        </Grid>
-                      </Grid>
-                      <Grid item container spacing={1} justify="flex-end">
+                        </Grid2>
+                      </Grid2>
+                      <Grid2 container spacing={1} justifyContent="flex-end">
                         {performance.guestConductor && (
-                          <Grid item>
+                          <Grid2>
                             <Chip
                               label={performance.guestConductor}
                               color="primary"
                               icon={<EmojiPeopleIcon />}
                               size="small"
                             />
-                          </Grid>
+                          </Grid2>
                         )}
                         {performance.videos && performance.videos.length > 0 && (
-                          <Grid item>
+                          <Grid2>
                             <Chip
                               label={performance.videos.length}
                               color="secondary"
                               icon={<YouTubeIcon />}
                               size="small"
                             />
-                          </Grid>
+                          </Grid2>
                         )}
-                        <Grid item>
+                        <Grid2>
                           <Chip
                             label={(performance.pieces ? performance.pieces.length : 0) + ' pieces'}
                             color="default"
                             icon={<LibraryMusicIcon />}
                             size="small"
                           />
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
+                        </Grid2>
+                      </Grid2>
+                    </Grid2>
+                  </Grid2>
                 </CardContent>
               </Card>
             </LinkWithoutUnderline>

@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Box, List, Paper, Tab, Tabs, Typography } from '@material-ui/core';
+import { Box, List, Paper, Tab, Tabs, Typography } from '@mui/material';
 import Page from '../../containers/navigation/Page';
 import { arrayPropertyComparator } from '../../common/sorting';
 import { ChartsEntryDto } from '../../../../server/src/api/dtos/charts.dto';
-import Alert from '@material-ui/lab/Alert';
-import { AlertTitle } from '@material-ui/lab';
+import { Alert, AlertTitle } from '@mui/material';
 import PieceListItem from '../pieces/PieceListItem';
 
 interface TabPanelProps {

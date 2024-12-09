@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { List, Paper } from '@material-ui/core';
+import { List, Paper } from '@mui/material';
 import { arrayPropertyComparator } from '../../common/sorting';
 import PieceListItem from './PieceListItem';
 

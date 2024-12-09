@@ -3,12 +3,12 @@ import {
   Checkbox,
   Chip,
   List,
-  ListItem,
+  ListItemButton,
   ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
   Paper,
-} from '@material-ui/core';
+} from '@mui/material';
 import { PieceProps } from './PieceList';
 
 type SelectablePieceListProps = {
@@ -35,7 +35,7 @@ const SelectablePieceList = ({ allPieces, selectedPieceIds, setSelectedPieceIds 
     <Paper>
       <List>
         {allPieces.map(piece => (
-          <ListItem key={piece._id} dense button onClick={handleToggle(piece._id)}>
+          <ListItemButton key={piece._id} dense onClick={handleToggle(piece._id)}>
             <ListItemIcon>
               <Checkbox
                 edge="start"
@@ -53,7 +53,7 @@ const SelectablePieceList = ({ allPieces, selectedPieceIds, setSelectedPieceIds 
             <ListItemSecondaryAction>
               <Chip label={piece.code} />
             </ListItemSecondaryAction>
-          </ListItem>
+          </ListItemButton>
         ))}
       </List>
     </Paper>

@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { IconButton } from '@material-ui/core';
+import { IconButton } from '@mui/material';
 import Page from '../../containers/navigation/Page';
-import AddIcon from '@material-ui/icons/Add';
+import AddIcon from '@mui/icons-material/Add';
 import { Link, useParams } from 'react-router-dom';
 import { arrayPropertyComparator } from '../../common/sorting';
 import PieceList, { PieceProps } from './PieceList';

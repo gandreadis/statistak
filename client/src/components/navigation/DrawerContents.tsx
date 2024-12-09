@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { Divider, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import MapIcon from '@material-ui/icons/Map';
-import ExploreIcon from '@material-ui/icons/Explore';
-import LibraryMusicIcon from '@material-ui/icons/LibraryMusic';
-import StarIcon from '@material-ui/icons/Star';
-import EqualizerIcon from '@material-ui/icons/Equalizer';
-import LockIcon from '@material-ui/icons/Lock';
-import LockOpenIcon from '@material-ui/icons/LockOpen';
-import InfoIcon from '@material-ui/icons/Info';
+import { Divider, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import MapIcon from '@mui/icons-material/Map';
+import ExploreIcon from '@mui/icons-material/Explore';
+import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
+import StarIcon from '@mui/icons-material/Star';
+import EqualizerIcon from '@mui/icons-material/Equalizer';
+import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import InfoIcon from '@mui/icons-material/Info';
 import { Link } from 'react-router-dom';
 
 type DrawerItemProps = {
@@ -21,15 +21,15 @@ type DrawerItemProps = {
 
 const DrawerItem = ({ onClick, title, icon, url, selected, disabled }: DrawerItemProps) =>
   url ? (
-    <ListItem button component={Link} to={url} key={title} onClick={onClick} selected={selected} disabled={disabled}>
+    <ListItemButton component={Link} to={url} key={title} onClick={onClick} selected={selected} disabled={disabled}>
       <ListItemIcon>{icon}</ListItemIcon>
       <ListItemText>{title}</ListItemText>
-    </ListItem>
+    </ListItemButton>
   ) : (
-    <ListItem button key={title} onClick={onClick} selected={selected} disabled={disabled}>
+    <ListItemButton key={title} onClick={onClick} selected={selected} disabled={disabled}>
       <ListItemIcon>{icon}</ListItemIcon>
       <ListItemText>{title}</ListItemText>
-    </ListItem>
+    </ListItemButton>
   );
 
 type DrawerContentProps = {

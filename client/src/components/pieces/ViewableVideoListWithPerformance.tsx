@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { PerformanceDto } from '../../../../server/src/api/dtos/performance.dto';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ViewableVideoList from '../performances/ViewableVideoList';
 

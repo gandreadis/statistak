@@ -11,7 +11,7 @@ import { join } from 'path';
       rootPath: join(__dirname, '..', '..', 'client', 'build'),
       exclude: ['/api*'],
     }),
-    MongooseModule.forRoot('mongodb://localhost/statistak', { useNewUrlParser: true }),
+    MongooseModule.forRoot('mongodb://localhost/statistak'),
     ApiModule,
   ],
   controllers: [AppController],

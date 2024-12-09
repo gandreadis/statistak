@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Page from '../../containers/navigation/Page';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 
 const AboutPage = () => (
   <Page title="About">
