@@ -41,6 +41,15 @@ To back up the current state of a running MongoDB instance serving the `statista
 mongodump --db=statistak --out=data
 ```
 
+## Running a local MongoDB instance on a Mac
+
+```shell script
+brew services start mongodb-community@8.0
+brew stop start mongodb-community@8.0
+```
+
+More information can be found [here](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/).
+
 ## Maintenance
 
 `yarn upgrade` periodically, and then run `yarn-upgrade-all` from time to time.
