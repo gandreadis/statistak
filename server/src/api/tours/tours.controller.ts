@@ -7,6 +7,7 @@ import {
   HttpCode,
   HttpStatus,
   NotFoundException,
+  StreamableFile,
   Param,
   Post,
   Put,
@@ -70,14 +71,16 @@ export class ToursController {
     });
   }
 
-  @Get(':tourId/csv')
-  @Header('Content-Type', 'text/csv')
-  @Header('Content-Disposition', 'attachment; filename=export.csv')
+  @Get(':tourId/xlsx')
+  @Header('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+  @Header('Content-Disposition', 'attachment; filename="export.xlsx"')
   async getExcelExport(@Res() res, @Param('tourId', new ValidateObjectId()) tourId) {
     const s = new Readable();
     s._read = () => {};
     s.push(await this.toursService.exportToExcel(tourId));
     s.push(null);
     return s.pipe(res);
+
+    // return await this.toursService.exportToExcel(tourId);
   }
 }

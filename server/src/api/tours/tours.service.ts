@@ -1,11 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, StreamableFile } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Tour } from '../interfaces/tour.interface';
 import { TourDto } from '../dtos/tour.dto';
-import { utils, WorkSheet } from 'xlsx';
+import { utils, write, WorkSheet } from 'xlsx-js-style';
 import { Performance } from '../interfaces/performance.interface';
 import { Piece } from '../interfaces/piece.interface';
+import { retryWhen } from 'rxjs';
 
 const arrayPropertyComparator = (property: string) => {
   let sortOrder = 1;
@@ -18,6 +19,36 @@ const arrayPropertyComparator = (property: string) => {
     return result * sortOrder;
   };
 };
+
+const autoSizeColumns = (dataArray, worksheet) => {
+  let objectMaxLength = []
+  dataArray.map(rowArray => {
+      Object.keys(rowArray).map(key => {
+        let value = rowArray[key] === null ? '0000000000' : rowArray[key];
+        if (value.length === undefined) return;
+
+        objectMaxLength[key] = objectMaxLength[key] >= value.length ? objectMaxLength[key] : value.length;
+      })
+    });
+
+    let worksheetCols = objectMaxLength.map(width => { return { width } });
+    worksheet["!cols"] = worksheetCols;
+}
+
+const zeroPad = (num, places) => String(num).padStart(places, '0');
+
+const performanceTypes = {
+  SO: 'Openbaar, bij sociale instelling',
+  SB: 'Besloten, bij sociale instelling',
+  O: 'Openbaar',
+  WO: 'Wild Op (spontaan optreden)',
+};
+
+const jaNee = {
+  "true": "Ja",
+  "false": "Nee",
+}
+
 
 @Injectable()
 export class ToursService {
@@ -48,7 +79,7 @@ export class ToursService {
     return await this.tourModel.findByIdAndDelete(tourId).exec();
   }
 
-  async exportToExcel(tourId): Promise<string> {
+  async exportToExcel(tourId) {
     const allPerformances = await this.performanceModel
       .find({ tour: tourId })
       .populate('pieces')
@@ -76,86 +107,88 @@ export class ToursService {
 
     performanceDays.sort(arrayPropertyComparator('date'));
 
-    const data = [];
-    data.push([
-      'Nummer',
-      'Datum',
-      'Tijd',
-      'Duur',
-      'Locatie',
-      'Stad',
-      'Stadsdeel',
-      'Buurtactiviteit',
-      'Provincie',
-      'O/SO/SB/WO',
-      'Doelgroep',
-      'Publiek',
-      'Gastdirirgent',
-      'Repertoire (niet op volgorde)',
-      '1',
-      '2',
-      '3',
-      '4',
-      '5',
-      '6',
-      '7',
-      '8',
-      '9',
-      '10',
-      '11',
-      '12',
-      '13',
-      '14',
-      '15',
-      '16',
-      '17',
-      '18',
-      '19',
-      '20',
-      '21',
-      '22',
-      '23',
-      'Mansen',
-      'CD verkoop',
-      'Groupies',
-      'Opmerking Groupies',
-      'Uitkoop',
-      'Maaltijden',
-      'Extra',
-      'Opmerking',
-      'Contactpersoon',
-    ]);
+    // Make a workbook that will contain all the data
+    const excelWorkbook = utils.book_new(); 
 
-    let counter = 1;
+    // Make an overview tab
+    const tourOverviewData = [
+      [
+        'Optreden nr.', 
+        'Datum', 
+        'Begintijd', 
+        'Locatie', 
+        'Plaats', 
+        'Aantal bezoekers', 
+        'Duur (min.)', 
+        'Doelgroep', 
+        'Gecollecteerd', 
+        'CD-verkoop', 
+        'Sponsorenwerving',
+      ],
+    ]
+
+    let performanceCounter = 1;
     performanceDays.forEach(performanceDay =>
       performanceDay.performances.map((performance: Performance) => {
         const row = [];
         row.push(
-          counter++,
+          zeroPad(performanceCounter++, 2),
           performance.date,
           performance.time,
-          performance.duration || '?',
           performance.locationName,
           performance.city,
-          '',
-          '',
-          '',
-          performance.type,
-          '',
           performance.audienceCount,
-          performance.guestConductor,
-          '',
+          performance.duration || '?',
+          performanceTypes[performance.type] ? performanceTypes[performance.type] : '?',
         );
-        performance.pieces.map(piece => piece.code).forEach(piece => row.push(piece));
-        while (row.length < 37) {
-          row.push('');
-        }
-        row.push(performance.isWithCollection, performance.isWithCDSale, performance.isWithSponsorTalk);
-        data.push(row);
+        row.push(
+          jaNee[String(performance.isWithCollection)],
+          jaNee[String(performance.isWithCDSale)], 
+          jaNee[String(performance.isWithSponsorTalk)],
+        );
+        tourOverviewData.push(row);
       }),
     );
 
-    const ws: WorkSheet = utils.aoa_to_sheet(data);
-    return utils.sheet_to_csv(ws);
+    const tourOverviewWorkSheet: WorkSheet = utils.aoa_to_sheet(tourOverviewData);
+
+    for (const item of ["A1", "B1", "C1", "D1", "E1", "F1", "G1", "H1", "I1", "J1", "K1"]) {
+      tourOverviewWorkSheet[item].s = {font: {bold: true}};
+    }
+
+    autoSizeColumns(tourOverviewData, tourOverviewWorkSheet);
+
+    utils.book_append_sheet(excelWorkbook, tourOverviewWorkSheet, "Overzicht optredens");
+
+    // Make one tab per performance
+    performanceCounter = 1;
+    performanceDays.forEach(performanceDay =>
+      performanceDay.performances.forEach((performance: Performance) => {
+        const performanceData = [
+          ['Titel muziekstuk', 'Componist', 'Arrangeur'],
+        ];
+
+        performance.pieces.forEach(piece => {
+          const row = [
+            piece.title, 
+            piece.composer ? piece.composer : "nvt.", 
+            piece.arranger ? piece.arranger : "nvt.",
+          ];
+          performanceData.push(row);
+        });
+        
+        const performanceWorkSheet: WorkSheet = utils.aoa_to_sheet(performanceData);
+
+        for (const item of ["A1", "B1", "C1"]) {
+          performanceWorkSheet[item].s = {font: {bold: true}};
+        }
+        autoSizeColumns(performanceData, performanceWorkSheet);
+        utils.book_append_sheet(excelWorkbook, performanceWorkSheet, `Optreden ${zeroPad(performanceCounter++, 2)}`);
+      })
+    );
+
+    // Return workbook stream
+    const excelBuffer = write(excelWorkbook, {type: "buffer", bookType: "xlsx"});
+    return excelBuffer;
   }
 }

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AppBar, Container, Drawer, Hidden, IconButton, SwipeableDrawer, Toolbar, Typography } from '@mui/material';
+import { AppBar, Paper, Container, Drawer, Hidden, IconButton, SwipeableDrawer, Toolbar, Typography } from '@mui/material';
 import { createStyles, makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -72,6 +72,12 @@ const PageComponent = ({ title, actionButton, mobileOpen, handleDrawerToggle, ch
           >
             <MenuIcon />
           </IconButton>
+          <Paper 
+            style={{marginLeft: 220 }}
+            sx={{
+              display: { xs: 'none', sm: 'block' },
+            }}
+          />
           <Typography variant="h6" noWrap={true}>
             {title}
           </Typography>
@@ -80,19 +86,35 @@ const PageComponent = ({ title, actionButton, mobileOpen, handleDrawerToggle, ch
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="menu">
-        <Hidden smUp implementation="css">
-          <SwipeableDrawer
-            variant="temporary"
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
-            onOpen={handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{ keepMounted: true }}
-          >
-            <NavigationDrawer />
-          </SwipeableDrawer>
+        <SwipeableDrawer
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          onOpen={handleDrawerToggle}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+          sx={{
+            display: { xs: 'block', sm: 'none' },
+          }}
+          ModalProps={{ keepMounted: true }}
+        >
+          <NavigationDrawer />
+        </SwipeableDrawer>
+        <Drawer
+          variant="permanent"
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+          sx={{
+            display: { xs: 'none', sm: 'block' },
+          }}
+          ModalProps={{ keepMounted: true }}
+        >
+          <NavigationDrawer />
+        </Drawer>
+        {/* <Hidden smUp implementation="css">
+          
         </Hidden>
         <Hidden xsDown implementation="css">
           <Drawer
@@ -104,7 +126,7 @@ const PageComponent = ({ title, actionButton, mobileOpen, handleDrawerToggle, ch
           >
             <NavigationDrawer />
           </Drawer>
-        </Hidden>
+        </Hidden> */}
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />

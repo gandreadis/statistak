@@ -28,6 +28,14 @@ Have a database running:
 brew services start mongodb-community@8.0
 ```
 
+Important: also have these variables set:
+
+```shell script
+# For the server:
+export SERVER_PORT=3001
+export REACT_APP_SERVER_BASE_URL=http://localhost:3001
+```
+
 ## Restoring and Backing up
 To import the contents of the `data` directory into a running MongoDB instance, run the following command:
 
@@ -45,7 +53,7 @@ mongodump --db=statistak --out=data
 
 ```shell script
 brew services start mongodb-community@8.0
-brew stop start mongodb-community@8.0
+brew services stop mongodb-community@8.0
 ```
 
 More information can be found [here](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/).

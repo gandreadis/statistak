@@ -66,7 +66,7 @@ function ViewTour() {
       loading={loading}
       isAuthenticated={isAuthenticated}
       tour={tour}
-      exportCsvLink={`${process.env.REACT_APP_SERVER_BASE_URL}/api/tours/${tourId}/csv`}
+      exportXlsxLink={`${process.env.REACT_APP_SERVER_BASE_URL}/api/tours/${tourId}/xlsx`}
     />
   );
 }

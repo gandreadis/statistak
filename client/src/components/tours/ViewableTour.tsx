@@ -18,7 +18,7 @@ type ViewableTourProps = {
   loading: boolean;
   isAuthenticated: boolean;
   tour: any;
-  exportCsvLink: string;
+  exportXlsxLink: string;
 };
 
 const ViewableTour = ({
@@ -28,7 +28,7 @@ const ViewableTour = ({
   loading,
   isAuthenticated,
   tour,
-  exportCsvLink,
+  exportXlsxLink,
 }: ViewableTourProps) => (
   <Page
     title={`${tour.title} (${tour.season} ${tour.year})`}
@@ -93,13 +93,13 @@ const ViewableTour = ({
           View stats
         </Button>
       </Grid2>
-      {isAuthenticated && (
+      {/* {isAuthenticated && ( */}
         <Grid2>
-          <Button variant="contained" color="primary" endIcon={<GetAppIcon />} href={exportCsvLink} download>
-            Export CSV
+          <Button variant="contained" color="primary" endIcon={<GetAppIcon />} href={exportXlsxLink} download>
+            Export Excel (.xlsx)
           </Button>
         </Grid2>
-      )}
+      {/* )} */}
     </Grid2>
   </Page>
 );
