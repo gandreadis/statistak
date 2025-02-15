@@ -69,6 +69,16 @@ const EditablePiece = ({ title, onSubmit, handleInputChanges, submitSuccess, loa
           variant="outlined"
         />
         <TextField
+          id="duration-field"
+          name="duration"
+          label="Duration (in minutes)"
+          onChange={handleStandardInputChange}
+          value={piece.duration}
+          fullWidth
+          type="number"
+          variant="outlined"
+        />
+        <TextField
           id="code-field"
           name="code"
           label="Code"

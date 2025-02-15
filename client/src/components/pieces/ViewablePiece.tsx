@@ -42,6 +42,7 @@ const ViewablePiece = ({ onEdit, onDelete, deleteSuccess, loading, isAuthenticat
     <InfoItem icon={<TitleIcon />}>{piece.title}</InfoItem>
     <InfoItem icon={<PersonIcon />}>{`Composer: ${piece.composer}`}</InfoItem>
     {piece.arranger && <InfoItem icon={<EditIcon />}>{`Arranger: ${piece.arranger}`}</InfoItem>}
+    {piece.duration && <InfoItem icon={<EditIcon />}>{`Duration: ${piece.duration} min.`}</InfoItem>}
     {piece.code && <InfoItem icon={<LabelIcon />}>{`Code: ${piece.code}`}</InfoItem>}
     {piece.soloists && piece.soloists.length > 0 && (
       <InfoItem icon={<DirectionsWalkIcon />}>

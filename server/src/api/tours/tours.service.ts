@@ -165,7 +165,7 @@ export class ToursService {
     performanceDays.forEach(performanceDay =>
       performanceDay.performances.forEach((performance: Performance) => {
         const performanceData = [
-          ['Titel muziekstuk', 'Componist', 'Arrangeur'],
+          ['Titel muziekstuk', 'Componist', 'Arrangeur', 'Duration'],
         ];
 
         performance.pieces.forEach(piece => {
@@ -173,13 +173,14 @@ export class ToursService {
             piece.title, 
             piece.composer ? piece.composer : "nvt.", 
             piece.arranger ? piece.arranger : "nvt.",
+            piece.duration ? String(piece.duration) : String(-1),
           ];
           performanceData.push(row);
         });
         
         const performanceWorkSheet: WorkSheet = utils.aoa_to_sheet(performanceData);
 
-        for (const item of ["A1", "B1", "C1"]) {
+        for (const item of ["A1", "B1", "C1", "D1"]) {
           performanceWorkSheet[item].s = {font: {bold: true}};
         }
         autoSizeColumns(performanceData, performanceWorkSheet);

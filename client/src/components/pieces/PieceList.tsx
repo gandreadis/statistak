@@ -8,6 +8,7 @@ export type PieceProps = {
   title: string;
   composer: string;
   arranger: string;
+  duration: number;
   code: string;
 };
 

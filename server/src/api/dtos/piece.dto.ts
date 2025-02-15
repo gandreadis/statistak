@@ -5,6 +5,7 @@ export class PieceDto {
   readonly title: string;
   readonly composer: string;
   readonly arranger: string;
+  readonly duration: number;
   readonly code: string;
   readonly tour?: TourDto | string;
   readonly _id?: string;

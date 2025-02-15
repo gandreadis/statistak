@@ -23,7 +23,7 @@ const PieceListItem = ({
 }: PieceListItemProps) => {
   const { tourId } = useParams();
   const pieceCredits = piece.composer
-    ? piece.composer + (piece.arranger ? ` (arr. ${piece.arranger})` : '')
+    ? piece.composer + (piece.arranger ? ` (arr. ${piece.arranger})` : '') + (piece.duration ? ` - ${piece.duration} min.` : '')
     : 'No composer';
 
   return (

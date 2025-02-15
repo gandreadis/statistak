@@ -21,6 +21,7 @@ function CreatePiece(): React.JSX.Element {
       title: values.title,
       composer: values.composer,
       arranger: values.arranger,
+      duration: values.duration,
       code: values.code,
       tour: tourId,
     };

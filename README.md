@@ -59,6 +59,31 @@ brew services stop mongodb-community@8.0
 
 More information can be found [here](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/).
 
+## Deployment
+
+Make an `.env` file in the server directory with the following contents:
+```bash
+export SERVER_PORT=443
+export AUTH0_DOMAIN=[...]
+```
+
+Make an `.env` file in the client directory with the following contents:
+```bash
+export REACT_APP_AUTH0_DOMAIN=[...]
+export REACT_APP_AUTH0_CLIENT_ID=[...]
+export REACT_APP_SERVER_BASE_URL=https://statistak.nl
+```
+
+Use a run manager such as PM2:
+
+```shell script
+pm2 start npm --name "main" -- start:prod
+
+# To ensure it starts on restarts:
+pm2 startup
+pm2 save
+```
+
 ## Maintenance
 
 To upgrade all packages, run:
