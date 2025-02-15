@@ -93,13 +93,13 @@ const ViewableTour = ({
           View stats
         </Button>
       </Grid2>
-      {/* {isAuthenticated && ( */}
+      {isAuthenticated && (
         <Grid2>
           <Button variant="contained" color="primary" endIcon={<GetAppIcon />} href={exportXlsxLink} download>
             Export Excel (.xlsx)
           </Button>
         </Grid2>
-      {/* )} */}
+      )}
     </Grid2>
   </Page>
 );

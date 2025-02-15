@@ -5,7 +5,7 @@ import { PieceDto } from '../../../../server/src/api/dtos/piece.dto';
 import EditablePiece from '../../components/pieces/EditablePiece';
 import { EMPTY_PIECE_OBJECT } from './common';
 
-function CreatePiece(): JSX.Element {
+function CreatePiece(): React.JSX.Element {
   let navigate = useNavigate();
   let { tourId } = useParams();
 

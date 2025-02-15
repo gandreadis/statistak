@@ -5,7 +5,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 type PageProps = {
   title: string;
-  actionButton?: JSX.Element;
+  actionButton?: React.JSX.Element;
   children: React.ReactNode;
 };
 

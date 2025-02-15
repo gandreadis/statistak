@@ -5,7 +5,7 @@ import { PerformanceDto } from '../../../../server/src/api/dtos/performance.dto'
 import EditablePerformance from '../../components/performances/EditablePerformance';
 import { EMPTY_PERFORMANCE_OBJECT } from './common';
 
-function EditPerformance(): JSX.Element {
+function EditPerformance(): React.JSX.Element {
   let navigate = useNavigate();
   let { tourId, performanceId } = useParams();
 

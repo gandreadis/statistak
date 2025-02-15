@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AppBar, Paper, Container, Drawer, Hidden, IconButton, SwipeableDrawer, Toolbar, Typography } from '@mui/material';
+import { AppBar, Container, Drawer, IconButton, SwipeableDrawer, Toolbar, Typography } from '@mui/material';
 import { createStyles, makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
     appBar: {
       [theme.breakpoints.up('sm')]: {
         width: `calc(100% - ${DRAWER_WIDTH}px)`,
-        marginLeft: DRAWER_WIDTH,
+        paddingLeft: DRAWER_WIDTH,
       },
     },
     menuButton: {
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 type PageComponentProps = {
   title: string;
-  actionButton?: JSX.Element;
+  actionButton?: React.JSX.Element;
   mobileOpen: boolean;
   handleDrawerToggle: () => void;
   children: React.ReactNode;
@@ -61,7 +61,7 @@ const PageComponent = ({ title, actionButton, mobileOpen, handleDrawerToggle, ch
         <title>{title} - Statistak</title>
       </Helmet>
 
-      <AppBar position="fixed" className={classes.appBar}>
+      <AppBar component="nav" className={classes.appBar}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -72,12 +72,12 @@ const PageComponent = ({ title, actionButton, mobileOpen, handleDrawerToggle, ch
           >
             <MenuIcon />
           </IconButton>
-          <Paper 
+          {/* <Paper 
             style={{marginLeft: 220 }}
             sx={{
               display: { xs: 'none', sm: 'block' },
             }}
-          />
+          /> */}
           <Typography variant="h6" noWrap={true}>
             {title}
           </Typography>

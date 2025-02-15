@@ -4,14 +4,14 @@ App for keeping track of tour performances, made for use on tour with the [Ricci
 
 ## Installation
 
-Run the following commands to get the codebase installed (with Node and the Yarn package manager installed), starting in the root directory of this project:
+Run the following commands to get the codebase installed (with Node+NPM installed), starting in the root directory of this project:
 
 ```shell script
 cd server
-yarn
+npm install
 cd ..
 cd client
-yarn
+npm install
 cd ..
 ```
 
@@ -19,8 +19,8 @@ cd ..
 
 To locally develop this, run these two commands in two separate terminals:
 
-* `yarn start:dev` in the `server` directory
-* `yarn start` in the `client` directory 
+* `npm run start:dev` in the `server` directory
+* `npm run start` in the `client` directory 
 
 Have a database running:
 
@@ -33,6 +33,7 @@ Important: also have these variables set:
 ```shell script
 # For the server:
 export SERVER_PORT=3001
+# For the app
 export REACT_APP_SERVER_BASE_URL=http://localhost:3001
 ```
 
@@ -60,7 +61,13 @@ More information can be found [here](https://www.mongodb.com/docs/manual/tutoria
 
 ## Maintenance
 
-`yarn upgrade` periodically, and then run `yarn-upgrade-all` from time to time.
+To upgrade all packages, run:
+
+```shell script
+npm i -g npm-check-updates
+ncu -u
+npm install
+```
 
 ## Credits
 

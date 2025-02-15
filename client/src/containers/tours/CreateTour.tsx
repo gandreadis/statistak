@@ -5,7 +5,7 @@ import { TourDto } from '../../../../server/src/api/dtos/tour.dto';
 import EditableTour from '../../components/tours/EditableTour';
 import { EMPTY_TOUR_OBJECT } from './common';
 
-function CreateTour(): JSX.Element {
+function CreateTour(): React.JSX.Element {
   let navigate = useNavigate();
 
   const { getIdTokenClaims } = useAuth0();

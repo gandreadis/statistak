@@ -5,7 +5,7 @@ import { TourDto } from '../../../../server/src/api/dtos/tour.dto';
 import EditableTour from '../../components/tours/EditableTour';
 import { EMPTY_TOUR_OBJECT } from './common';
 
-function EditTour(): JSX.Element {
+function EditTour(): React.JSX.Element {
   let navigate = useNavigate();
   let { tourId } = useParams();
 
