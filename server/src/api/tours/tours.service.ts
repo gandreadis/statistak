@@ -165,7 +165,7 @@ export class ToursService {
     performanceDays.forEach(performanceDay =>
       performanceDay.performances.forEach((performance: Performance) => {
         const performanceData = [
-          ['Titel muziekstuk', 'Componist', 'Arrangeur', 'Duration'],
+          ['Titel muziekstuk', 'Componist', 'Arrangeur', 'Duration (min.)'],
         ];
 
         performance.pieces.forEach(piece => {
