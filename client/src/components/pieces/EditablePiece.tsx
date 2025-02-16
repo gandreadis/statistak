@@ -49,6 +49,7 @@ const EditablePiece = ({ title, onSubmit, handleInputChanges, submitSuccess, loa
           value={piece.title}
           fullWidth
           variant="outlined"
+          style={{marginBottom: 10}}
         />
         <TextField
           id="composer-field"
@@ -58,6 +59,7 @@ const EditablePiece = ({ title, onSubmit, handleInputChanges, submitSuccess, loa
           value={piece.composer}
           fullWidth
           variant="outlined"
+          style={{marginBottom: 10}}
         />
         <TextField
           id="arranger-field"
@@ -67,6 +69,7 @@ const EditablePiece = ({ title, onSubmit, handleInputChanges, submitSuccess, loa
           value={piece.arranger}
           fullWidth
           variant="outlined"
+          style={{marginBottom: 10}}
         />
         <TextField
           id="duration-field"
@@ -77,6 +80,7 @@ const EditablePiece = ({ title, onSubmit, handleInputChanges, submitSuccess, loa
           fullWidth
           type="number"
           variant="outlined"
+          style={{marginBottom: 10}}
         />
         <TextField
           id="code-field"

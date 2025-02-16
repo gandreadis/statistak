@@ -61,11 +61,19 @@ More information can be found [here](https://www.mongodb.com/docs/manual/tutoria
 
 ## Deployment
 
+You'll need a server with at least 1 vCPU and 2 GB, with MongoDB already installed and running. Populate the database with the instructions above.
+
 Make an `.env` file in the server directory with the following contents:
 
 ```bash
 export SERVER_PORT=443
 export AUTH0_DOMAIN=[...]
+```
+
+Then, in the server directory, build the server:
+
+```bash
+npm run build
 ```
 
 Make an `.env` file in the client directory with the following contents:
@@ -76,16 +84,16 @@ export REACT_APP_AUTH0_CLIENT_ID=[...]
 export REACT_APP_SERVER_BASE_URL=https://statistak.nl
 ```
 
-Then, in the server directory, build the server:
+Then, in the client directory, build the client:
 
 ```bash
 npm run build
 ```
 
-Use a run manager such as PM2:
+Use a run manager such as PM2 to then start the server, in the server directory:
 
 ```shell script
-pm2 start npm --name "main" -- start:prod
+pm2 start npm --name "main" -- run start:prod
 
 # To ensure it starts on restarts:
 pm2 startup

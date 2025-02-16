@@ -15,6 +15,8 @@ import {
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import Page from '../../containers/navigation/Page';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { nlNL } from '@mui/x-date-pickers/locales';
 import { makeStyles } from '@mui/styles';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
 import moment from 'moment';
@@ -84,6 +86,7 @@ const EditablePerformance = ({
           value={performance.locationName}
           fullWidth
           variant="outlined"
+          style={{marginBottom: 10}}
         />
         <TextField
           id="city-field"
@@ -93,6 +96,7 @@ const EditablePerformance = ({
           value={performance.city}
           fullWidth
           variant="outlined"
+          style={{marginBottom: 10}}
         />
         <TextField
           id="country-field"
@@ -102,23 +106,28 @@ const EditablePerformance = ({
           value={performance.country}
           fullWidth
           variant="outlined"
+          style={{marginBottom: 10}}
         />
         <div>
-          <DatePicker
-            className={(classes as any).datePicker}
-            value={moment(performance.date, 'YYYY-MM-DD')}
-            onChange={date => {
-              const usableDate = date === null ? moment() : date;
-              handleInputChanges('date', usableDate.format('YYYY-MM-DD'));
-            }}
-          />
-          <TimePicker
-            value={moment(performance.time, 'HH:mm')}
-            onChange={time => {
-              const usableTime = time === null ? moment() : time;
-              handleInputChanges('time', usableTime.format('HH:mm'));
-            }}
-          />
+          <LocalizationProvider
+            localeText={nlNL.components.MuiLocalizationProvider.defaultProps.localeText}
+          >
+            <DatePicker
+              className={(classes as any).datePicker}
+              value={moment(performance.date, 'YYYY-MM-DD')}
+              onChange={date => {
+                const usableDate = date === null ? moment() : date;
+                handleInputChanges('date', usableDate.format('YYYY-MM-DD'));
+              }}
+            />
+            <TimePicker
+              value={moment(performance.time, 'HH:mm')}
+              onChange={time => {
+                const usableTime = time === null ? moment() : time;
+                handleInputChanges('time', usableTime.format('HH:mm'));
+              }}
+            />
+          </LocalizationProvider>
         </div>
         <TextField
           id="duration-field"
@@ -130,6 +139,7 @@ const EditablePerformance = ({
           variant="outlined"
           type="number"
           multiline
+          style={{marginBottom: 10}}
         />
         <div>
           <FormControlLabel
@@ -147,6 +157,7 @@ const EditablePerformance = ({
           variant="outlined"
           type="number"
           multiline
+          style={{marginBottom: 10}}
         />
         <TextField
           id="guest-conductor-field"
@@ -156,6 +167,7 @@ const EditablePerformance = ({
           value={performance.guestConductor}
           fullWidth
           variant="outlined"
+          style={{marginBottom: 10}}
         />
         <TextField
           id="comments-field"
@@ -165,6 +177,7 @@ const EditablePerformance = ({
           value={performance.comments}
           fullWidth
           variant="outlined"
+          style={{marginBottom: 10}}
         />
         <FormControl component="fieldset">
           <FormLabel component="legend">Type</FormLabel>

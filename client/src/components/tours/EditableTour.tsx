@@ -57,6 +57,7 @@ const EditableTour = ({ title, onSubmit, handleInputChanges, submitSuccess, load
           value={tour.title}
           fullWidth
           variant="outlined"
+          style={{marginBottom: 10}}
         />
         <TextField
           id="year-field"
@@ -67,6 +68,7 @@ const EditableTour = ({ title, onSubmit, handleInputChanges, submitSuccess, load
           fullWidth
           type="number"
           variant="outlined"
+          style={{marginBottom: 10}}
         />
         <FormControl component="fieldset">
           <FormLabel component="legend">Season</FormLabel>
