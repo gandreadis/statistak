@@ -1,5 +1,4 @@
-git fetch --all
-git reset --hard origin/master
+git pull
 cd client
 npm install
 cd ..
