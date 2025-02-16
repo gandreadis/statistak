@@ -9,7 +9,7 @@ import { join } from 'path';
   imports: [
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', '..', 'client', 'build'),
-      exclude: ['/api*'],
+      exclude: ['/api/*name'],
     }),
     MongooseModule.forRoot('mongodb://localhost/statistak'),
     ApiModule,
