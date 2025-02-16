@@ -1,16 +1,15 @@
-cd statistak
 git fetch --all
 git reset --hard origin/master
 cd client
-yarn
+npm install
 cd ..
 cd server
-yarn
+npm install
 cd ..
 pm2 stop main
 cd client
-yarn build
+npm run build
 cd ..
 cd server
-yarn build
+npm run build
 pm2 start main
