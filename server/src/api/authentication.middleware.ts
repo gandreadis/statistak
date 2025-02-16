@@ -1,6 +1,7 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import {expressjwt} from 'express-jwt';
-import { expressJwtSecret, GetVerificationKey } from 'jwks-rsa';
+import { expressJwtSecret } from 'jwks-rsa';
+import { GetVerificationKey } from 'express-jwt';
 import { Request, Response } from 'express';
 
 @Injectable()

@@ -45,6 +45,7 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+# (make sure you buid first)
 ```
 
 ## Test
