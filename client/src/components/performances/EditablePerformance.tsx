@@ -16,7 +16,8 @@ import {
 import SaveIcon from '@mui/icons-material/Save';
 import Page from '../../containers/navigation/Page';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { nlNL } from '@mui/x-date-pickers/locales';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import 'moment/locale/nl';
 import { makeStyles } from '@mui/styles';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
 import moment from 'moment';
@@ -109,9 +110,7 @@ const EditablePerformance = ({
           style={{marginBottom: 10}}
         />
         <div>
-          <LocalizationProvider
-            localeText={nlNL.components.MuiLocalizationProvider.defaultProps.localeText}
-          >
+          <LocalizationProvider dateAdapter={AdapterMoment} adapterLocale="nl">
             <DatePicker
               className={(classes as any).datePicker}
               value={moment(performance.date, 'YYYY-MM-DD')}
