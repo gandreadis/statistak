@@ -13,7 +13,7 @@ export class AuthenticationMiddleware implements NestMiddleware {
         rateLimit: true,
         jwksRequestsPerMinute: 5,
         jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`,
-      }) as GetVerificationKey,
+      }) as unknown as GetVerificationKey,
       issuer: `https://${process.env.AUTH0_DOMAIN}/`,
       algorithms: ['RS256'],
     })(req, res, err => {
