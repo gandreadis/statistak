@@ -71,16 +71,25 @@ export class ToursController {
     });
   }
 
-  @Get(':tourId/xlsx')
+  @Get(':tourId/fundingXlsx')
   @Header('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-  @Header('Content-Disposition', 'attachment; filename="export.xlsx"')
-  async getExcelExport(@Res() res, @Param('tourId', new ValidateObjectId()) tourId) {
+  @Header('Content-Disposition', 'attachment; filename="ricciotti-funding-export.xlsx"')
+  async getFundingExcelExport(@Res() res, @Param('tourId', new ValidateObjectId()) tourId) {
     const s = new Readable();
     s._read = () => {};
-    s.push(await this.toursService.exportToExcel(tourId));
+    s.push(await this.toursService.exportToFundingExcel(tourId));
     s.push(null);
     return s.pipe(res);
+  }
 
-    // return await this.toursService.exportToExcel(tourId);
+  @Get(':tourId/bumaXlsx')
+  @Header('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+  @Header('Content-Disposition', 'attachment; filename="ricciotti-buma-export.xlsx"')
+  async getBumaExcelExport(@Res() res, @Param('tourId', new ValidateObjectId()) tourId) {
+    const s = new Readable();
+    s._read = () => {};
+    s.push(await this.toursService.exportToBumaExcel(tourId));
+    s.push(null);
+    return s.pipe(res);
   }
 }

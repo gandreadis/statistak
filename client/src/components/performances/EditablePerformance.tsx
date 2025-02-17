@@ -3,7 +3,6 @@ import AppBarActionButton from '../navigation/AppBarActionButton';
 import {
   Box,
   Checkbox,
-  createStyles,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -13,6 +12,7 @@ import {
   Theme,
   Typography,
 } from '@mui/material';
+import {createStyles} from '@mui/styles';
 import SaveIcon from '@mui/icons-material/Save';
 import Page from '../../containers/navigation/Page';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -109,7 +109,9 @@ const EditablePerformance = ({
           variant="outlined"
           style={{marginBottom: 10}}
         />
-        <div>
+        <div
+          style={{marginBottom: 10}}
+        >
           <LocalizationProvider dateAdapter={AdapterMoment} adapterLocale="nl">
             <DatePicker
               className={(classes as any).datePicker}
@@ -137,7 +139,6 @@ const EditablePerformance = ({
           fullWidth
           variant="outlined"
           type="number"
-          multiline
           style={{marginBottom: 10}}
         />
         <div>

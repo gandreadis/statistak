@@ -79,7 +79,137 @@ export class ToursService {
     return await this.tourModel.findByIdAndDelete(tourId).exec();
   }
 
-  async exportToExcel(tourId) {
+  async exportToFundingExcel(tourId) {
+    const allPerformances = await this.performanceModel
+      .find({ tour: tourId })
+      .populate('pieces')
+      .exec();
+    const performancesByDate = {};
+    allPerformances.forEach(performance => {
+      if (performancesByDate.hasOwnProperty(performance.date)) {
+        performancesByDate[performance.date].push(performance);
+      } else {
+        performancesByDate[performance.date] = [performance];
+      }
+    });
+
+    const performanceDays = [];
+
+    for (const date in performancesByDate) {
+      if (performancesByDate.hasOwnProperty(date)) {
+        performancesByDate[date].sort(arrayPropertyComparator('time'));
+        performanceDays.push({
+          date,
+          performances: performancesByDate[date],
+        });
+      }
+    }
+
+    performanceDays.sort(arrayPropertyComparator('date'));
+
+    const data = [];
+    data.push([
+      'Nummer',
+      'Datum',
+      'Tijd',
+      'Duur',
+      'Locatie',
+      'Stad',
+      'Stadsdeel',
+      'Buurtactiviteit',
+      'Provincie',
+      'O/SO/SB/WO',
+      'Doelgroep',
+      'Publiek',
+      'Gastdirirgent',
+      'Repertoire (niet op volgorde)',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      '10',
+      '11',
+      '12',
+      '13',
+      '14',
+      '15',
+      '16',
+      '17',
+      '18',
+      '19',
+      '20',
+      '21',
+      '22',
+      '23',
+      'Mansen',
+      'CD verkoop',
+      'Groupies',
+      'Opmerking Groupies',
+      'Uitkoop',
+      'Maaltijden',
+      'Extra',
+      'Opmerking',
+      'Contactpersoon',
+    ]);
+
+    let counter = 1;
+    performanceDays.forEach(performanceDay =>
+      performanceDay.performances.map((performance: Performance) => {
+        const row = [];
+        row.push(
+          counter++,
+          performance.date,
+          performance.time,
+          performance.duration || '?',
+          performance.locationName,
+          performance.city,
+          '',
+          '',
+          '',
+          performance.type,
+          '',
+          performance.audienceCount,
+          performance.guestConductor,
+          '',
+        );
+        performance.pieces.map(piece => piece.code).forEach(piece => row.push(piece));
+        while (row.length < 37) {
+          row.push('');
+        }
+        row.push(
+          jaNee[String(performance.isWithCollection)],
+          jaNee[String(performance.isWithCDSale)], 
+          jaNee[String(performance.isWithSponsorTalk)],
+        );
+        data.push(row);
+      }),
+    );
+
+    const ws: WorkSheet = utils.aoa_to_sheet(data);
+
+    for (const item of [
+      "A1", "B1", "C1", "D1", "E1", "F1", "G1", "H1", "I1", "J1", "K1", "L1", "M1", "N1", "O1", "P1", "Q1", "R1", "S1", "T1", "U1", "V1", "W1", "X1", "Y1", "Z1", 
+      "AA1", "AB1", "AC1", "AD1", "AE1", "AF1", "AG1", "AH1", "AI1", "AJ1", "AK1", "AL1", "AM1", "AN1", "AO1", "AP1", "AQ1", "AR1", "AS1", "AT1", "AU1", "AV1", "AW1", "AX1", "AY1", "AZ1", 
+    ]) {
+      ws[item].s = {font: {bold: true}};
+    }
+
+    autoSizeColumns(data, ws);
+
+    const excelWorkbook = utils.book_new(); 
+    utils.book_append_sheet(excelWorkbook, ws, "Overzicht tour");
+
+    // Return workbook stream
+    const excelBuffer = write(excelWorkbook, {type: "buffer", bookType: "xlsx"});
+    return excelBuffer;
+  }
+
+  async exportToBumaExcel(tourId) {
     const allPerformances = await this.performanceModel
       .find({ tour: tourId })
       .populate('pieces')
@@ -115,15 +245,12 @@ export class ToursService {
       [
         'Optreden nr.', 
         'Datum', 
-        'Begintijd', 
-        'Locatie', 
-        'Plaats', 
-        'Aantal bezoekers', 
-        'Duur (min.)', 
+        'Naam uitvoerende(n)', 
+        'Naam concert / optreden',
+        'Naam locatie concert / optreden', 
         'Doelgroep', 
-        'Gecollecteerd', 
-        'CD-verkoop', 
-        'Sponsorenwerving',
+        'Plaats locatie concert / optreden', 
+        'Aantal bezoekers', 
       ],
     ]
 
@@ -134,17 +261,12 @@ export class ToursService {
         row.push(
           zeroPad(performanceCounter++, 2),
           performance.date,
-          performance.time,
+          "Ricciotti Ensemble",
+          "Optreden",
           performance.locationName,
           performance.city,
-          performance.audienceCount,
-          performance.duration || '?',
           performanceTypes[performance.type] ? performanceTypes[performance.type] : '?',
-        );
-        row.push(
-          jaNee[String(performance.isWithCollection)],
-          jaNee[String(performance.isWithCDSale)], 
-          jaNee[String(performance.isWithSponsorTalk)],
+          performance.audienceCount,
         );
         tourOverviewData.push(row);
       }),
@@ -152,20 +274,23 @@ export class ToursService {
 
     const tourOverviewWorkSheet: WorkSheet = utils.aoa_to_sheet(tourOverviewData);
 
-    for (const item of ["A1", "B1", "C1", "D1", "E1", "F1", "G1", "H1", "I1", "J1", "K1"]) {
+    for (const item of ["A1", "B1", "C1", "D1", "E1", "F1", "G1", "H1"]) {
       tourOverviewWorkSheet[item].s = {font: {bold: true}};
     }
 
     autoSizeColumns(tourOverviewData, tourOverviewWorkSheet);
 
-    utils.book_append_sheet(excelWorkbook, tourOverviewWorkSheet, "Overzicht optredens");
+    utils.book_append_sheet(excelWorkbook, tourOverviewWorkSheet, "Podia opgaven");
 
     // Make one tab per performance
     performanceCounter = 1;
     performanceDays.forEach(performanceDay =>
       performanceDay.performances.forEach((performance: Performance) => {
         const performanceData = [
-          ['Titel muziekstuk', 'Componist', 'Arrangeur', 'Duration (min.)'],
+          ['Naam uitvoerend artiest(en)', 'Datum optreden', '', ''],
+          ['Ricciotti Ensemble', performance.date, '', ''],
+          ['', '', '', ''],
+          ['Titel muziekwerk', 'Componist', 'Arrangeur', 'Tijdsduur (min.)'],
         ];
 
         performance.pieces.forEach(piece => {
@@ -173,7 +298,7 @@ export class ToursService {
             piece.title, 
             piece.composer ? piece.composer : "nvt.", 
             piece.arranger ? piece.arranger : "nvt.",
-            piece.duration ? String(piece.duration) : String(-1),
+            piece.duration ? String(piece.duration) : '',
           ];
           performanceData.push(row);
         });
@@ -184,7 +309,7 @@ export class ToursService {
           performanceWorkSheet[item].s = {font: {bold: true}};
         }
         autoSizeColumns(performanceData, performanceWorkSheet);
-        utils.book_append_sheet(excelWorkbook, performanceWorkSheet, `Optreden ${zeroPad(performanceCounter++, 2)}`);
+        utils.book_append_sheet(excelWorkbook, performanceWorkSheet, `Rep ${performanceCounter++}`);
       })
     );
 

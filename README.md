@@ -90,6 +90,8 @@ Then, in the client directory, build the client:
 npm run build
 ```
 
+Request a certificate using the certbot.
+
 Use a run manager such as PM2 to then start the server, in the server directory:
 
 ```shell script
@@ -98,6 +100,18 @@ pm2 start npm --name "main" -- run start:prod
 # To ensure it starts on restarts:
 pm2 startup
 pm2 save
+```
+
+Set hooks for certbot to gracefully handle the server when renewing:
+
+```shell script
+echo "pm2 stop main" > /etc/letsencrypt/renewal-hooks/pre/stop_server.sh
+echo "pm2 start main" > /etc/letsencrypt/renewal-hooks/post/start_server.sh
+chmod +x /etc/letsencrypt/renewal-hooks/pre/stop_server.sh
+chmod +x /etc/letsencrypt/renewal-hooks/post/start_server.sh
+
+# Test it with
+certbot renew --dry-run
 ```
 
 ## Maintenance
