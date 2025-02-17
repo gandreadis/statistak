@@ -192,13 +192,6 @@ export class ToursService {
 
     const ws: WorkSheet = utils.aoa_to_sheet(data);
 
-    for (const item of [
-      "A1", "B1", "C1", "D1", "E1", "F1", "G1", "H1", "I1", "J1", "K1", "L1", "M1", "N1", "O1", "P1", "Q1", "R1", "S1", "T1", "U1", "V1", "W1", "X1", "Y1", "Z1", 
-      "AA1", "AB1", "AC1", "AD1", "AE1", "AF1", "AG1", "AH1", "AI1", "AJ1", "AK1", "AL1", "AM1", "AN1", "AO1", "AP1", "AQ1", "AR1", "AS1", "AT1", "AU1", "AV1", "AW1", "AX1", "AY1", "AZ1", 
-    ]) {
-      ws[item].s = {font: {bold: true}};
-    }
-
     autoSizeColumns(data, ws);
 
     const excelWorkbook = utils.book_new(); 
@@ -264,8 +257,8 @@ export class ToursService {
           "Ricciotti Ensemble",
           "Optreden",
           performance.locationName,
-          performance.city,
           performanceTypes[performance.type] ? performanceTypes[performance.type] : '?',
+          performance.city,
           performance.audienceCount,
         );
         tourOverviewData.push(row);
@@ -287,8 +280,8 @@ export class ToursService {
     performanceDays.forEach(performanceDay =>
       performanceDay.performances.forEach((performance: Performance) => {
         const performanceData = [
-          ['Naam uitvoerend artiest(en)', 'Datum optreden', '', ''],
-          ['Ricciotti Ensemble', performance.date, '', ''],
+          ['Naam uitvoerend artiest(en)', 'Datum optreden', 'Locatie', ''],
+          ['Ricciotti Ensemble', performance.date, performance.locationName, ''],
           ['', '', '', ''],
           ['Titel muziekwerk', 'Componist', 'Arrangeur', 'Tijdsduur (min.)'],
         ];
@@ -305,7 +298,7 @@ export class ToursService {
         
         const performanceWorkSheet: WorkSheet = utils.aoa_to_sheet(performanceData);
 
-        for (const item of ["A1", "B1", "C1", "D1"]) {
+        for (const item of ["A1", "B1", "C1", "D1", "A4", "B4", "C4", "D4"]) {
           performanceWorkSheet[item].s = {font: {bold: true}};
         }
         autoSizeColumns(performanceData, performanceWorkSheet);
