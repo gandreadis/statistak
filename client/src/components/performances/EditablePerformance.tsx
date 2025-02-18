@@ -139,6 +139,11 @@ const EditablePerformance = ({
           fullWidth
           variant="outlined"
           type="number"
+          slotProps={{
+            inputLabel: {
+              shrink: true,
+            },
+          }}
           style={{marginBottom: 10}}
         />
         <div>
@@ -156,7 +161,11 @@ const EditablePerformance = ({
           fullWidth
           variant="outlined"
           type="number"
-          multiline
+          slotProps={{
+            inputLabel: {
+              shrink: true,
+            },
+          }}
           style={{marginBottom: 10}}
         />
         <TextField

@@ -67,6 +67,11 @@ const EditableTour = ({ title, onSubmit, handleInputChanges, submitSuccess, load
           value={tour.year}
           fullWidth
           type="number"
+          slotProps={{
+            inputLabel: {
+              shrink: true,
+            },
+          }}
           variant="outlined"
           style={{marginBottom: 10}}
         />

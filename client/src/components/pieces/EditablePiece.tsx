@@ -79,6 +79,11 @@ const EditablePiece = ({ title, onSubmit, handleInputChanges, submitSuccess, loa
           value={piece.duration}
           fullWidth
           type="number"
+          slotProps={{
+            inputLabel: {
+              shrink: true,
+            },
+          }}
           variant="outlined"
           style={{marginBottom: 10}}
         />
